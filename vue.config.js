@@ -9,5 +9,5 @@ module.exports = {
       }
     }
   },
-  publicPath:'/'
+  publicPath:'/online-communication-app/'
 }
