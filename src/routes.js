@@ -49,10 +49,10 @@ export default new VueRouter({
             name: 'settings',
             component:Settings,
         },
-        {
+        /* {
             path:'*',
             redirect:{name:'dashboard'}
-        }
+        } */
            
     ]
 })
