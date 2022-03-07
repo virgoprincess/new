@@ -9,5 +9,5 @@ module.exports = {
       }
     }
   },
-  publicPath:'/virgoprincess.github.io/'
+  publicPath:'/'
 }
