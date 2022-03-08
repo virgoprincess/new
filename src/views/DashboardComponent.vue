@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard-component" >
-      <div class="dashboard-left">
+      <div class="dashboard-left scrollable">
           <newsfeed-component/>
           <newsfeed-component/>
           <newsfeed-component/>
       </div>
-      <div class="dashboard-right">
+      <div class="dashboard-right scrollable">
           <notifications-component/>
       </div>
 
@@ -35,6 +35,13 @@ export default {
     }
     /* .dashboard-right{
         width: 25%;
+    } */
+    /* .dashboard-left, .dashboard-right{
+        overflow: hidden;
+        overflow-y:scroll;
+    }
+    .dashboard-left::-webkit-scrollbar{
+        display: none;
     } */
 }
 </style>

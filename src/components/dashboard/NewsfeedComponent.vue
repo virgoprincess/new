@@ -39,7 +39,7 @@ export default {
         border-radius: 5px;
         background-color: #fff;
         margin-bottom: 20px;
-
+        > div{ position: relative;}
         .newsfeed-info{padding: 20px 60px;}
     }
     .news-type-email,.news-type-chat{

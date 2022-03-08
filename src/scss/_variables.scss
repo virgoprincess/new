@@ -20,12 +20,12 @@ $light:300;
 $semi-bold:600;
 $bold:700;
 
-/* .fw-300{ font-weight: 300; }
+.fw-300{ font-weight: 300; }
 .fw-400{ font-weight: 400; }
 .fw-500{ font-weight: 500; }
 .fw-600{ font-weight: 600; }
 .fw-700{ font-weight: 700; }
-.fw-800{ font-weight: 800; } */
+.fw-800{ font-weight: 800; }
 
 
 .fs-12{ font-size: 12px !important; }
@@ -34,17 +34,63 @@ $bold:700;
 .fs-15{ font-size: 15px !important; }
 .fs-16{ font-size: 16px !important; }
 .fs-18{ font-size: 18px !important; }
+.fs-28{ font-size: 28px !important; }
 
 .blue-small-text{
     margin: 0;
     color: $blue;
     font-size: 12px;
     font-weight: 600;
-    text-decoration: none;color: $blue;
+    text-decoration: none;
+    a{
+      margin: 0;
+    color: $blue;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    }
   }
+  .gray-small-text{
+    margin: 0;
+    color: $gray;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    a{
+      margin: 0;
+      color: $gray;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }
+  .black-small-text{
+    margin: 0;
+    font-size: 12px;
+    color: $black;
+    font-weight: 600;
+    text-decoration: none;
+    a,span{
+      color: $black;
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }
+  
 
 .file-name{
     font-size: 0.9rem;
     font-weight: 800;
 }
 .file-size{ font-size: 0.8rem; color: $gray; align-self: normal; }
+.scrollable{
+  overflow: hidden;
+  overflow-y:scroll;
+}
+.scrollable::-webkit-scrollbar{ display: none; }
+.scrollable{
+  -ms-text-overflow: none;
+  scrollbar-width: none;
+}

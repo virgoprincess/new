@@ -1,6 +1,6 @@
 <template>
   <div class="messages-component">
-    <div class="messages-left">
+    <div class="messages-left scrollable">
 
       <b-list-group class="pinned">
         <div class="d-flex justify-content-between">
@@ -14,6 +14,10 @@
         <div class="d-flex justify-content-between">
           <p class="blue-small-text align-content-lg-start">Today</p>
         </div>
+        <preview-component/>
+        <preview-component/>
+        <preview-component/>
+        <preview-component/>
         <preview-component/>
         <preview-component/>
         <preview-component/>
@@ -38,11 +42,18 @@
 
     <div class="messages-center">center</div>
 
-    <div class="messages-right">
+    <div class="messages-right scrollable">
 
       <div class="profile-info d-flex flex-column gap-3 align-items-center fs-15">
-        <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> 
+        <!-- <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> 
         <p class="fs-15">Bruce Scott</p>
+        <div class="d-flex">
+          <b-icon-telephone-fill></b-icon-telephone-fill>
+          <b-icon-envelope-fill></b-icon-envelope-fill>
+          <b-icon-chat-dots-fill></b-icon-chat-dots-fill>
+          <b-icon-calendar-event-fill></b-icon-calendar-event-fill>
+        </div> -->
+        <profile-component/>
       </div>
 
       <div class="members">
@@ -82,8 +93,9 @@
 import PreviewComponent from '../components/commons/PreviewComponent.vue'
 import ContactName from '../components/commons/ContactName.vue'
 import FileIconComponent from '../components/commons/attachments/FileIconComponent.vue'
+import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 export default {
-  components:{PreviewComponent,ContactName,FileIconComponent},
+  components:{PreviewComponent,ContactName,FileIconComponent, ProfileComponent},
     name:'MessagesComponent',
 }
 </script>
@@ -101,7 +113,7 @@ export default {
       width: 45%;
     }
     .messages-right{ width: 25%; border-left: 1px solid $light-gray !important; }
-    .messages-center,.messages-left, .messages-right{ height: 100%; }
+ /*    .messages-center,.messages-left, .messages-right{ height: 100%; } */
     
     .pinned, .today, .online {
       background-color: #fff;
@@ -128,16 +140,12 @@ export default {
     }
 
     .messages-right{
-      
+      height: 84vh;
         p{ margin: 0; }
       .profile-info{
         font-weight: 700;
         padding: 30px 0;
         border-bottom: 1px solid $light-gray;
-        img{
-          width: 64px;
-          height: 64px;
-        }
       }
       .members,.shared-media{
         padding: 25px 25px 20px 10px;

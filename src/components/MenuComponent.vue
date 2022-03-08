@@ -62,15 +62,21 @@ export default {
 
 <style lang="scss" scoped>
 #menu {
-  width: 98%;
+  width: 100%;
   margin: auto;
+  position: relative;
+}
+.top-menu{
+  height: 100px;
 }
 .top-menu > .row {
+  max-width: 1920px;
   position: fixed;
   gap: 20px;
   align-items: center;
   padding: 25px;
   z-index: 50;
+  margin: 0 5px;
   top: 0;
   background-color: #fff;
   width: 100%;
@@ -83,7 +89,9 @@ export default {
   margin: auto;
   height: 100%;
   width: 100px;
-  left: 0;
+  top: 0;
+  /* left: 0; */
+  /* margin-left:-15px; */
   z-index: 51;
 
   .logo {
