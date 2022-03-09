@@ -8,12 +8,14 @@
 <script>
 import MainContainer from './components/MainContainer.vue';
 import MenuComponent from './components/MenuComponent.vue';
-/* import MenuComponent from './components/MenuComponent.vue'; */
 export default {
     name: 'MainComponent',
     components:{
         MenuComponent,
         MainContainer
+    },
+    mounted(){
+      this.$router.push({path:'/home/dashboard'}) 
     }
 }
 </script>

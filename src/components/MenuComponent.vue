@@ -28,26 +28,18 @@
     <div class="left-menu">
       <div class="menu-container">
         <ul>
-          <!-- <li> <b-img class="logo" :src="require('@/assets/icons/logo.png')" alt="Left image"></b-img> </li>
-          <li> <b-img :src="require('@/assets/icons/menu.png')"></b-img> </li>
-          <li> <b-img :src="require('@/assets/icons/messenger.png')"></b-img> </li>
-          <li> <b-img :src="require('@/assets/icons/envelope.png')"></b-img> </li>
-          <li> <b-img :src="require('@/assets/icons/calendar.png')"></b-img> </li>
-          <li> <b-img :src="require('@/assets/icons/user.png')"></b-img> </li>
-          <li> <b-img :src="require('@/assets/icons/folder.png')"></b-img> </li>
-          <li> <b-img :src="require('@/assets/icons/setting.png')"></b-img> </li> -->
           <b-img
             class="logo"
             :src="require('@/assets/icons/logo.png')"
             alt="Left image"
           ></b-img>
-          <li><router-link :to = "{ name: 'dashboard' }"><b-icon-app></b-icon-app></router-link></li>
-          <li><router-link :to = "{ name: 'messages' }"><b-icon-chat-dots></b-icon-chat-dots></router-link></li>
-          <li><router-link :to = "{ name: 'email' }"><b-icon-envelope></b-icon-envelope></router-link></li>
-          <li><router-link :to = "{ name: 'calendar' }"><b-icon-calendar4></b-icon-calendar4></router-link></li>
-          <li><router-link :to = "{ name: 'contacts' }"><b-icon-people></b-icon-people></router-link></li>
-          <li><router-link :to = "{ name: 'storage' }"><b-icon-folder2></b-icon-folder2></router-link></li>
-          <li><router-link :to = "{ name: 'settings' }"><b-icon-gear></b-icon-gear></router-link></li>
+          <li :class="menu == 'dashboard'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'dashboard' }"><b-icon-app></b-icon-app></router-link></li>
+          <li :class="menu == 'messages'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'messages' }"><b-icon-chat-dots></b-icon-chat-dots></router-link></li>
+          <li :class="menu == 'email'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'email' }"><b-icon-envelope></b-icon-envelope></router-link></li>
+          <li :class="menu == 'calendar'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'calendar' }"><b-icon-calendar4></b-icon-calendar4></router-link></li>
+          <li :class="menu == 'contacts'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'contacts' }"><b-icon-people></b-icon-people></router-link></li>
+          <li :class="menu == 'storage'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'storage' }"><b-icon-folder2></b-icon-folder2></router-link></li>
+          <li :class="menu == 'settings'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'settings' }"><b-icon-gear></b-icon-gear></router-link></li>
         </ul>
       </div>
     </div>
@@ -55,8 +47,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: "MenuComponent",
+  computed:{
+    ...mapGetters({
+      menu : "getCurrentMenu",
+    }),
+  },
 };
 </script>
 
@@ -112,8 +110,8 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      a{ line-height: 0; }
     }
-
     ul li:not(:first-child) {
       padding: 10px;
     }
@@ -125,11 +123,20 @@ export default {
   }
 }
 .menu-active {
-  padding: 10px;
-  border: 2px solid $light-blue;
+
+  border: 1px solid $light-blue;
   border-radius: 50%;
   svg {
     color: $light-blue;
+    transition: color 0.15s ease-in;
+    /* transition-duration: 0.10s; */
+  }
+}
+.menu-inactive{
+  border: none;
+  border-radius:0
+  svg {
+    color: $dark-gray;
   }
 }
 .logo,

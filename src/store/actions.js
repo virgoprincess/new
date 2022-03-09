@@ -1,3 +1,5 @@
 export default{
-    //functions here
+    setCurrentMenu(state,payload){
+        state.commit("setCurrentMenu",payload);
+    }
 }

@@ -7,9 +7,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state:{
-        menu:'',
+        menu:'dashboard',
     },
-    getters:{},
+    getters:{
+        getCurrentMenu:state =>state.menu,
+    },
     
     mutations:mutations,
     actions:actions,

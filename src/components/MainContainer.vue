@@ -2,19 +2,14 @@
 <template>
   <div class="canvass">
     <div class="content">
-      <!-- <dashboard-component/>
-      <messages-component/> -->
       <router-view/>
     </div>
   </div>
 </template>
 
 <script>
-/* import DashboardComponent from './DashboardComponent.vue'
-import MessagesComponent from './MessagesComponent..vue' */
 
 export default {
- /*  components: { DashboardComponent, MessagesComponent }, */
     name:'MainContainer',
 }
 </script>

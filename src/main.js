@@ -5,12 +5,24 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import router from '@/routes.js'
+import GAuth from 'vue-google-oauth2'
+import store from '@/store'
 
 Vue.config.productionTip = false
 Vue.use( BootstrapVue )
 Vue.use( IconsPlugin )
 
+
+const gauthOption = {
+  clientId: '297577095455-hqdgjabkt1uh7ckdnaagpol7fe3tbal5.apps.googleusercontent.com',
+  scope: 'profile email',
+  prompt: 'consent',
+ /*  fetch_basic_profile: true, */
+}
+Vue.use(GAuth, gauthOption)
+
 new Vue({
+  store,
   router,
   render: h => h(App),
 }).$mount('#app')

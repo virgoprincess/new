@@ -15,10 +15,19 @@
 <script>
 import NewsfeedComponent from '../components/dashboard/NewsfeedComponent.vue'
 import NotificationsComponent from '../components/dashboard/NotificationsComponent.vue'
+
+
 export default {
   components: { NewsfeedComponent, NotificationsComponent },
-    name:"DashboardComponent"
-
+    name:"DashboardComponent",
+    data(){
+      return{
+        menu:'dashboard'
+      }
+    },
+    mounted(){
+      this.$store.dispatch("setCurrentMenu",this.menu)
+    }
 }
 </script>
 
@@ -43,5 +52,12 @@ export default {
     .dashboard-left::-webkit-scrollbar{
         display: none;
     } */
+}
+</style>
+<style lang="scss">
+.left-menu{
+    #dashboard-menu{
+       @extend .menu-active !optional;
+    }
 }
 </style>

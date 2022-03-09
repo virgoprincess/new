@@ -71,6 +71,14 @@ import FileIconComponent from '@/components/commons/attachments/FileIconComponen
 export default {
     components:{PreviewComponent, ProfileComponent, FileIconComponent},
     name:'email-component',
+    data(){
+      return{
+        menu:'email'
+      }
+    },
+    mounted(){
+      this.$store.dispatch("setCurrentMenu",this.menu)
+    }
 }
 </script>
 

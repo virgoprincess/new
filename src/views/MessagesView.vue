@@ -94,9 +94,20 @@ import PreviewComponent from '../components/commons/PreviewComponent.vue'
 import ContactName from '../components/commons/ContactName.vue'
 import FileIconComponent from '../components/commons/attachments/FileIconComponent.vue'
 import ProfileComponent from '@/components/commons/ProfileComponent.vue'
+
+import { mapActions, mapMutations } from "vuex"
+
 export default {
   components:{PreviewComponent,ContactName,FileIconComponent, ProfileComponent},
     name:'MessagesComponent',
+    data(){
+      return{
+        menu:'messages'
+      }
+    },
+    mounted(){
+      this.$store.dispatch("setCurrentMenu",this.menu)
+    }
 }
 </script>
 

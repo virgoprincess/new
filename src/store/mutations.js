@@ -1,3 +1,5 @@
 export default{
-    //methods here
+   setCurrentMenu(state,payload){
+    state.menu = payload;
+   },
 }
