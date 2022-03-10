@@ -100,14 +100,14 @@ import { mapActions, mapMutations } from "vuex"
 export default {
   components:{PreviewComponent,ContactName,FileIconComponent, ProfileComponent},
     name:'MessagesComponent',
-    data(){
+    /* data(){
       return{
         menu:'messages'
       }
     },
     mounted(){
       this.$store.dispatch("setCurrentMenu",this.menu)
-    }
+    } */
 }
 </script>
 

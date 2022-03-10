@@ -1,18 +1,22 @@
 <template>
   <div id="main-component" class="main">
+    
+     <search-component/>
      <menu-component/>
      <main-container/>
   </div>
 </template>
 
 <script>
+import SearchComponent from './components/commons/SearchComponent.vue';
 import MainContainer from './components/MainContainer.vue';
 import MenuComponent from './components/MenuComponent.vue';
 export default {
     name: 'MainComponent',
     components:{
         MenuComponent,
-        MainContainer
+        MainContainer,
+        SearchComponent
     },
     mounted(){
       this.$router.push({path:'/home/dashboard'}) 

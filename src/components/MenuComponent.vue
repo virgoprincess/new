@@ -2,12 +2,12 @@
   <div id="menu">
     <div class="top-menu">
       <b-row align-h="end">
-        <b-col md="7" class="search ml-md-auto">
+        <!-- <b-col md="7" class="search ml-md-auto">
           <b-input-group>
             <b-icon-search />
             <b-form-input type="search" placeholder="Search"></b-form-input>
           </b-input-group>
-        </b-col>
+        </b-col> -->
         <b-col cols="2" class="add-new">
           <b-button-group>
             <b-button variant="outline-primary">
@@ -33,13 +33,13 @@
             :src="require('@/assets/icons/logo.png')"
             alt="Left image"
           ></b-img>
-          <li :class="menu == 'dashboard'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'dashboard' }"><b-icon-app></b-icon-app></router-link></li>
-          <li :class="menu == 'messages'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'messages' }"><b-icon-chat-dots></b-icon-chat-dots></router-link></li>
-          <li :class="menu == 'email'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'email' }"><b-icon-envelope></b-icon-envelope></router-link></li>
-          <li :class="menu == 'calendar'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'calendar' }"><b-icon-calendar4></b-icon-calendar4></router-link></li>
-          <li :class="menu == 'contacts'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'contacts' }"><b-icon-people></b-icon-people></router-link></li>
-          <li :class="menu == 'storage'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'storage' }"><b-icon-folder2></b-icon-folder2></router-link></li>
-          <li :class="menu == 'settings'? 'menu-active': 'menu-inactive'"><router-link :to = "{ name: 'settings' }"><b-icon-gear></b-icon-gear></router-link></li>
+          <li @click="menuClicked('dashboard')" :class="menu == 'dashboard'? 'menu-active': 'menu-inactive'"><b-icon-app></b-icon-app></li>
+          <li @click="menuClicked('messages')" :class="menu == 'messages'? 'menu-active': 'menu-inactive'"><b-icon-chat-dots></b-icon-chat-dots></li>
+          <li @click="menuClicked('email')" :class="menu == 'email'? 'menu-active': 'menu-inactive'"><b-icon-envelope></b-icon-envelope></li>
+          <li @click="menuClicked('calendar')" :class="menu == 'calendar'? 'menu-active': 'menu-inactive'"><b-icon-calendar4></b-icon-calendar4></li>
+          <li @click="menuClicked('contacts')" :class="menu == 'contacts'? 'menu-active': 'menu-inactive'"><b-icon-people></b-icon-people></li>
+          <li @click="menuClicked('storage')" :class="menu == 'storage'? 'menu-active': 'menu-inactive'"><b-icon-folder2></b-icon-folder2></li>
+          <li @click="menuClicked('settings')" :class="menu == 'settings'? 'menu-active': 'menu-inactive'"><b-icon-gear></b-icon-gear></li>
         </ul>
       </div>
     </div>
@@ -47,9 +47,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters} from 'vuex';
 export default {
   name: "MenuComponent",
+  methods:{
+    menuClicked(menu){
+      if(this.menu != menu) this.$router.push({path:'/home/'+menu});
+      this.$store.dispatch("setCurrentMenu",menu);
+    }
+  },
   computed:{
     ...mapGetters({
       menu : "getCurrentMenu",

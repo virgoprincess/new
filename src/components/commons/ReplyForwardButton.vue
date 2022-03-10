@@ -1,9 +1,9 @@
 <template>
   <div class="options">
-      <b-button-group>
+      <b-button-group @click="$emit('compose')">
           <b-icon-reply-fill></b-icon-reply-fill> Reply
       </b-button-group>
-      <b-button-group>
+      <b-button-group @click="$emit('compose')">
           <b-icon-forward-fill></b-icon-forward-fill>Forward
       </b-button-group>
     </div>

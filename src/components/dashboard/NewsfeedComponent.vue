@@ -34,7 +34,7 @@ export default {
 
 <style lang="scss" scoped>
     .newsfeed{
-        width: 700px;
+        /* width: 700px; */
         height: fit-content;
         border-radius: 5px;
         background-color: #fff;

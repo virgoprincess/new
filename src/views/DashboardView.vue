@@ -20,14 +20,6 @@ import NotificationsComponent from '../components/dashboard/NotificationsCompone
 export default {
   components: { NewsfeedComponent, NotificationsComponent },
     name:"DashboardComponent",
-    data(){
-      return{
-        menu:'dashboard'
-      }
-    },
-    mounted(){
-      this.$store.dispatch("setCurrentMenu",this.menu)
-    }
 }
 </script>
 

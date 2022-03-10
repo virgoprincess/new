@@ -35,4 +35,7 @@ export default {
   -ms-overflow-style: none;
   scrollbar-width: none; /* Firefox */
 }
+
+.btn-group{ cursor: pointer; }
+.btn:focus, input:focus { box-shadow: none !important;}
 </style>

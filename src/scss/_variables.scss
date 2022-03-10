@@ -12,9 +12,12 @@ $black:#090233;
 $dark-green: #37B188;
 $dark-blue:#4771CB;
 $background-color:#FAFAFA ;
+$background-color-darker:#F7F7F7;
 $light-blue:#54C9E8;
 $lighter-gray:#E7EBEE;
 $bright-green:#39C9AE;
+$bright-red:#C83935;
+$bright-yellow:#F3BB4E;
 
 $regular:400;
 $medium:500;
@@ -94,5 +97,6 @@ $bold:700;
 .scrollable::-webkit-scrollbar{ display: none; }
 .scrollable{
   -ms-text-overflow: none;
+  text-overflow: none;
   scrollbar-width: none;
 }

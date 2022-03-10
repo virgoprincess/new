@@ -1,13 +1,13 @@
 <template>
-  <div class="reply-forward">
-    <reply-forward-button/>
+  <div class="reply-forward" :class="showCompose">
+    <reply-forward-button @compose="isVisible = !isVisible" />
     <div class="message">
       <div class="message-top">
         <div>
             <b-icon-reply-fill></b-icon-reply-fill>
             <p class="email">michaelwilliams@email.com</p>
         </div>
-        <b-icon-trash></b-icon-trash>
+        <b-icon-trash @click="isVisible = !isVisible"></b-icon-trash>
       </div>
       <div class="message-content">
         <b-form-textarea id="textarea"
@@ -16,7 +16,7 @@
       </div>
       <div class="send"> 
           <b-icon-paperclip></b-icon-paperclip>
-          <b-button-group>
+          <b-button-group @click="isVisible = !isVisible">
               <b-icon-cursor-fill></b-icon-cursor-fill>
               Send
           </b-button-group>
@@ -31,7 +31,18 @@ export default {
   name:'ReplyForwardComponent',
   components:{
     ReplyForwardButton,
-  }
+  },
+  data(){
+    return{
+      isVisible: false,
+      showCompose:'hide-compose',
+    }
+  },
+  watch:{
+    isVisible:function(){
+      this.isVisible ? this.showCompose = 'show-compose' : this.showCompose = 'hide-compose';
+    }
+  },
 };
 </script>
 
@@ -121,5 +132,14 @@ p{
         font-size: 0.8rem;
         gap: 5px;
     }
+}
+
+.hide-compose{
+  .message{display: none;}
+  .options{ display: flex; }
+}
+.show-compose{
+  .message{ display: block; }
+  .options{ display: none; }
 }
 </style>
