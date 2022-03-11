@@ -7,14 +7,14 @@
 <script>
 export default {
     name:'StorageComponent',
-    data(){
+/*     data(){
       return{
         menu:'storage'
       }
     },
     mounted(){
-      this.$store.dispatch("setCurrentMenu",this.menu)
-    }
+      this.$store.dispatch("SET_CURRENTMENU",this.menu)
+    } */
 }
 </script>
 

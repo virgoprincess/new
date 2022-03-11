@@ -37,8 +37,8 @@ export default new VueRouter({
                     component:Messages,
                 },
                 {
-                    path:'email',
-                    name: 'email',
+                    path:'emails',
+                    name: 'emails',
                     component:Email,
                 },
                 {

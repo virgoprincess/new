@@ -7,12 +7,26 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state:{
-        menu:'dashboard',
+        menu:'DASHBOARD',
+        dashboard:[],
+        messages:[],
+        emails:[],
+        calendar:[],
+        contacts:[],
+        storage:[],
+        settings:[],
+
     },
     getters:{
-        getCurrentMenu:state =>state.menu,
+        GET_CURRENTMENU:state =>state.menu,
+        GET_DASHBOARD:state =>state.dashboard,
+        GET_MESSAGES:state =>state.messages,
+        GET_EMAILS:state => state.emails,
+        GET_CALENDAR:state => state.calendar,
+        GET_CONTACTS:state => state.contacts,
+        GET_STORAGE:state => state.storage,
+        GET_SETTINGS:state => state.settings,
     },
-    
     mutations:mutations,
     actions:actions,
 

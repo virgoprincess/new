@@ -1,9 +1,7 @@
 <template>
   <div class="dashboard-component" >
-      <div class="dashboard-left scrollable">
-          <newsfeed-component/>
-          <newsfeed-component/>
-          <newsfeed-component/>
+      <div class="dashboard-left scrollable" >
+          <newsfeed-component v-for="(result,i) in results" :key="i" :data="result" @hideFeed="hideFeed(result)"/>          
       </div>
       <div class="dashboard-right scrollable">
           <notifications-component/>
@@ -16,10 +14,20 @@
 import NewsfeedComponent from '../components/dashboard/NewsfeedComponent.vue'
 import NotificationsComponent from '../components/dashboard/NotificationsComponent.vue'
 
-
+import { mapGetters } from "vuex"
 export default {
   components: { NewsfeedComponent, NotificationsComponent },
     name:"DashboardComponent",
+    methods:{
+        hideFeed(result){
+            this.results.splice(this.results.indexOf(result),1);
+        }
+    },
+    computed:{
+        ...mapGetters({
+            results:"GET_DASHBOARD",
+        })
+    }
 }
 </script>
 

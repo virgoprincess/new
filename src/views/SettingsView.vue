@@ -7,14 +7,14 @@
 <script>
 export default {
     name:'SetttingsComponent',
-    data(){
+/*     data(){
       return{
         menu:'settings'
       }
     },
     mounted(){
-      this.$store.dispatch("setCurrentMenu",this.menu)
-    }
+      this.$store.dispatch("SET_CURRENTMENU",this.menu)
+    } */
 }
 </script>
 

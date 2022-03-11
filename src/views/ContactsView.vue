@@ -160,14 +160,14 @@
 <script>
 export default {
     name:'ContactsComponent',
-    data(){
+/*     data(){
       return{
         menu:'contacts'
       }
     },
     mounted(){
-      this.$store.dispatch("setCurrentMenu",this.menu)
-    }
+      this.$store.dispatch("SET_CURRENTMENU",this.menu)
+    } */
 }
 </script>
 

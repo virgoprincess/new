@@ -19,6 +19,7 @@ export default {
         SearchComponent
     },
     mounted(){
+      if(this.$route.path != '/home/dashboard')
       this.$router.push({path:'/home/dashboard'}) 
     }
 }

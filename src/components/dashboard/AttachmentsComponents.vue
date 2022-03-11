@@ -1,9 +1,9 @@
 <template>
   <div class="attachments">
-    <image-component/>
-    <image-component/>
-    <image-component/>
-    <file-component/>
+    <div class="d-flex gap-2" v-for="(result,i) in data" :key="i">
+      <image-component :data="result" v-if="result.fileType == 'image'"/>
+      <file-component :data="result" v-if="result.fileType != 'image'"/>
+    </div>
     </div>
 </template>
 
@@ -12,7 +12,10 @@ import FileComponent from '../commons/attachments/FileComponent.vue'
 import ImageComponent from '../commons/attachments/ImageComponent.vue'
 export default {
   components: { ImageComponent, FileComponent },
-    name:'AttachmentsComponents'
+    name:'AttachmentsComponents',
+    props:{
+      data:[],
+    }
 }
 </script>
 

@@ -1,9 +1,9 @@
 <template>
   <div class="contact-name">
-     <div> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </div>
+     <div> <b-img rounded="circle" :src="data.profileImage" alt="" /> </div>
      <div>
-         <div class="name"> Michael Williams </div>
-     <div class="job">Job Title</div>
+         <div class="name"> {{ data.firstName }} {{  data.lastName }} </div>
+     <div class="job">{{ data.jobTitle }}</div>
      </div>
   </div>
 </template>
@@ -11,6 +11,9 @@
 <script>
 export default {
     name:'ContactNameComponent',
+    props:{
+        data:[],
+    }
 }
 </script>
 

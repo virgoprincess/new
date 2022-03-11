@@ -1,19 +1,22 @@
 <template>
   <div class="newsfeed">
       <div>
-          <b-icon-chat-dots class="news-type-email show"></b-icon-chat-dots>
-          <b-icon-chat-dots class="news-type-chat hide"></b-icon-chat-dots>
+          <b-icon-envelope class="news-type-email" v-if="data.messages.type == 1"></b-icon-envelope>
+          <b-icon-chat-dots class="news-type-chat" v-if="data.messages.type == 2"></b-icon-chat-dots>
       </div>
-      <div class="newsfeed-info">
-        <div class="newsfeed-top">
-            <contact-name/>
-            <div class="date">
-                <div class="day">Today</div>
-                <div class="time">10:52 AM</div>
+      <div class="newsfeed-info d-flex">
+         <div>
+             <div class="newsfeed-top">
+                <contact-name :data="data.messages.profileInfo"/>
+                <div class="date">
+                    <div class="day">TODAY</div>
+                    <div class="time">{{data.messages.time}}</div>
+                </div>
             </div>
-        </div>
-        <message-content-component/>
-        <attachments-components/>
+            <message-content-component :data="data.messages.messageContent"/>
+            <attachments-components :data="data.messages.attachments"/>
+         </div>
+         <b-icon-check-circle class="check-btn" @click="$emit('hideFeed')"></b-icon-check-circle>
       </div>
       <reply-forward/>
   </div>
@@ -27,7 +30,10 @@ import ReplyForward from './ReplyForwardComponent.vue'
 
 export default {
     components:{ContactName, MessageContentComponent, AttachmentsComponents, ReplyForward},
-    name:'NewsfeedComponent'
+    name:'NewsfeedComponent',
+    props:{
+        data:[],
+    },
 
 }
 </script>
@@ -40,7 +46,7 @@ export default {
         background-color: #fff;
         margin-bottom: 20px;
         > div{ position: relative;}
-        .newsfeed-info{padding: 20px 60px;}
+        .newsfeed-info{    padding: 20px 0 20px 60px;}
     }
     .news-type-email,.news-type-chat{
         border-top-right-radius: 5px;
@@ -59,12 +65,12 @@ export default {
         background-color: $blue;
     }
 
-    .hide{
+    /* .hide{
         display: none !important;
     }
     .show{
         display: inline-block !important;
-    }
+    } */
     .newsfeed-top{
         display: flex;
         flex-direction: row;
@@ -82,5 +88,10 @@ export default {
                 font-weight: 500; 
                 color: $gray;}
         }
+    }
+    .check-btn{
+        margin: 10px 20px 0 20px;
+        font-size: 20px;
+        color: $blue;
     }
 </style>

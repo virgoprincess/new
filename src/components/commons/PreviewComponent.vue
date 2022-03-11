@@ -1,14 +1,14 @@
 <template>
   <b-list-group-item class="preview-list ">
       <div class="d-flex gap-3">
-        <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> 
+        <b-img rounded="circle" :src="data[0].profileImage" alt="" /> 
         <div class="d-flex flex-column">
         <div class="d-flex justify-content-between">
-            <p class="name">Bruce Scott</p>
+            <p class="name">{{data[0].firstName}}</p>
             <p class="date">12:25pm</p>
         </div>
-        <!-- <p class="email-subj">Email Subj</p>  --> <!-- this is for email -->
-        <p class="msg">Sed ut perspiciatis unde omnis iste natus error sit ab illo beatae vitae …</p>
+        <p class="email-subj" v-if="data[3] =='email'">{{ data[2] }}</p>  <!-- this is for email -->
+        <p class="msg">{{data[1]}}</p>
         </div>
       </div>
   </b-list-group-item>
@@ -17,6 +17,10 @@
 <script>
 export default {
     name:'PreviewComponent',
+    props:{
+        data:[],
+
+    }
 }
 </script>
 

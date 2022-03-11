@@ -7,14 +7,14 @@
 <script>
 export default {
     name:'CalendarComponent',
-    data(){
+/*     data(){
       return{
         menu:'calendar'
       }
     },
     mounted(){
-      this.$store.dispatch("setCurrentMenu",this.menu)
-    }
+      this.$store.dispatch("SET_CURRENTMENU",this.menu)
+    } */
 }
 </script>
 

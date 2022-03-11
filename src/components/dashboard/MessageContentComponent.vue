@@ -1,13 +1,16 @@
 <template>
   <div class="message-content">
-      <div class="subject">Subject Line</div>
-      <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+      <div class="subject">{{ data.subject }}</div>
+      <div class="message">{{ data.message }}</div>
   </div>
 </template>
 
 <script>
 export default {
-    name:'MessageContentComponent'
+    name:'MessageContentComponent',
+    props:{
+        data:[],
+    }
 }
 </script>
 

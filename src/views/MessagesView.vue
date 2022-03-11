@@ -7,21 +7,21 @@
           <p class="blue-small-text align-content-lg-start">Pinned</p>
           <b-link class="blue-small-text align-content-end">View All</b-link>
         </div>
-        <preview-component/>
+        <preview-component v-for="(data,i) in pinned" :key="i" :data="[data.members[0].profileInfo,data.messages[0].content,'','chat']"/>
       </b-list-group>
 
       <b-list-group class="today">
         <div class="d-flex justify-content-between">
           <p class="blue-small-text align-content-lg-start">Today</p>
         </div>
+        <preview-component v-for="(result,i) in results" :key="i" :data="[result.members[0].profileInfo,result.messages[0].content,'','chat']"/>
+        <!-- <preview-component/>
         <preview-component/>
         <preview-component/>
         <preview-component/>
         <preview-component/>
         <preview-component/>
-        <preview-component/>
-        <preview-component/>
-        <preview-component/>
+        <preview-component/> -->
       </b-list-group>
 
       <b-list-group class="online">
@@ -60,15 +60,13 @@
         <div class="d-flex justify-content-between align-items-center">
           <div class="d-flex">
             <b-icon-plus></b-icon-plus>
-            <p class="fs-26 fw-bold">12 Members</p>
+            <p class="fs-26 fw-bold">{{results[0].members.length}} Members</p>
           </div>
           <b-link class="blue-small-text">View All</b-link>
         </div>
 
         <div class="pt-3 ps-4 d-flex flex-column gap-3">
-          <contact-name/>
-          <contact-name/>
-          <contact-name/>
+          <contact-name v-for="(result,i) in results[0].members" :key="i" :data="result.profileInfo"/>
         </div>
 
       </div>  
@@ -95,19 +93,25 @@ import ContactName from '../components/commons/ContactName.vue'
 import FileIconComponent from '../components/commons/attachments/FileIconComponent.vue'
 import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 
-import { mapActions, mapMutations } from "vuex"
+import { mapGetters } from "vuex"
 
 export default {
   components:{PreviewComponent,ContactName,FileIconComponent, ProfileComponent},
     name:'MessagesComponent',
-    /* data(){
+    data(){
       return{
-        menu:'messages'
+        pinned:[],
       }
     },
-    mounted(){
-      this.$store.dispatch("setCurrentMenu",this.menu)
-    } */
+ mounted(){
+   this.pinned = this.results.filter((result)=> result.pinned == 'true');
+   console.log("Pinned:", JSON.stringify(this.pinned));
+ },
+   computed:{
+        ...mapGetters({
+            results:"GET_MESSAGES",
+        })
+    }
 }
 </script>
 

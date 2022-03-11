@@ -1,13 +1,16 @@
 <template>
   <div class="file-type">
-      <p class="file-name">Designs.pdf</p>
-      <p class="file-size">12 MB</p>
+      <p class="file-name">{{ data.fileName }}</p>
+      <p class="file-size">{{ data.fileSize }}</p>
   </div>
 </template>
 
 <script>
 export default {
-    name:'FileComponent'
+    name:'FileComponent',
+    props:{
+        data:[],
+    }
 }
 </script>
 

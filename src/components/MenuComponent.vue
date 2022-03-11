@@ -33,13 +33,13 @@
             :src="require('@/assets/icons/logo.png')"
             alt="Left image"
           ></b-img>
-          <li @click="menuClicked('dashboard')" :class="menu == 'dashboard'? 'menu-active': 'menu-inactive'"><b-icon-app></b-icon-app></li>
-          <li @click="menuClicked('messages')" :class="menu == 'messages'? 'menu-active': 'menu-inactive'"><b-icon-chat-dots></b-icon-chat-dots></li>
-          <li @click="menuClicked('email')" :class="menu == 'email'? 'menu-active': 'menu-inactive'"><b-icon-envelope></b-icon-envelope></li>
-          <li @click="menuClicked('calendar')" :class="menu == 'calendar'? 'menu-active': 'menu-inactive'"><b-icon-calendar4></b-icon-calendar4></li>
-          <li @click="menuClicked('contacts')" :class="menu == 'contacts'? 'menu-active': 'menu-inactive'"><b-icon-people></b-icon-people></li>
-          <li @click="menuClicked('storage')" :class="menu == 'storage'? 'menu-active': 'menu-inactive'"><b-icon-folder2></b-icon-folder2></li>
-          <li @click="menuClicked('settings')" :class="menu == 'settings'? 'menu-active': 'menu-inactive'"><b-icon-gear></b-icon-gear></li>
+          <li @click="menuClicked('DASHBOARD')" :class="menu == 'DASHBOARD'? 'menu-active': 'menu-inactive'"><b-icon-app></b-icon-app></li>
+          <li @click="menuClicked('MESSAGES')" :class="menu == 'MESSAGES'? 'menu-active': 'menu-inactive'"><b-icon-chat-dots></b-icon-chat-dots></li>
+          <li @click="menuClicked('EMAILS')" :class="menu == 'EMAILS'? 'menu-active': 'menu-inactive'"><b-icon-envelope></b-icon-envelope></li>
+          <li @click="menuClicked('CALENDAR')" :class="menu == 'CALENDAR'? 'menu-active': 'menu-inactive'"><b-icon-calendar4></b-icon-calendar4></li>
+          <li @click="menuClicked('CONTACTS')" :class="menu == 'CONTACTS'? 'menu-active': 'menu-inactive'"><b-icon-people></b-icon-people></li>
+          <li @click="menuClicked('STORAGE')" :class="menu == 'STORAGE'? 'menu-active': 'menu-inactive'"><b-icon-folder2></b-icon-folder2></li>
+          <li @click="menuClicked('SETTINGS')" :class="menu == 'SETTINGS'? 'menu-active': 'menu-inactive'"><b-icon-gear></b-icon-gear></li>
         </ul>
       </div>
     </div>
@@ -50,16 +50,32 @@
 import { mapGetters} from 'vuex';
 export default {
   name: "MenuComponent",
+  data(){
+    return{
+      reroute:false,
+    }
+  },
+  created(){
+    this.initialLoad();
+  },
   methods:{
+    initialLoad(){
+      this.$store.dispatch("SET_"+this.$store.state.menu);
+    },
     menuClicked(menu){
-      if(this.menu != menu) this.$router.push({path:'/home/'+menu});
-      this.$store.dispatch("setCurrentMenu",menu);
+        (this.menu != menu && this.$route.path != '/home/'+menu.toLowerCase()) ? this.reroute = true : this.reroute = false;
+        
+        this.$store.dispatch("SET_CURRENTMENU",menu);
+        this.$store.dispatch("SET_"+menu);
+        if( this.reroute ) this.$router.push({path: '/home/'+menu.toLowerCase()});
+
     }
   },
   computed:{
     ...mapGetters({
-      menu : "getCurrentMenu",
+      menu : "GET_CURRENTMENU",
     }),
+
   },
 };
 </script>

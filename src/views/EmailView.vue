@@ -1,19 +1,7 @@
 <template>
   <div class="email-component">
       <div class="email-left scrollable">
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
-          <preview-component/>
+          <preview-component v-for="(result,i) in results" :key="i" :data="[result.messages.profileInfo,result.messages.messageContent.message,result.messages.messageContent.subject,'email']"/>
       </div>
       <div class="email-center scrollable">
           <!-- <div class="email-fixed-menu"> -->
@@ -68,16 +56,14 @@
 import PreviewComponent from '@/components/commons/PreviewComponent.vue'
 import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 import FileIconComponent from '@/components/commons/attachments/FileIconComponent.vue'
+import { mapGetters } from "vuex"
 export default {
     components:{PreviewComponent, ProfileComponent, FileIconComponent},
     name:'email-component',
-    data(){
-      return{
-        menu:'email'
-      }
-    },
-    mounted(){
-      this.$store.dispatch("setCurrentMenu",this.menu)
+    computed:{
+      ...mapGetters({
+        results:'GET_EMAILS',
+      })
     }
 }
 </script>

@@ -1,12 +1,15 @@
 <template>
   <div class="image-type">
-    <b-img rounded :src="require('@/assets/images/image-file.jpg')" alt="" />
+    <b-img rounded :src="data.fileUrl" :alt="data.fileName" />
   </div>
 </template>
 
 <script>
 export default {
-    name:'ImageComponent'
+    name:'ImageComponent',
+    props:{
+      data:[]
+    },
 }
 </script>
 

@@ -1,9 +1,9 @@
 <template>
-  <div @mouseleave="isSearching = false;" class="search-component " :class="isSearching ? 'on-search' : ''">
+  <div @mouseleave="isSearching = false; searchedText=''" class="search-component " :class="isSearching ? 'on-search' : ''">
     <b-input-group >
       <div class="d-flex justify-content-center align-items-center" @click="!isSearching ? isSearching = true: ''">
         <b-icon-search />
-      <b-form-input v-model="searchedText"  placeholder="Search" :disabled="isDisabled"></b-form-input>
+      <b-form-input v-model="searchedText"  placeholder="Search" ></b-form-input>
       </div>
       <b-icon-x @click="isSearching = false"/>
     </b-input-group>
@@ -69,25 +69,26 @@ export default {
     return{
       isSearching:false,
       searchedText:"",
-      isDisabled:false,
+      /* isDisabled:false, */
     }
   },
-  watch:{
+/*   watch:{
     isSearching(){
       if(this.isSearching){
         this.isDisabled = false;
       }else{
         this.searchedText = "";
-        this.isDisabled = true;
       }
     }
-  }
+  } */
 
 } 
 </script>
 
 <style lang="scss" scoped>
 .search-component{
+  caret-color: transparent;
+  cursor: default;
   width: 200px;
   z-index: 99;
   position: absolute;
