@@ -1,9 +1,9 @@
 <template>
-  <div @mouseleave="isSearching = false; searchedText=''" class="search-component " :class="isSearching ? 'on-search' : ''">
+  <div @mouseleave="clearInput()" class="search-component " :class="isSearching ? 'on-search' : 'remove-caret'">
     <b-input-group >
       <div class="d-flex justify-content-center align-items-center" @click="!isSearching ? isSearching = true: ''">
         <b-icon-search />
-      <b-form-input v-model="searchedText"  placeholder="Search" ></b-form-input>
+      <b-form-input  v-model="searchedText"  placeholder="Search" ></b-form-input>
       </div>
       <b-icon-x @click="isSearching = false"/>
     </b-input-group>
@@ -69,16 +69,19 @@ export default {
     return{
       isSearching:false,
       searchedText:"",
-      /* isDisabled:false, */
+      isDisabled:false,
+    }
+  },
+  methods:{
+    clearInput(){
+      this.searchedText= "";
+      this.isSearching = false;
+      this.isDisabled = true;
     }
   },
 /*   watch:{
     isSearching(){
-      if(this.isSearching){
-        this.isDisabled = false;
-      }else{
-        this.searchedText = "";
-      }
+      if(!this.isSearching)this.searchedText = "";
     }
   } */
 
@@ -86,8 +89,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.remove-caret{ caret-color: transparent; }
 .search-component{
-  caret-color: transparent;
+  /* caret-color: transparent; */
   cursor: default;
   width: 200px;
   z-index: 99;
