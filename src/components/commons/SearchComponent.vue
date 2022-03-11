@@ -3,7 +3,7 @@
     <b-input-group >
       <div class="d-flex justify-content-center align-items-center" @click="!isSearching ? isSearching = true: ''">
         <b-icon-search />
-      <b-form-input  v-model="searchedText"  placeholder="Search" ></b-form-input>
+      <b-form-input  v-model="searchedText"  placeholder="Search" autocomplete="off" ></b-form-input>
       </div>
       <b-icon-x @click="isSearching = false"/>
     </b-input-group>
