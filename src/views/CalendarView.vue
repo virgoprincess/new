@@ -6,8 +6,15 @@
         <v-toolbar
           flat
         >
-          <div>
-            <v-btn
+          <v-btn
+            outlined
+            class="mr-4"
+            color="grey darken-2"
+            @click="setToday"
+          >
+            Today
+          </v-btn>
+          <v-btn
             fab
             text
             small
@@ -29,13 +36,11 @@
               mdi-chevron-right
             </v-icon>
           </v-btn>
-          </div>
-          <div :style="hide ? 'visibility: hidden;' : 'visibility: visible'" class="default-title">March 2022</div>
           <v-toolbar-title v-if="$refs.calendar">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
-         <!--  <v-spacer></v-spacer> -->
-         <!--  <v-menu
+          <v-spacer></v-spacer>
+          <v-menu
             bottom
             right
           >
@@ -52,7 +57,21 @@
                 </v-icon>
               </v-btn>
             </template>
-          </v-menu> -->
+            <v-list>
+              <v-list-item @click="type = 'day'">
+                <v-list-item-title>Day</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'week'">
+                <v-list-item-title>Week</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'month'">
+                <v-list-item-title>Month</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = '4day'">
+                <v-list-item-title>4 days</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-toolbar>
       </v-sheet>
       <v-sheet height="600">
@@ -60,22 +79,63 @@
           ref="calendar"
           v-model="focus"
           color="primary"
-          :event-color="getEventColor"
           :type="type"
+          @click:event="showEvent"
+          @click:more="viewDay"
+          @click:date="viewDay"
           @change="updateRange"
         ></v-calendar>
-        </v-sheet>
+        <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          offset-x
+        >
+          <v-card
+            color="grey lighten-4"
+            min-width="350px"
+            flat
+          >
+            <v-toolbar
+              :color="selectedEvent.color"
+              dark
+            >
+              <v-btn icon>
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-card-text>
+              <span v-html="selectedEvent.details"></span>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                text
+                color="secondary"
+                @click="selectedOpen = false"
+              >
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+      </v-sheet>
     </v-col>
   </v-row>
   </div>
 </template>
 
 <script>
-export default {
-    name:'CalendarComponent',
-    data(){
-      return{
-        focus: '',
+  export default {
+    data: () => ({
+      focus: '',
       type: 'week',
       typeToLabel: {
         month: 'Month',
@@ -87,18 +147,16 @@ export default {
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-      hide:false,
-        }
-    },
-    mounted(){
+      colors: [],
+      names: [],
+    }),
+    mounted () {
       this.$refs.calendar.checkChange()
     },
     methods: {
       viewDay ({ date }) {
-        console.log("view day");
-       /*  this.focus = date
-        this.type = 'day' */
+        this.focus = date
+        this.type = 'day'
       },
       getEventColor (event) {
         return event.color
@@ -108,13 +166,11 @@ export default {
       },
       prev () {
         this.$refs.calendar.prev()
-        this.hide = true;
       },
       next () {
         this.$refs.calendar.next()
-        this.hide = true;
       },
-      /* showEvent ({ nativeEvent, event }) {
+      showEvent ({ nativeEvent, event }) {
         const open = () => {
           this.selectedEvent = event
           this.selectedElement = nativeEvent.target
@@ -129,9 +185,8 @@ export default {
         }
 
         nativeEvent.stopPropagation()
-      }, */
+      },
       updateRange ({ start, end }) {
-        this.hide =true;
         const events = []
 
         const min = new Date(`${start.date}T00:00:00`)
@@ -147,6 +202,7 @@ export default {
           const second = new Date(first.getTime() + secondTimestamp)
 
           events.push({
+            name: this.names[this.rnd(0, this.names.length - 1)],
             start: first,
             end: second,
             color: this.colors[this.rnd(0, this.colors.length - 1)],
@@ -160,8 +216,7 @@ export default {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
     },
-    
-}
+  }
 </script>
 
 <style lang="scss" scoped >
@@ -183,11 +238,11 @@ export default {
   .v-btn--round:focus,.v-btn--round:hover{color: #fff !important;}
 
   
-  .v-toolbar__content{
+  /* .v-toolbar__content{
     flex-direction: row-reverse !important;
     justify-content: space-between !important;
   }
-  .v-toolbar__title{ display: block !important; visibility: visible !important; }
-  /* .primary{ @extend .gradient-blue-bg; } */
+  .v-toolbar__title{ display: block !important; visibility: visible !important; } */
+  .primary{ @extend .gradient-blue-bg; }
 }
 </style>
