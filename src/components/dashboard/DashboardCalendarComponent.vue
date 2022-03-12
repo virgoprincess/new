@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar-component">
+  <div class="dashboard-calendar-component">
   <v-row class="fill-height">
     <v-col>
       <v-sheet height="64">
@@ -35,7 +35,7 @@
             {{ $refs.calendar.title }}
           </v-toolbar-title>
          <!--  <v-spacer></v-spacer> -->
-         <!--  <v-menu
+          <!-- <v-menu
             bottom
             right
           >
@@ -55,7 +55,7 @@
           </v-menu> -->
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="600">
+      <v-sheet>
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -72,7 +72,7 @@
 
 <script>
 export default {
-    name:'CalendarComponent',
+    name:'DashboardCalendarComponent',
     data(){
       return{
         focus: '',
@@ -95,11 +95,10 @@ export default {
       this.$refs.calendar.checkChange()
     },
     methods: {
-      viewDay ({ date }) {
-        console.log("view day");
-       /*  this.focus = date
-        this.type = 'day' */
-      },
+      /* viewDay ({ date }) {
+        this.focus = date
+        this.type = 'day'
+      }, */
       getEventColor (event) {
         return event.color
       },
@@ -131,7 +130,7 @@ export default {
         nativeEvent.stopPropagation()
       }, */
       updateRange ({ start, end }) {
-        this.hide =true;
+        this.hide = true;
         const events = []
 
         const min = new Date(`${start.date}T00:00:00`)
@@ -147,6 +146,7 @@ export default {
           const second = new Date(first.getTime() + secondTimestamp)
 
           events.push({
+            /* name: this.names[this.rnd(0, this.names.length - 1)], */
             start: first,
             end: second,
             color: this.colors[this.rnd(0, this.colors.length - 1)],
@@ -165,21 +165,22 @@ export default {
 </script>
 
 <style lang="scss" scoped >
-.calendar-component{
-  overflow-y: scroll;
-  padding: 20px;
+.dashboard-calendar-component{
+  padding-top: 20px;
+  height: fit-content !important;
+  width: 100% !important;
   
 }
-.calendar-component::v-deep{
-  /* .v-size--default{ height: 70px !important; } */
+.dashboard-calendar-component::v-deep{
+  .v-size--default{ height: 70px !important; width: 100% !important; }
   .v-btn--has-bg:focus:before,.v-btn--has-bg:hover:before{
     opacity: 1 !important;
-    @extend .gradient-blue-bg;
-    border-radius: 50% !important;
+    @extend .gradient-blue-bg; 
+    border-radius: 5px !important;
   }
   .v-btn:focus,.v-btn:hover{ color: #fff !important; }
-  .v-btn:before{ @extend .gradient-blue-bg;}
-  .v-btn--round{ border-radius:  50% !important;}
+  .v-btn:before{ @extend .gradient-blue-bg; }
+  .v-btn--round{ border-radius:  5px !important;}
   .v-btn--round:focus,.v-btn--round:hover{color: #fff !important;}
 
   
@@ -188,6 +189,10 @@ export default {
     justify-content: space-between !important;
   }
   .v-toolbar__title{ display: block !important; visibility: visible !important; }
-  /* .primary{ @extend .gradient-blue-bg; } */
+  .v-calendar-daily__body,.v-calendar-daily__intervals-head{ display: none; }
+  .v-calendar,.v-calendar-daily_head-day{ border: 0 !important; padding: 3px !important;}
+  .primary{
+    /* @extend .gradient-blue-bg;  */
+  }
 }
 </style>

@@ -5,6 +5,7 @@
       </div>
       <div class="dashboard-right scrollable">
           <notifications-component/>
+          <dashboard-calendar-component/>
       </div>
 
   </div>
@@ -15,8 +16,10 @@ import NewsfeedComponent from '../components/dashboard/NewsfeedComponent.vue'
 import NotificationsComponent from '../components/dashboard/NotificationsComponent.vue'
 
 import { mapGetters } from "vuex"
+import DashboardCalendarComponent from '@/components/dashboard/DashboardCalendarComponent.vue'
 export default {
-  components: { NewsfeedComponent, NotificationsComponent },
+  components: { 
+      NewsfeedComponent, NotificationsComponent,DashboardCalendarComponent },
     name:"DashboardComponent",
     methods:{
         hideFeed(result){
@@ -33,7 +36,7 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-component{
-    width: 80%;
+    width: 85%;
     margin: auto;
     position: relative;
     display: flex;
@@ -41,6 +44,9 @@ export default {
     gap: 20px;
     .dashboard-left{
         width: 62%;
+    }
+    .dashboard-right{
+        width: 30%;
     }
     /* .dashboard-right{
         width: 25%;

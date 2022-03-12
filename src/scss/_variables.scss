@@ -100,3 +100,10 @@ $bold:700;
   text-overflow: none;
   scrollbar-width: none;
 }
+.gradient-blue-bg{
+  background: rgb(85,201,232);
+background: -moz-linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
+background: -webkit-linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
+background: linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#55c9e8",endColorstr="#2a91de",GradientType=1);
+}

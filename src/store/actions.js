@@ -1,6 +1,5 @@
 export default{
     SET_CURRENTMENU(state,payload){
-        console.log("actions.js :::");
         state.commit("SET_CURRENTMENU",payload);
     },
 

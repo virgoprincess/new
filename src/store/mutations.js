@@ -1,6 +1,5 @@
 export default{
    SET_CURRENTMENU(state,payload){
-      console.log("mutation.js :::");
       state.menu = payload;
    },
    SET_DASHBOARD(state,payload){
