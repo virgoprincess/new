@@ -1,19 +1,11 @@
 <template>
-  <div class="calendar-component">
-  <v-row class="fill-height">
+  <div class="calendar-component d-flex">
+  <v-row class="big-calendar fill-height">
     <v-col>
       <v-sheet height="64">
         <v-toolbar
           flat
         >
-          <v-btn
-            outlined
-            class="mr-4"
-            color="grey darken-2"
-            @click="setToday"
-          >
-            Today
-          </v-btn>
           <v-btn
             fab
             text
@@ -46,6 +38,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
+                class="type-label"
                 outlined
                 color="grey darken-2"
                 v-bind="attrs"
@@ -72,13 +65,21 @@
               </v-list-item>
             </v-list>
           </v-menu>
+          <v-btn
+            outlined
+            class="mr-4"
+            color="grey darken-2"
+            @click="setToday"
+          >
+            Today
+          </v-btn>
         </v-toolbar>
       </v-sheet>
       <v-sheet height="600">
         <v-calendar
           ref="calendar"
           v-model="focus"
-          color="primary"
+          color="black"
           :type="type"
           @click:event="showEvent"
           @click:more="viewDay"
@@ -129,12 +130,17 @@
       </v-sheet>
     </v-col>
   </v-row>
+
+  <div class="small-calendar">
+    <b-calendar v-model="monthValue" :date-info-fn="dateClass" locale="en"></b-calendar>
+  </div>
   </div>
 </template>
 
 <script>
   export default {
     data: () => ({
+      monthValue:'',
       focus: '',
       type: 'week',
       typeToLabel: {
@@ -154,9 +160,13 @@
       this.$refs.calendar.checkChange()
     },
     methods: {
+      dateClass(ymd, date) {
+        const day = date.getDate()
+        return day >= 10 && day <= 20 ? 'table-info' : ''
+      },
       viewDay ({ date }) {
         this.focus = date
-        this.type = 'day'
+        this.type = 'week'
       },
       getEventColor (event) {
         return event.color
@@ -194,6 +204,9 @@
         const days = (max.getTime() - min.getTime()) / 86400000
         const eventCount = this.rnd(days, days + 20)
 
+        console.log("Min Month :::",min.getMonth()+1, "\nMax Month::: ",max.getMonth()+1);
+        console.log("Min :::",min.getDate(), "\nMax::: ",max.getDate());
+
         for (let i = 0; i < eventCount; i++) {
           const allDay = this.rnd(0, 3) === 0
           const firstTimestamp = this.rnd(min.getTime(), max.getTime())
@@ -209,7 +222,6 @@
             timed: !allDay,
           })
         }
-
         this.events = events
       },
       rnd (a, b) {
@@ -225,24 +237,60 @@
   padding: 20px;
   
 }
+.big-calendar {
+  padding-right: 20px;
+}
 .calendar-component::v-deep{
-  /* .v-size--default{ height: 70px !important; } */
-  .v-btn--has-bg:focus:before,.v-btn--has-bg:hover:before{
-    opacity: 1 !important;
-    @extend .gradient-blue-bg;
-    border-radius: 50% !important;
+  .v-calendar-daily_head-day{
+    padding: 10px 0;
+    z-index: 1;
+    width: 8%;
+    .v-btn{ width:fit-content; height:fit-content}
   }
-  .v-btn:focus,.v-btn:hover{ color: #fff !important; }
-  .v-btn:before{ @extend .gradient-blue-bg;}
-  .v-btn--round{ border-radius:  50% !important;}
-  .v-btn--round:focus,.v-btn--round:hover{color: #fff !important;}
 
+  .v-btn.type-label{ border: 0; }
   
-  /* .v-toolbar__content{
-    flex-direction: row-reverse !important;
-    justify-content: space-between !important;
+  .v-btn--has-bg:focus:before,.v-btn--has-bg:hover:before{ opacity: 0 !important; }
+  .v-past::before,.v-future::before{ background:$gray; }
+  .v-present::before{ @extend .gradient-blue-bg;  }
+  .v-past::before,.v-future::before,.v-present::before{
+    width: 65px;
+    margin: auto;
+    z-index: -1;
+    border-radius: 50%;
+    bottom: 0;
+    content: "";
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .2s cubic-bezier(.4,0,.6,1);
   }
-  .v-toolbar__title{ display: block !important; visibility: visible !important; } */
-  .primary{ @extend .gradient-blue-bg; }
+  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present{
+    .v-calendar-daily_head-weekday,.v-btn > span{
+      color: #fff !important;
+    }
+  }
+  .v-calendar-daily_head-weekday{ color: $gray; }
+  .v-calendar-daily_head-day:hover:before,.v-calendar-daily_head-day:focus-within:before{
+    opacity: 1;
+  }
+  .v-past span{color: rgba(0,0,0,.38);}
+  .v-calendar-daily_head-day{ font-weight: 600; span{ font-weight: 600 ;} }
+  .black{
+    background-color: transparent !important;
+    color: $black !important;
+  }
+  .v-present::before{
+    opacity: 1;
+  }
+  .v-ripple__animation--in{
+    opacity: 0 !important;
+  }
+  .v-calendar-daily__scroll-area{
+    @extend .scrollable;
+  }
 }
 </style>

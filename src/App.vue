@@ -18,6 +18,10 @@ export default {
 </script>
 
 <style lang="scss">
+html, body{
+  height: 100%;
+  overflow: hidden;
+}
 #app {
   color: $black;
   padding:0;

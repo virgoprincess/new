@@ -25,6 +25,11 @@ $light:300;
 $semi-bold:600;
 $bold:700;
 
+.fc-gray{color: $gray; }
+/* .fc-lavender{ color: $lavender; }
+.fc-yellow{ color: $yellow; }
+.fc-red{ color: $red; } */
+
 .fw-300{ font-weight: 300; }
 .fw-400{ font-weight: 400; }
 .fw-500{ font-weight: 500; }
@@ -32,7 +37,8 @@ $bold:700;
 .fw-700{ font-weight: 700; }
 .fw-800{ font-weight: 800; }
 
-.fs-11{ font-size: 12px !important; }
+.fs-10{ font-size: 10px !important; }
+.fs-11{ font-size: 11px !important; }
 .fs-12{ font-size: 12px !important; }
 .fs-13{ font-size: 13px !important; }
 .fs-14{ font-size: 14px !important; }
@@ -102,8 +108,8 @@ $bold:700;
 }
 .gradient-blue-bg{
   background: rgb(85,201,232);
-background: -moz-linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
-background: -webkit-linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
-background: linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#55c9e8",endColorstr="#2a91de",GradientType=1);
+  background: -moz-linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
+  background: -webkit-linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
+  background: linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#55c9e8",endColorstr="#2a91de",GradientType=1);
 }

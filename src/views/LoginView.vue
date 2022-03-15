@@ -89,7 +89,7 @@ export default {
             }catch (error) {
                 console.log("Not logged in::");
             }
-        }
+        },
     }
 }
 </script>

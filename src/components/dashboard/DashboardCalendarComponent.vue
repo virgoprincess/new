@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-calendar-component">
-  <v-row class="fill-height">
+  <v-row class="fill-height dashboard-calendar">
     <v-col>
       <v-sheet height="64">
         <v-toolbar
@@ -59,20 +59,25 @@
         <v-calendar
           ref="calendar"
           v-model="focus"
-          color="primary"
           :event-color="getEventColor"
+          color="black"
+          @click:date="viewDay"
           :type="type"
           @change="updateRange"
         ></v-calendar>
         </v-sheet>
     </v-col>
   </v-row>
+  <hr>
+  <events-components/>
   </div>
 </template>
 
 <script>
+import EventsComponents from './EventsComponents.vue'
 export default {
     name:'DashboardCalendarComponent',
+    components:{ EventsComponents },
     data(){
       return{
         focus: '',
@@ -95,10 +100,11 @@ export default {
       this.$refs.calendar.checkChange()
     },
     methods: {
-      /* viewDay ({ date }) {
+      viewDay ({ date }) {
+        console.log("Date:",date);
         this.focus = date
-        this.type = 'day'
-      }, */
+        this.type = 'week'
+      },
       getEventColor (event) {
         return event.color
       },
@@ -169,30 +175,80 @@ export default {
   padding-top: 20px;
   height: fit-content !important;
   width: 100% !important;
+  background-color: #fff;
   
 }
 .dashboard-calendar-component::v-deep{
-  .v-size--default{ height: 70px !important; width: 100% !important; }
+  .v-size--default{ height: 90px !important; width: 100% !important; }
   .v-btn--has-bg:focus:before,.v-btn--has-bg:hover:before{
-    opacity: 1 !important;
-    @extend .gradient-blue-bg; 
-    border-radius: 5px !important;
+    opacity: 0 !important;
   }
-  .v-btn:focus,.v-btn:hover{ color: #fff !important; }
+  
+  .v-btn:hover,.v-btn--round:hover{ color: #fff !important; }
   .v-btn:before{ @extend .gradient-blue-bg; }
   .v-btn--round{ border-radius:  5px !important;}
-  .v-btn--round:focus,.v-btn--round:hover{color: #fff !important;}
 
   
   .v-toolbar__content{
+    padding: 0;
     flex-direction: row-reverse !important;
     justify-content: space-between !important;
   }
-  .v-toolbar__title{ display: block !important; visibility: visible !important; }
+  .v-toolbar__title{ display: block !important; visibility: visible !important; font-size: 18px; font-weight: 700; }
   .v-calendar-daily__body,.v-calendar-daily__intervals-head{ display: none; }
-  .v-calendar,.v-calendar-daily_head-day{ border: 0 !important; padding: 3px !important;}
-  .primary{
-    /* @extend .gradient-blue-bg;  */
+  .v-calendar,.v-calendar-daily_head-day{ border: 0 !important;}
+
+  .dashboard-calendar{
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+  hr{
+    width: 90%;
+    margin: auto;
+    color: $gray;
+  }
+  .v-calendar-daily_head-day{ 
+    z-index: 1; 
+    margin: 3px;
+    padding: 3px 0;
+    .v-btn{max-height: 40px;}
+    .v-calendar-daily_head-day-label{ margin: 0; }
+    }
+  .v-past::before,.v-future::before{ background:$gray; }
+  .v-present::before{ @extend .gradient-blue-bg;  }
+  .v-past::before,.v-future::before,.v-present::before{
+    z-index: -1;
+    border-radius: 5px;
+    bottom: 0;
+    content: "";
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .2s cubic-bezier(.4,0,.6,1);
+  }
+  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present{
+    .v-calendar-daily_head-weekday,.v-btn > span{
+      color: #fff !important;
+    }
+  }
+  .v-calendar-daily_head-weekday{ color: $gray; }
+  .v-calendar-daily_head-day:hover:before,.v-calendar-daily_head-day:focus-within:before{
+    opacity: 1;
+  }
+  .v-calendar-daily_head-day{ font-weight: 600; span{ font-weight: 600 ;} }
+  .black{
+    background-color: transparent !important;
+    color: $black !important;
+  }
+  .v-present::before{
+    opacity: 1;
+  }
+  .v-ripple__animation--in{
+    opacity: 0 !important;
   }
 }
 </style>

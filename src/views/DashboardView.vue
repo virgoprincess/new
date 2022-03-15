@@ -19,7 +19,7 @@ import { mapGetters } from "vuex"
 import DashboardCalendarComponent from '@/components/dashboard/DashboardCalendarComponent.vue'
 export default {
   components: { 
-      NewsfeedComponent, NotificationsComponent,DashboardCalendarComponent },
+      NewsfeedComponent, NotificationsComponent,DashboardCalendarComponent, },
     name:"DashboardComponent",
     methods:{
         hideFeed(result){
@@ -46,7 +46,7 @@ export default {
         width: 62%;
     }
     .dashboard-right{
-        width: 30%;
+        width: 35%;
     }
     /* .dashboard-right{
         width: 25%;

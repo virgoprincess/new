@@ -5,11 +5,14 @@
 </template>
 
 <script>
+
 export default {
     name: 'MainViewContainer',
-    mounted(){
-      /* this.$router.push({path:'/login'})  */
-    }
+    data(){
+      return{
+        timeoutId : null,
+      }
+    },
 }
 </script>
 <style lang="scss" scoped>
