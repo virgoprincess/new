@@ -19,12 +19,19 @@ export default {
         MainContainer,
         SearchComponent
     },
-    mounted(){
-      if(this.$route.path != '/home/dashboard')
-      this.$router.push({path:'/home/dashboard'}) 
-      this.setupTimers();
+    beforeMount(){
+      if( this.$store.state.isSignedIn ){
+        if(this.$route.path != '/dashboard')
+        this.$router.push({path:'/dashboard'}) 
+        this.setupTimers();
+      } else
+        {
+        console.log("isSignedIn?:::",this.$store.state.isSignedIn);
+        this.$router.push({path:'/login'}) 
+        }
     },
     beforeDestroy(){
+      console.log("BeforeDestroy has been called:::");
       this.removeSessionTracker();
     },
     methods:{
@@ -32,30 +39,37 @@ export default {
         async handleInactive(){
           try {
                 const result = await this.$gAuth.signOut();
-                
-                this.$router.push({path:'/'}) 
+                this.removeSessionTracker();
+                this.$router.push({path:'/login'}) 
+                this.$store.dispatch('SETUSER_ACCOUNT',null);
                 console.log("User logged out::: ",result);
             }catch (error) {
-                console.log("Failed to Sign out::");
+                console.log("Failed to Sign out::",error);
             }
         },
         startTimer(){
             this.timeoutId = setTimeout(this.handleInactive,timeoutInMS);
         },
-
         resetTimer(){
          clearTimeout(this.timeoutId);
           this.startTimer();
         },
         removeSessionTracker(){
-          document.removeEventListener("keypress", this.resetTimer, false);
+          console.log("session closed:::");
+          window.removeEventListener('load',this.resetTimer,false)
+          document.removeEventListener("keydown", this.resetTimer, false);
+          document.removeEventListener("scroll", this.resetTimer, false);
+          document.removeEventListener("click", this.resetTimer, false);
           document.removeEventListener("mousemove", this.resetTimer, false);
           document.removeEventListener("mousedown", this.resetTimer, false);
           document.removeEventListener("touchmove", this.resetTimer, false);
         },
         setupTimers () {
         console.log("session running:::");
-        document.addEventListener("keypress", this.resetTimer, false);
+        window.addEventListener('load',this.resetTimer,false);
+        document.addEventListener("keydown", this.resetTimer, false);
+        document.addEventListener("scroll", this.resetTimer, false);
+        document.addEventListener("click", this.resetTimer, false);
         document.addEventListener("mousemove", this.resetTimer, false);
         document.addEventListener("mousedown", this.resetTimer, false);
         document.addEventListener("touchmove", this.resetTimer, false);

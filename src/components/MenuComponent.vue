@@ -18,12 +18,35 @@
         <b-col cols="1" class="profile">
           <b-img
             rounded="circle"
-            :src="require('@/assets/icons/man.jpg')"
-            alt=""
+            :src="userProfile ? userProfile.imageUrl : ''"
+            alt="default"
           />
+          <b-icon-chevron-down @click="showProfileOptions = !showProfileOptions" stroke="black" stroke-width="2"/>
         </b-col>
       </b-row>
     </div>
+
+
+    <b-list-group class="profile-options" v-if="showProfileOptions" @mouseleave="showProfileOptions = !showProfileOptions">
+      <b-list-group-item class=" profile">
+          <b-img rounded :src="userProfile ? userProfile.imageUrl : ''" alt="profile.png"></b-img>
+          <div>
+            <p>{{userProfile ? userProfile.name : ''}}</p>
+            <b-icon-clock-history/>Away
+          </div>
+      </b-list-group-item>
+      <b-list-group-item >
+        <p @click="showProfileOptions = !showProfileOptions">Set yourself as <span class="fw-600">away</span></p>
+        <p @click="showProfileOptions = !showProfileOptions">Pause notifications</p>
+      </b-list-group-item>
+      <b-list-group-item >
+        <p @click="showProfileOptions = !showProfileOptions">Profile</p>
+        <p @click="showProfileOptions = !showProfileOptions">Preferences</p>
+      </b-list-group-item>
+      <b-list-group-item><p @click="showProfileOptions = !showProfileOptions">Downloads</p></b-list-group-item>
+      <b-list-group-item><p @click="showProfileOptions = !showProfileOptions; logout()">Sign out of Sphyr</p></b-list-group-item>
+    </b-list-group>
+
 
     <div class="left-menu">
       <div class="menu-container">
@@ -53,27 +76,39 @@ export default {
   data(){
     return{
       reroute:false,
+      showProfileOptions:false,
     }
   },
   created(){
     this.initialLoad();
   },
   methods:{
+    async logout(){
+      try {
+            const result = await this.$gAuth.signOut();
+            this.$router.push({path:'/login'}) 
+            this.$store.dispatch("SETUSER_ACCOUNT",null);
+            console.log("User logged out::: ",result);
+          }catch (error) {
+              console.log("Failed to Log Out::",error);
+          }
+    },
     initialLoad(){
-      this.$store.dispatch("SET_"+this.$store.state.menu);
+      if(this.$store.state.isSignedIn ) this.$store.dispatch("SET_"+this.$store.state.menu);
     },
     menuClicked(menu){
-        (this.menu != menu && this.$route.path != '/home/'+menu.toLowerCase()) ? this.reroute = true : this.reroute = false;
+        (this.menu != menu && this.$route.path != '/'+menu.toLowerCase()) ? this.reroute = true : this.reroute = false;
         
         this.$store.dispatch("SET_CURRENTMENU",menu);
         this.$store.dispatch("SET_"+menu);
-        if( this.reroute ) this.$router.push({path: '/home/'+menu.toLowerCase()});
+        if( this.reroute ) this.$router.push({path: '/'+menu.toLowerCase()});
 
     }
   },
   computed:{
     ...mapGetters({
       menu : "GET_CURRENTMENU",
+      userProfile : "GET_USERINFO",
     }),
 
   },
@@ -95,7 +130,7 @@ export default {
   gap: 20px;
   align-items: center;
   padding: 25px;
-  z-index: 50;
+  z-index: 1;
   margin: 0 5px;
   top: 0;
   background-color: #fff;
@@ -164,6 +199,7 @@ export default {
 .logo,
 .profile img {
   width: 33px;
+  margin-right:10px;
 }
 b-icon-search {
   width: 20px;
@@ -204,6 +240,55 @@ b-icon-search {
   > div {
     align-items: center;
     gap: 10px;
+  }
+}
+
+.bi-chevron-down{
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+}
+.profile-options{
+  margin-right: 5%;
+  top: 85px;
+  font-size: 14px;
+  font-weight: 500;
+  width: 300px;
+  box-shadow: 2px 2px 8px #00000029 !important;
+  right: 0;
+  border: 1px solid $lighter-gray;
+  z-index: 2;
+  border-radius: 5px;
+  position: absolute;
+
+  p{margin: 0;}
+  img{
+    width: 40px;
+    height: 40px;
+  }
+  .list-group-item:first-child{
+    padding-top: 20px;
+  }
+  .list-group-item:last-child{
+    border-bottom: 0;
+  }
+  .list-group-item{ 
+    background-color: $background-color; 
+    border-left: 0;
+    border-right: 0;
+    padding: 10px 0;
+    cursor: default;
+    p{ padding: 5px 25px 5px 25px; }
+    > img{ margin-left: 25px; }
+    }
+
+ .list-group-item:not(:first-child){
+     p:hover{background-color: $blue; color: #fff; cursor: pointer;}
+ }
+ .profile{
+    display: flex;
+    p{padding: 0};
+    svg{ margin-right: 5px; color: $bright-yellow;}
   }
 }
 </style>

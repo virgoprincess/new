@@ -2,6 +2,10 @@ export default{
    SET_CURRENTMENU(state,payload){
       state.menu = payload;
    },
+   SETUSER_ACCOUNT(state,payload){
+      state.userProfile = payload;
+      payload ? state.isSignedIn = true : state.isSignedIn = false;
+   },
    SET_DASHBOARD(state,payload){
       state.dashboard = payload;
    },

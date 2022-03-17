@@ -2,7 +2,17 @@ export default{
     SET_CURRENTMENU(state,payload){
         state.commit("SET_CURRENTMENU",payload);
     },
-
+    SETUSER_ACCOUNT(state,payload){
+      var profileInfo;
+      if( payload !=  null ){
+        profileInfo = {
+          name: payload.getBasicProfile().getName(),
+          imageUrl: payload.getBasicProfile().getImageUrl(),
+          email: payload.getBasicProfile().getEmail(),
+        };
+      }
+      state.commit("SETUSER_ACCOUNT",profileInfo);
+    },
     SET_DASHBOARD(state,payload){
         payload = [
                 {

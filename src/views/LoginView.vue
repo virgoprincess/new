@@ -9,56 +9,99 @@
             <b-form>
                 <b-form-group  
                 label="Name"
-                label-for="frm-name"
+                label-for="input-name"
                 >
                     <b-form-input
                     id="frm-name"
+                    name="input-name"
+                    v-model="$v.user.name.$model"
+                    :state="validateState('name')"
                     placeholder="Name"
-                    required
+                    aria-describedby="name-live-feedback"
                     ></b-form-input>
+                    <b-form-invalid-feedback
+                        id="name-live-feedback">
+                        {{!$v.user.name.required? "Please provide a name":""}} <br>
+                        {{!$v.user.name.alpha ? "Please provide a valid name. Field must not contain numbers or special characters": ""}}
+                    </b-form-invalid-feedback>
                 </b-form-group>
 
                 <b-form-group  
                 label="Email"
-                label-for="frm-email"
+                label-for="input-email"
                 >
                     <b-form-input
                     type="email"
-                    id="frm-email"
+                    id="input-email"
+                    name="input-email"
                     placeholder="Email"
-                    required
+                    v-model="$v.user.email.$model"
+                    :state="validateState('email')"
+                    aria-describedby="email-live-feedback"
                     ></b-form-input>
+                    <b-form-invalid-feedback
+                        id="email-live-feedback">
+                        {{!$v.user.email.required? "Please enter your email address":""}} <br>
+                        {{!$v.user.email.email? "Please enter your email address in format: yourname@example.com": ""}}
+                    </b-form-invalid-feedback>
                 </b-form-group>
 
                 <b-form-group  
                 label="Password"
-                label-for="frm-password"
+                label-for="input-password"
                 >
                     <b-form-input
                     type="password"
-                    id="frm-password"
+                    id="input-password"
+                    name="input-password"
                     placeholder="Password"
-                    autocomplete="on"
-                    required
+                    autocomplete="off"
+                    v-model="$v.user.password.$model"
+                    :state="validateState('password')"
+                    aria-describedby="password-live-feedback"
                     ></b-form-input>
+                    <b-form-invalid-feedback
+                        id="password-live-feedback" v-if="!$v.user.password.required">
+                        {{!$v.user.password.required? "Please provide a password":""}}
+                    </b-form-invalid-feedback>
+                    <b-form-invalid-feedback
+                        id="password-live-feedback" v-if="!$v.user.password.minLength">
+                        {{!$v.user.password.minLenght? "Use at least 8 characters":""}}
+                    </b-form-invalid-feedback>
+                    <b-form-invalid-feedback
+                        id="password-live-feedback"
+                        v-if="!$v.user.password.containsUppercase || !$v.user.password.containsLowercase || !$v.user.password.containsNumber || !$v.user.password.containsSpecial">
+                            Password must have upper and lowercase characters <br/>
+                            1 or more numbers <br>
+                            At least 1 special character <br>
+                    </b-form-invalid-feedback>
                 </b-form-group>
 
                  <b-form-group  
                 label="Re-Enter Password"
-                label-for="frm-repassword"
+                label-for="input-repassword"
                 >
                     <b-form-input
                     type="password"
-                    id="frm-repassword"
+                    id="input-repassword"
+                    name="input-repassword"
+                    v-model="$v.user.repassword.$model"
+                    :state="validateState('repassword')"
+                    aria-describedby="repassword-live-feedback"
                     placeholder="Password"
                     autocomplete="off"
                     required
                     ></b-form-input>
+                    <b-form-invalid-feedback
+                        id="repassword-live-feedback">
+                        {{!$v.user.repassword.required? "Please re-enter your password":""}}
+                        {{!$v.user.repassword.sameAsPassword? "Entered password did not match":""}}
+                    </b-form-invalid-feedback>
                 </b-form-group>
                  
-                <b-button class="btn-create-account">Create Account</b-button>
+                <b-button class="btn-create-account" @click.stop.prevent="onSubmit">Create Account</b-button>
                 <b-button-group>
-                    <b-button @click="login" class="btn-sign-up-google"><b-img :src="require('@/assets/images/google-logo.svg')"></b-img> Sign up with Google</b-button>
+                    <b-button class="btn-sign-up-google" @click="login"><b-img :src="require('@/assets/images/google-logo.svg')"></b-img> Sign up with Google</b-button>
                 </b-button-group>
 
                 <div class="fs-12 fw-700">Already have an account? <span><b-link @click="login">Log In</b-link></span></div>
@@ -75,19 +118,78 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { alpha,alphaNum, required, minLength,email, sameAs } from "vuelidate/lib/validators";
 export default {
     name:'LoginComponent',
+    data(){
+        return{
+            userProfile:[],
+            user:{
+                name:null,
+                email:null,
+                password:null,
+                repassword:null,
+            },
+        }
+    },
+    mixins:[validationMixin],
+    validations:{
+        user:{
+            name:{ required},
+            email:{ required ,email},
+            password:{ required, minLength: minLength(8),
+                    containsUppercase:function(value){ return /[A-Z]/.test(value) },
+                    containsLowercase:function(value){ return /[a-z]/.test(value) },
+                    containsNumber:function(value){ return /[0-9]/.test(value) },
+                    containsSpecial:function(value){ return /[#?!@$%^&*-_]/.test(value) },
+                     },
+            repassword:{ required, sameAsPassword: sameAs("password") },
+        }
+    },
     methods:{
+        validateState(name){
+            const { $dirty, $error } = this.$v.user[name];
+            return $dirty ? !$error : null;
+        },
+        resetForm(){
+            this.user = {
+                name: null,
+                email: null,
+                password:null,
+                repassword:null,
+            },
+            this.$nextTick(() => {
+                this.$v.$reset();
+            });
+        },
+        onSubmit(e){
+            this.$v.user.$touch();
+            if (this.$v.user.$anyError){
+                return;
+            }
+            const profileInfo = {
+                name:this.user.name,
+                email:this.user.email,
+                imageUrl:'/img/man.4057928f.jpg',
+                password:this.user.password,
+                repassword:this.user.repassword,
+            };
+            this.$store.commit("SETUSER_ACCOUNT",profileInfo);
+            this.$router.push({name:'home'}); 
+        },
         async login(){
             try {
                 const googleUser = await this.$gAuth.signIn();
-                this.isSignIn = this.$gAuth.isAuthorized;
-
-                if(this.isSignIn) this.$router.push({name:'home'}); 
-                console.log("Is Signed In? :::",this.isSignIn);
-                console.log("googleUser",googleUser);
+                this.isSignIn = this.$gAuth.isAuthorized;   
+                /* const access_token = googleUser.getAuthResponse(true).access_token;
+                const basicProfile = googleUser.getBasicProfile(); */
+                if(this.isSignIn && googleUser.getAuthResponse(true).access_token) {
+                    this.$store.dispatch("SETUSER_ACCOUNT",googleUser);
+                    this.$router.push({name:'home'}); 
+                }
             }catch (error) {
-                console.log("Not logged in::");
+                console.log("Not logged in::",error);
             }
         },
     }
@@ -132,6 +234,7 @@ export default {
         font-style: italic;
     }
     .btn-create-account{
+        color:#fff !important;
         margin-top: 40px;
         padding: 12px;
         border: none;
