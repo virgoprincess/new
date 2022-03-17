@@ -88,6 +88,7 @@ export default {
             const result = await this.$gAuth.signOut();
             this.$router.push({path:'/login'}) 
             this.$store.dispatch("SETUSER_ACCOUNT",null);
+            this.$store.dispatch("SET_CURRENTMENU",'DASHBOARD');
             console.log("User logged out::: ",result);
           }catch (error) {
               console.log("Failed to Log Out::",error);
