@@ -1,7 +1,7 @@
 <template>
   <div class="email-component">
       <div class="email-left scrollable">
-          <preview-component v-for="(result,i) in results" :key="i" :data="[result.messages.profileInfo,result.messages.messageContent.message,result.messages.messageContent.subject,'email']"/>
+          <preview-component v-for="(result,i) in messages" :key="i" :data="[result,'email']"/>
       </div>
       <div class="email-center scrollable">
           <!-- <div class="email-fixed-menu"> -->
@@ -57,9 +57,106 @@ import PreviewComponent from '@/components/commons/PreviewComponent.vue'
 import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 import FileIconComponent from '@/components/commons/attachments/FileIconComponent.vue'
 import { mapGetters } from "vuex"
+import axios from 'axios'
 export default {
     components:{PreviewComponent, ProfileComponent, FileIconComponent},
     name:'email-component',
+    data(){
+      return{
+        emailIds:[],
+        messages:[],
+      }
+    },
+    mounted(){
+      console.log("mounted::")
+      this.getEmails();
+    },
+    methods:{
+      async getEmails(){
+        await axios.get(`https://www.googleapis.com/gmail/v1/users/${this.$store.state.userId}/messages`,{
+          headers:{
+            Authorization:`Bearer ${this.$store.state.accessToken}`
+          },
+          params:{
+            labelIds:'INBOX',
+            includeSpamTrash:false,
+            maxResults:20
+          }
+        })
+          .then((response)=>{
+           this.emailIds =  response.data.messages;
+            console.log("Email Ids::",this.emailIds);
+            this.getMessagesById();
+          });
+      },
+      async getMessagesById(){
+         this.emailIds.forEach(async(email)=>{
+           await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${this.$store.state.userId}/messages/${email.id}`,
+          {
+            headers:{
+              Authorization:`Bearer ${this.$store.state.accessToken}`
+            }
+          }).then((response)=>{
+             var data = response.data.payload.headers
+             var msgs = {};
+              data.map((res)=>{
+              /* console.log("res", res) */
+              if(res.name == 'Subject')
+                msgs.subject = res.value;
+              if(res.name == 'Date')
+                {
+                  var d =new Date(res.value);
+                  msgs.date = d.toLocaleDateString() + " " +d.toLocaleTimeString();
+                }
+              if(res.name == 'From')
+                msgs.from = res.value.split(/</)[0];
+              if(res.name == 'To')
+                msgs.to = res.value;
+                });    
+            msgs.snippet = response.data.snippet;
+            this.messages.push(msgs);
+            });
+         });
+         console.log("All Messages::", this.messages);
+
+      },
+      async getMessages(){
+        await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${this.$store.state.userId}/messages/17f993ae4cfc8d11`,{
+          headers:{
+            Authorization:`Bearer ${this.$store.state.accessToken}`
+          },
+          /* params:{
+            format:"raw",
+          }, */
+           /* responseType: 'blob' */
+        }).then((response)=>{
+          var data = response.data.payload.headers
+          var msg = {};
+          data.map((res)=>{
+              if(res.name == 'Subject' || res.name == 'Date' || res.name == 'From' || res.name == 'To')
+                msg.push(res);
+              /* if(res.name == 'Date')
+              console.log("Date:",res.value)
+              if(res.name == 'From')
+              console.log("From:",res.value)
+              if(res.name == 'To')
+              console.log("To:",res.value) */
+          })
+
+          console.log("Snippet:",response.data.snippet)
+            msg.push(response.data.snippet)
+            this.messages.push(msg.push);
+          /* let reader = new FileReader();
+              reader.readAsDataURL(response.data); 
+              reader.onload = () => {
+                reader.result
+                 console.log(reader.result);
+              } */
+        });
+
+        console.log("All Messages:::", this.messages)
+      }
+    },
     computed:{
       ...mapGetters({
         results:'GET_EMAILS',

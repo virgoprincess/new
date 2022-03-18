@@ -9,6 +9,8 @@ export default new Vuex.Store({
     state:{
         menu:'DASHBOARD',
         isSignedIn:false,
+        accessToken:'',
+        userId:'gladyspepito08@gmail.com',
         userProfile:null,
         dashboard:[],
         messages:[],

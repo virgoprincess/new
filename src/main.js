@@ -15,6 +15,7 @@ Vue.use( BootstrapVue )
 Vue.use( IconsPlugin )
 
 const gauthOption = {
+  key:'AIzaSyC-ly6_3Z_r0HYDzUOvIhmF03rs8Nh2-x4',
   clientId: '297577095455-7fjh38cdku1b866cokcssdskfuk55e7e.apps.googleusercontent.com',
   /* 297577095455-7fjh38cdku1b866cokcssdskfuk55e7e.apps.googleusercontent.com --for github*/
   /* 297577095455-hqdgjabkt1uh7ckdnaagpol7fe3tbal5.apps.googleusercontent.com --for local */

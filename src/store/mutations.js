@@ -6,6 +6,12 @@ export default{
       state.userProfile = payload;
       payload ? state.isSignedIn = true : state.isSignedIn = false;
    },
+   SET_USER_ID(state,payload){
+      state.userId = payload;
+   },
+   SET_ACCESS_TOKEN(state,payload){
+      state.accessToken = payload;
+   },
    SET_DASHBOARD(state,payload){
       state.dashboard = payload;
    },

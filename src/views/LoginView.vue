@@ -184,6 +184,10 @@ export default {
                 this.isSignIn = this.$gAuth.isAuthorized;   
                 /* const access_token = googleUser.getAuthResponse(true).access_token;
                 const basicProfile = googleUser.getBasicProfile(); */
+                console.log("email:::",googleUser.getBasicProfile().getEmail())
+                this.$store.commit("SET_USER_ID",googleUser.getBasicProfile().getEmail());
+                console.log("access token:::",googleUser.getAuthResponse(true).access_token);
+                this.$store.commit("SET_ACCESS_TOKEN",googleUser.getAuthResponse(true).access_token);
                 if(this.isSignIn && googleUser.getAuthResponse(true).access_token) {
                     this.$store.dispatch("SETUSER_ACCOUNT",googleUser);
                     this.$router.push({name:'home'}); 
