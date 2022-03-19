@@ -174,6 +174,7 @@ export default {
                 imageUrl:'/img/man.4057928f.jpg',
                 password:this.user.password,
                 repassword:this.user.repassword,
+                newUser:true,
             };
             this.$store.commit("SETUSER_ACCOUNT",profileInfo);
             this.$router.push({name:'home'}); 
@@ -189,6 +190,7 @@ export default {
                 console.log("access token:::",googleUser.getAuthResponse(true).access_token);
                 this.$store.commit("SET_ACCESS_TOKEN",googleUser.getAuthResponse(true).access_token);
                 if(this.isSignIn && googleUser.getAuthResponse(true).access_token) {
+                    googleUser.newUser = false;
                     this.$store.dispatch("SETUSER_ACCOUNT",googleUser);
                     this.$router.push({name:'home'}); 
                 }

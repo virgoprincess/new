@@ -204,8 +204,8 @@
         const days = (max.getTime() - min.getTime()) / 86400000
         const eventCount = this.rnd(days, days + 20)
 
-        console.log("Min Month :::",min.getMonth()+1, "\nMax Month::: ",max.getMonth()+1);
-        console.log("Min :::",min.getDate(), "\nMax::: ",max.getDate());
+        /* console.log("Min Month :::",min.getMonth()+1, "\nMax Month::: ",max.getMonth()+1);
+        console.log("Min :::",min.getDate(), "\nMax::: ",max.getDate()); */
 
         for (let i = 0; i < eventCount; i++) {
           const allDay = this.rnd(0, 3) === 0

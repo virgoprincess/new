@@ -1,4 +1,19 @@
 export default{
+   SET_RESET(state,payload){
+      state.menu='DASHBOARD';
+      state.isSignedIn=false;
+      state.accessToken='';
+      state.userId='gladyspepito08@gmail.com';
+      state.userProfile=null;
+      state.dashboard=[];
+      state.messages=[];
+      state.threads=[];
+      state.emails=[];
+      state.calendar=[];
+      state.contacts=[];
+      state.storage=[];
+      state.settings=[];
+   },
    SET_CURRENTMENU(state,payload){
       state.menu = payload;
    },
@@ -17,6 +32,9 @@ export default{
    },
    SET_MESSAGES(state,payload){
       state.messages = payload;
+   },
+   SET_THREADBYID(state,payload){
+      state.threads = payload;
    },
    SET_EMAILS(state,payload){
       state.emails = payload;

@@ -1,5 +1,5 @@
 <template>
-  <b-list-group-item class="preview-list ">
+  <b-list-group-item class="preview-list" @click="$emit('click-mail')" v-if="data.length > 0">
       <div class="d-flex gap-3">
         <b-img rounded="circle" src='https://gravatar.com/avatar/f21ce49c84cbcc1afa4c408d997c1949?s=400&d=robohash&r=x' alt="" v-if="data[1] == 'email'" /> 
         <b-img rounded="circle" :src="data[0].profileImage" alt="" v-else /> 
@@ -42,6 +42,7 @@ img{
     height: 40px;
 }
 .preview-list{ 
+    cursor: pointer;
     border-radius: 0 !important; border: none;
         padding-bottom: 0;
     > div{

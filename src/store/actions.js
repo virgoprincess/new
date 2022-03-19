@@ -1,3 +1,4 @@
+import axios from 'axios';
 export default{
     SET_CURRENTMENU(state,payload){
         state.commit("SET_CURRENTMENU",payload);
@@ -5,11 +6,18 @@ export default{
     SETUSER_ACCOUNT(state,payload){
       var profileInfo;
       if( payload !=  null ){
-        profileInfo = {
-          name: payload.getBasicProfile().getName(),
-          imageUrl: payload.getBasicProfile().getImageUrl(),
-          email: payload.getBasicProfile().getEmail(),
-        };
+        if(!payload.newUser)
+        {
+          profileInfo = {
+            name: payload.getBasicProfile().getName(),
+            imageUrl: payload.getBasicProfile().getImageUrl(),
+            email: payload.getBasicProfile().getEmail(),
+            newUser:payload.newUser,
+          };
+        }else
+          profileInfo = payload;
+      }else{
+        state.commit("SET_RESET");
       }
       state.commit("SETUSER_ACCOUNT",profileInfo);
     },
@@ -332,7 +340,7 @@ export default{
                 {"profileInfo":{ "firstName":"Victoria", "lastName":"Lily","jobTitle":"Writer", "profileImage":"https://gravatar.com/avatar/3f5133082b9b3ddfc00fe9d295b53ab7?s=400&d=robohash&r=x" }},
                 {"profileInfo":{ "firstName":"Justin", "lastName":"Mark","jobTitle":"Secretary", "profileImage":"https://gravatar.com/avatar/3f5133082b9b3ddfc00fe9d295b53ab7?s=400&d=robohash&r=x" }},
             ],
-            "messages": [
+            "messages":[
               {
                 "sender_name": "Aurora Violet",
                 "timestamp_ms": 1579137191303,
@@ -345,140 +353,94 @@ export default{
         state.commit("SET_MESSAGES",payload);
     },
 
-    SET_EMAILS(state,payload){
-        payload = [
-          {
-            messages:{
-                type:"1",
-                time:"10:52 AM",
-                profileInfo:{ firstName:"Michael", lastName:"Williams",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/f21ce49c84cbcc1afa4c408d997c1949?s=400&d=robohash&r=x" },
-                messageContent:{
-                    subject:"Scheduling a call with new lead",
-                    message:"Hi there, this is Liam from SparksServices, I saw you signed up for a free trial on our website. Can we set up a time for a phone call to walk through our product?"
-                    },
-                attachments:[
-                    {fileType:"image",fileUrl:'/images/image-file.jpg',firstName:"Sample.jpg"},
-                    {fileType:"image",fileUrl:'/images/image-file-2.jpg',firstName:"Sample.jpg"},
-                    {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:"Literature.pdf",fileSize:"100 MB"},
-                ]
-            }
-        },
-        {
-          messages:{
-              type:"2",
-              time:"10:52 AM",
-              profileInfo:{ firstName:"John", lastName:"Scott",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/f5c3451ebd1abd59a67ad3b41b90b796?s=400&d=robohash&r=x" },
-              messageContent:{
-                  subject:"Following up with a lead who requests a price quote",
-                  message:"Hi, thanks for inquiring about our pricing. We would be happy to offer you an estimate. How many full-time and part-time eployees does your company have?"
-                  },
-              attachments:[
-                  {fileType:"image",fileUrl:'/images/image-file-3.jpg',firstName:"Sample.jpg"},
-                  {fileType:"image",fileUrl:'/images/image-file.jpg',firstName:"Sample.jpg"},
-                  {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:"Design.pdf",fileSize:"11 MB"},
-                  {fileType:"image",fileUrl:'/images/image-file-2.jpg',firstName:"Sample.jpg"},
-              ]
-          }
-        },
-        {
-          messages:{
-              type:"1",
-              time:"10:52 AM",
-              profileInfo:{ firstName:"Hillary", lastName:"Wilson",jobTitle:"Executive", profileImage:"https://avatars.dicebear.com/v2/female/04ffc0c2338bad4bdb2e8661625ce1cc.svg" },
-              messageContent:{
-                  subject:"Thank you text after an initial call",
-                  message:"Hi Joe, thank you for taking the time for a call today. We’re excited to take next steps with you on your home renovation, we’ll check back in a few days once you’ve had some time to crunch the numbers."
-                  },
-              attachments:[
-                  {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:'Mockup.pdf',fileSize:"200 MB"},
-                  {fileType:"image",fileUrl:'/images/image-file-2.jpg',firstName:"Sample.jpg"},
-              ]
-          }
-        },
-        {
-          messages:{
-              type:"2",
-              time:"10:52 AM",
-              profileInfo:{ firstName:"Robert", lastName:"Patt",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/04ffc0c2338bad4bdb2e8661625ce1cc?s=400&d=robohash&r=x" },
-              messageContent:{
-                  subject:"Sending updates through the sales process",
-                  message:"Hi Dylan, we have an update on your custom car order! The interior has been installed and looks 🔥. Next up is the new paint, we’re looking at 4 weeks until all is done and dusted!"
-                  },
-              attachments:[
-                  {fileType:"image",fileUrl:'/images/image-file.jpg',firstName:"Sample.jpg"},
-                  {fileType:"image",fileUrl:'/images/image-file-3.jpg',firstName:"Sample.jpg"},
-                  {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:"Letters.pdf",fileSize:"60 MB"},
-              ]
-          }
-        },
-        {
-          messages:{
-              type:"1",
-              time:"10:52 AM",
-              profileInfo:{ firstName:"Michael", lastName:"Williams",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/f21ce49c84cbcc1afa4c408d997c1949?s=400&d=robohash&r=x" },
-              messageContent:{
-                  subject:"Scheduling a call with new lead",
-                  message:"Hi there, this is Liam from SparksServices, I saw you signed up for a free trial on our website. Can we set up a time for a phone call to walk through our product?"
-                  },
-              attachments:[
-                  {fileType:"image",fileUrl:'/images/image-file.jpg',firstName:"Sample.jpg"},
-                  {fileType:"image",fileUrl:'/images/image-file-2.jpg',firstName:"Sample.jpg"},
-                  {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:"Literature.pdf",fileSize:"100 MB"},
-              ]
-          }
-      },
+    async SET_EMAILS(context){
+      console.log("why its here:::")
+      if( !context.state.userProfile.newUser )
       {
-        messages:{
-            type:"2",
-            time:"10:52 AM",
-            profileInfo:{ firstName:"John", lastName:"Scott",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/f5c3451ebd1abd59a67ad3b41b90b796?s=400&d=robohash&r=x" },
-            messageContent:{
-                subject:"Following up with a lead who requests a price quote",
-                message:"Hi, thanks for inquiring about our pricing. We would be happy to offer you an estimate. How many full-time and part-time eployees does your company have?"
-                },
-            attachments:[
-                {fileType:"image",fileUrl:'/images/image-file-3.jpg',firstName:"Sample.jpg"},
-                {fileType:"image",fileUrl:'/images/image-file.jpg',firstName:"Sample.jpg"},
-                {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:"Design.pdf",fileSize:"11 MB"},
-                {fileType:"image",fileUrl:'/images/image-file-2.jpg',firstName:"Sample.jpg"},
-            ]
+        await axios.get(`https://www.googleapis.com/gmail/v1/users/${context.state.userId}/messages`,{
+        headers:{
+          Authorization:`Bearer ${context.state.accessToken}`
+        },
+        params:{
+          labelIds:'INBOX',
+          includeSpamTrash:false,
+          maxResults:20
         }
-      },
-      {
-        messages:{
-            type:"1",
-            time:"10:52 AM",
-            profileInfo:{ firstName:"Hillary", lastName:"Wilson",jobTitle:"Executive", profileImage:"https://avatars.dicebear.com/v2/female/04ffc0c2338bad4bdb2e8661625ce1cc.svg" },
-            messageContent:{
-                subject:"Thank you text after an initial call",
-                message:"Hi Joe, thank you for taking the time for a call today. We’re excited to take next steps with you on your home renovation, we’ll check back in a few days once you’ve had some time to crunch the numbers."
-                },
-            attachments:[
-                {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:'Mockup.pdf',fileSize:"200 MB"},
-                {fileType:"image",fileUrl:'/images/image-file-2.jpg',firstName:"Sample.jpg"},
-            ]
-        }
-      },
-      {
-        messages:{
-            type:"2",
-            time:"10:52 AM",
-            profileInfo:{ firstName:"Robert", lastName:"Patt",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/04ffc0c2338bad4bdb2e8661625ce1cc?s=400&d=robohash&r=x" },
-            messageContent:{
-                subject:"Sending updates through the sales process",
-                message:"Hi Dylan, we have an update on your custom car order! The interior has been installed and looks 🔥. Next up is the new paint, we’re looking at 4 weeks until all is done and dusted!"
-                },
-            attachments:[
-                {fileType:"image",fileUrl:'/images/image-file.jpg',firstName:"Sample.jpg"},
-                {fileType:"image",fileUrl:'/images/image-file-3.jpg',firstName:"Sample.jpg"},
-                {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:"Letters.pdf",fileSize:"60 MB"},
-            ]
-        }
-      },
-    ];
-        state.commit("SET_EMAILS",payload);
+      })
+        .then((response)=>{
+          context.dispatch("GET_MESSAGEBYID",response)
+        });
+      }
     },
-    SET_CALENDAR(state,payload){
+    async GET_MESSAGEBYID(context, payload){
+      var messages = [];
+      console.log("\nstate:::", context.state,"\nPayload:::",payload)
+      payload.data.messages.forEach(async(email)=>{
+        await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/messages/${email.id}`,
+       {
+         headers:{
+           Authorization:`Bearer ${context.state.accessToken}`
+         }
+       }).then((response)=>{
+          var data = response.data.payload.headers
+          var msgs = {};
+           data.map((res)=>{
+           if(res.name == 'Subject')
+             msgs.subject = res.value;
+           if(res.name == 'Date')
+             {
+               var d =new Date(res.value);
+               msgs.date = d.toLocaleDateString() + " " +d.toLocaleTimeString();
+             }
+           if(res.name == 'From')
+             msgs.from = res.value.split(/</)[0];
+           if(res.name == 'To')
+             msgs.to = res.value;
+             });    
+         msgs.snippet = response.data.snippet;
+         msgs.threadId = response.data.threadId;
+         messages.push(msgs);
+         });
+      });
+      context.commit("SET_EMAILS",messages);
+    },
+    async GET_THREADSBYID(context,payload){
+      var threads = [];
+        /* this.threads.subject = res.subject; */
+        await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/threads/${payload.threadId}`,{
+          headers:{
+            Authorization:  `Bearer ${context.state.accessToken}`
+          }
+        }).then((response)=>{
+          response.data.messages.forEach((message)=>{
+            var thread=[];
+            message.payload.headers.forEach((content)=>{
+              if(content.name == "Date") {
+                var d =new Date(content.value);
+                thread[content.name] = d.toLocaleDateString() + " " +d.toLocaleTimeString();
+              }else if(content.name == "From"){
+                thread[content.name] = content.value.split(/</)[0];
+                  thread["email"] = content.value.split(/</)[1];
+              }else
+              thread[content.name] = content.value;
+            });
+            thread["snippet"] = message.snippet;
+            threads.push(thread);
+          });
+            threads.subject = payload.subject;
+          console.log("Threads:::", threads);
+          context.commit("SET_THREADBYID",threads);
+        });
+    },
+    async SET_CALENDAR(state,payload){
+      await axios.get(`https://www.googleapis.com/calendar/v3`,{
+        headers:{
+          Authorization:  `Bearer ${state.accessToken}`
+        }
+      })
+      .then((response)=>{
+          console.log("Response:::", response)
+      });
       state.commit("SET_CALENDAR",payload);
     },
     SET_CONTACTS(state,payload){
