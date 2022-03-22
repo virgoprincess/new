@@ -1,16 +1,28 @@
 
 <template>
   <div class="canvass">
-    <div class="content">
-      <router-view/>
-    </div>
+    <b-overlay :show="show" rounded="sm">
+      <div class="content">
+        <router-view/>
+      </div>
+    </b-overlay>
   </div>
 </template>
-
 <script>
 
+import { mapGetters } from 'vuex'
 export default {
     name:'MainContainer',
+    /* data(){
+      return{
+        show:true,
+      }
+    }, */
+    computed:{
+      ...mapGetters({
+        show:'GET_LOADER'
+      }),
+    }
 }
 </script>
 
@@ -31,6 +43,9 @@ export default {
     border-left: 1px solid $light-gray;
     >div{
           max-height: 86vh;
+    }
+    b-overlay{
+      overflow: scroll;
     }
   }
 }

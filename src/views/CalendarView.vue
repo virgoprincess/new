@@ -203,7 +203,9 @@
         const max = new Date(`${end.date}T23:59:59`)
         const days = (max.getTime() - min.getTime()) / 86400000
         const eventCount = this.rnd(days, days + 20)
-
+        console.log("Min:::", min, "\nMax:::", max)
+        const params = { "min": min ,"max":max };
+        this.$store.dispatch("SET_EVENTS",params);
         /* console.log("Min Month :::",min.getMonth()+1, "\nMax Month::: ",max.getMonth()+1);
         console.log("Min :::",min.getDate(), "\nMax::: ",max.getDate()); */
 
@@ -222,6 +224,7 @@
             timed: !allDay,
           })
         }
+        console.log("Events:::", events);
         this.events = events
       },
       rnd (a, b) {

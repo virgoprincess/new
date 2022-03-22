@@ -21,6 +21,9 @@ export default{
       state.userProfile = payload;
       payload ? state.isSignedIn = true : state.isSignedIn = false;
    },
+   SET_LOADER(state,payload){
+      state.isLoading = payload;
+   },
    SET_USER_ID(state,payload){
       state.userId = payload;
    },

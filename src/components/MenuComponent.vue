@@ -99,11 +99,10 @@ export default {
     },
     menuClicked(menu){
         (this.menu != menu && this.$route.path != '/'+menu.toLowerCase()) ? this.reroute = true : this.reroute = false;
-        
         this.$store.dispatch("SET_CURRENTMENU",menu);
+        this.$store.commit("SET_LOADER",true);
         this.$store.dispatch("SET_"+menu);
         if( this.reroute ) this.$router.push({path: '/'+menu.toLowerCase()});
-
     }
   },
   computed:{

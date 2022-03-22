@@ -181,21 +181,23 @@ export default {
         },
         async login(){
             try {
+                this.$store.commit("SET_LOADER",true);
                 const googleUser = await this.$gAuth.signIn();
                 this.isSignIn = this.$gAuth.isAuthorized;   
                 /* const access_token = googleUser.getAuthResponse(true).access_token;
                 const basicProfile = googleUser.getBasicProfile(); */
-                console.log("email:::",googleUser.getBasicProfile().getEmail())
                 this.$store.commit("SET_USER_ID",googleUser.getBasicProfile().getEmail());
-                console.log("access token:::",googleUser.getAuthResponse(true).access_token);
                 this.$store.commit("SET_ACCESS_TOKEN",googleUser.getAuthResponse(true).access_token);
                 if(this.isSignIn && googleUser.getAuthResponse(true).access_token) {
                     googleUser.newUser = false;
                     this.$store.dispatch("SETUSER_ACCOUNT",googleUser);
                     this.$router.push({name:'home'}); 
+                }else{
+                    this.$store.commit("SET_LOADER",false);
                 }
             }catch (error) {
                 console.log("Not logged in::",error);
+                this.$store.commit("SET_LOADER",false);
             }
         },
     }

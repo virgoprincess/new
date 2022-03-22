@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
         menu:'DASHBOARD',
+        isLoading:false,
         isSignedIn:false,
         accessToken:'',
         userId:'gladyspepito08@gmail.com',
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         GET_CONTACTS:state => state.contacts,
         GET_STORAGE:state => state.storage,
         GET_SETTINGS:state => state.settings,
+        GET_LOADER:state => state.isLoading,
     },
     mutations:mutations,
     actions:actions,

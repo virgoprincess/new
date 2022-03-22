@@ -20,8 +20,10 @@ export default{
         state.commit("SET_RESET");
       }
       state.commit("SETUSER_ACCOUNT",profileInfo);
+      state.commit("SET_LOADER",false);
     },
     SET_DASHBOARD(state,payload){
+      /* state.commit("SET_LOADER",true); */
         payload = [
                 {
                 messages:{
@@ -90,8 +92,10 @@ export default{
             
         ];
         state.commit("SET_DASHBOARD",payload);
+        state.commit("SET_LOADER",false);
     },
     SET_MESSAGES(state, payload){
+      /* state.commit("SET_LOADER",true); */
         payload = [{
             "pinned":"false",
             "members": [
@@ -351,12 +355,13 @@ export default{
         },
         ];
         state.commit("SET_MESSAGES",payload);
+        state.commit("SET_LOADER",false);
     },
 
     async SET_EMAILS(context){
-      console.log("why its here:::")
       if( !context.state.userProfile.newUser )
       {
+        /* context.commit("SET_LOADER",true); */
         await axios.get(`https://www.googleapis.com/gmail/v1/users/${context.state.userId}/messages`,{
         headers:{
           Authorization:`Bearer ${context.state.accessToken}`
@@ -400,13 +405,15 @@ export default{
          msgs.snippet = response.data.snippet;
          msgs.threadId = response.data.threadId;
          messages.push(msgs);
+        context.commit("SET_LOADER",false);
          });
       });
       context.commit("SET_EMAILS",messages);
     },
     async GET_THREADSBYID(context,payload){
       var threads = [];
-        /* this.threads.subject = res.subject; */
+
+        context.commit("SET_LOADER",true);
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/threads/${payload.threadId}`,{
           headers:{
             Authorization:  `Bearer ${context.state.accessToken}`
@@ -428,28 +435,60 @@ export default{
             threads.push(thread);
           });
             threads.subject = payload.subject;
-          console.log("Threads:::", threads);
           context.commit("SET_THREADBYID",threads);
+          context.commit("SET_LOADER",false);
         });
     },
-    async SET_CALENDAR(state,payload){
-      await axios.get(`https://www.googleapis.com/calendar/v3`,{
+    async SET_CALENDAR(context,payload){
+      await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{
         headers:{
-          Authorization:  `Bearer ${state.accessToken}`
+          Authorization:  `Bearer ${context.state.accessToken}`
+        },
+        params:{
+          timeMin: '2021-01-01T10:00:00-07:00'
         }
       })
       .then((response)=>{
           console.log("Response:::", response)
+          context.commit("SET_LOADER",false);
       });
-      state.commit("SET_CALENDAR",payload);
+      context.commit("SET_CALENDAR",payload);
+      context.commit("SET_LOADER",false);
     },
-    SET_CONTACTS(state,payload){
-      state.commit("SET_CONTACTS",payload);
+    async SET_EVENTS(context,payload){
+      await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{
+        headers:{
+          Authorization:  `Bearer ${context.state.accessToken}`
+        },
+        params:{
+          timeMin: payload.min,
+          timeMax: payload.max,
+        }
+      })
+      .then((response)=>{
+          console.log("Response:::", response)
+          context.commit("SET_LOADER",false);
+      });
+      context.commit("SET_CALENDAR",payload);
+      context.commit("SET_LOADER",false);
+    },
+    async SET_CONTACTS(context,payload){
+      await axios.get(`https://people.googleapis.com/v1/contactGroups`,{
+        headers:{
+          Authorization: `Bearer ${context.state.accessToken}`
+        }
+      }).then((response)=>{
+        console.log("Response:::", response);
+      });
+      context.commit("SET_CONTACTS",payload);
+      context.commit("SET_LOADER",false);
     },
     SET_STORAGE(state,payload){
       state.commit("SET_STORAGE",payload);
+      state.commit("SET_LOADER",false);
     },
     SET_SETTINGS(state,payload){
       state.commit("SET_SETTINGS",payload);
+      state.commit("SET_LOADER",false); 
     },
 }
