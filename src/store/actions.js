@@ -456,6 +456,7 @@ export default{
       context.commit("SET_LOADER",false);
     },
     async SET_EVENTS(context,payload){
+      var calendarEvents = []
       await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{
         headers:{
           Authorization:  `Bearer ${context.state.accessToken}`
@@ -466,19 +467,33 @@ export default{
         }
       })
       .then((response)=>{
-          console.log("Response:::", response)
+          console.log("SET EVENTS RESULTS:::", response)
+          response.data.items.forEach((event)=>{
+              var calEvent = [];
+              calEvent.name = event.summary;
+              calEvent.details = event.description;
+              calEvent.start = event.start.date ? new Date(event.start.date) : new Date(event.start.dateTime);
+              calEvent.end = event.end.date ? new Date(event.end.date) : new Date(event.end.dateTime);
+              calEvent.color = 'pink';
+              calEvent.timed = true;
+              calendarEvents.push(calEvent);
+          });
           context.commit("SET_LOADER",false);
       });
-      context.commit("SET_CALENDAR",payload);
+      context.commit("SET_CALENDAR",calendarEvents);
       context.commit("SET_LOADER",false);
     },
     async SET_CONTACTS(context,payload){
-      await axios.get(`https://people.googleapis.com/v1/contactGroups`,{
+      /* https://people.googleapis.com/v1/otherContacts?readMask=names,emailAddresses,phoneNumbers */
+      /* https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos */
+      await axios.get(`https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos,locations,calendarUrls`,{
         headers:{
           Authorization: `Bearer ${context.state.accessToken}`
         }
       }).then((response)=>{
-        console.log("Response:::", response);
+        var internalContacts =[];
+        
+        /* console.log("Contacts:::", response); */
       });
       context.commit("SET_CONTACTS",payload);
       context.commit("SET_LOADER",false);

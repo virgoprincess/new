@@ -43,7 +43,7 @@ export default{
       state.emails = payload;
    },
    SET_CALENDAR(state,payload){
-      state.calendar = payload;
+      state.calendarEvents = payload;
    },
    SET_CONTACTS(state,payload){
       state.contacts = payload;

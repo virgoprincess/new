@@ -81,6 +81,7 @@
           v-model="focus"
           color="black"
           :type="type"
+          :events="events"
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
@@ -138,6 +139,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
   export default {
     data: () => ({
       monthValue:'',
@@ -152,12 +154,11 @@
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
-      events: [],
       colors: [],
       names: [],
     }),
     mounted () {
-      this.$refs.calendar.checkChange()
+      this.$refs.calendar.checkChange();
     },
     methods: {
       dateClass(ymd, date) {
@@ -193,7 +194,6 @@
         } else {
           open()
         }
-
         nativeEvent.stopPropagation()
       },
       updateRange ({ start, end }) {
@@ -209,13 +209,13 @@
         /* console.log("Min Month :::",min.getMonth()+1, "\nMax Month::: ",max.getMonth()+1);
         console.log("Min :::",min.getDate(), "\nMax::: ",max.getDate()); */
 
-        for (let i = 0; i < eventCount; i++) {
+        /* for (let i = 0; i < eventCount; i++) {
           const allDay = this.rnd(0, 3) === 0
           const firstTimestamp = this.rnd(min.getTime(), max.getTime())
           const first = new Date(firstTimestamp - (firstTimestamp % 900000))
           const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
           const second = new Date(first.getTime() + secondTimestamp)
-
+  
           events.push({
             name: this.names[this.rnd(0, this.names.length - 1)],
             start: first,
@@ -223,14 +223,53 @@
             color: this.colors[this.rnd(0, this.colors.length - 1)],
             timed: !allDay,
           })
-        }
-        console.log("Events:::", events);
-        this.events = events
+        } */
+
+        /* var date1 = new Date("Sun Mar 20 2022 05:30:00 GMT+0800 (Philippine Standard Time)");
+        var date2 = new Date("Sun Mar 20 2022 07:30:00 GMT+0800 (Philippine Standard Time)");
+        var date3 = new Date("Wed Mar 23 2022 07:30:00 GMT+0800 (Philippine Standard Time)");
+        var date4 = new Date("Wed Mar 23 2022 09:15:00 GMT+0800 (Philippine Standard Time)");
+        var date5 = new Date("Sat Mar 24 2022 10:15:00 GMT+0800 (Philippine Standard Time)");
+        var date6 = new Date("Sat Mar 24 2022 11:15:00 GMT+0800 (Philippine Standard Time)");
+
+        var newEvents = [
+            {
+              name:"My Birthday",
+              details:"This is my fake birthday not really my real one",
+              start:date1,
+              end:date2,
+              color:'orange',
+              timed:true,
+            },
+            {
+              name:"This is my exam",
+              details:"Nothing here actually",
+              start:date3,
+              end:date4,
+              color:'pink',
+              timed:true,
+            },
+            {
+              name:"This is another event yow",
+              details:"Sample event",
+              start:date5,
+              end:date6,
+              color:'indigo',
+              timed:true,
+            },
+          ];
+        this.events = newEvents */
+        console.log("This events::", events)
       },
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
     },
+    computed:{
+      ...mapGetters({
+        events:'GET_CALENDAREVENTS',
+      })
+    }
   }
 </script>
 
