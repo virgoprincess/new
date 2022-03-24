@@ -34,26 +34,7 @@
           <v-toolbar-title v-if="$refs.calendar">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
-         <!--  <v-spacer></v-spacer> -->
-          <!-- <v-menu
-            bottom
-            right
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                outlined
-                color="grey darken-2"
-                v-bind="attrs"
-                v-on="on"
-              >
-                <span>{{ typeToLabel[type] }}</span>
-                <v-icon right>
-                  mdi-menu-down
-                </v-icon>
-              </v-btn>
-            </template>
-          </v-menu> -->
-        </v-toolbar>
+          </v-toolbar>
       </v-sheet>
       <v-sheet>
         <v-calendar
@@ -69,7 +50,7 @@
     </v-col>
   </v-row>
   <hr>
-  <events-components/>
+  <events-components :selected-date="currentDate"/>
   </div>
 </template>
 
@@ -94,6 +75,7 @@ export default {
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       hide:false,
+      currentDate:new Date(),
         }
     },
     mounted(){
@@ -101,9 +83,11 @@ export default {
     },
     methods: {
       viewDay ({ date }) {
-        console.log("Date:",date);
         this.focus = date
         this.type = 'week'
+        
+        console.log("Date today:::",date)
+        if( date ) this.currentDate = new Date(date);
       },
       getEventColor (event) {
         return event.color
@@ -137,8 +121,8 @@ export default {
       }, */
       updateRange ({ start, end }) {
         this.hide = true;
-        const events = []
-
+        const events = [];
+        this.currentDate = new Date(this.$refs.calendar.getNow().date);
         const min = new Date(`${start.date}T00:00:00`)
         const max = new Date(`${end.date}T23:59:59`)
         const days = (max.getTime() - min.getTime()) / 86400000
@@ -159,7 +143,6 @@ export default {
             timed: !allDay,
           })
         }
-
         this.events = events
       },
       rnd (a, b) {

@@ -440,7 +440,7 @@ export default{
         });
     },
     async SET_CALENDAR(context,payload){
-      await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{
+      /* await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{
         headers:{
           Authorization:  `Bearer ${context.state.accessToken}`
         },
@@ -452,10 +452,11 @@ export default{
           console.log("Response:::", response)
           context.commit("SET_LOADER",false);
       });
-      context.commit("SET_CALENDAR",payload);
+      context.commit("SET_CALENDAR",payload); */
       context.commit("SET_LOADER",false);
     },
     async SET_EVENTS(context,payload){
+      console.log("Action.js::: SET_EVENTS::",payload);
       var calendarEvents = []
       await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{
         headers:{
