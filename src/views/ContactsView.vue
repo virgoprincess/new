@@ -177,8 +177,8 @@ export default {
     width:100%;
     padding: 40px;
     img{
-    width: 34px;
-    height: 34px;
+        width: 34px;
+        height: 34px;
     }
     .contact-lists{ max-height: 67vh; }
     .contact-lists table{

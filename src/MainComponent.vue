@@ -35,7 +35,6 @@ export default {
       this.removeSessionTracker();
     },
     methods:{
-      
         async handleInactive(){
           try {
                 const result = await this.$gAuth.signOut();
