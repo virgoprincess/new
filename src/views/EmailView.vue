@@ -20,8 +20,9 @@
                 </div>
             </div>
             <div class="email-content" v-if="threads">
-              <h3>{{threads.subject}}</h3>
               <div class="thread" v-for="(thread,i) in threads" :key="i">
+                
+                  <h3>{{thread.Subject}}</h3>
                 <div class="d-flex justify-content-between">
                   <p class="thread-name">{{thread.From}}</p>
                   <p class="thread-date">{{thread.Date}}</p>

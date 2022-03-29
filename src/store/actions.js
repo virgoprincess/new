@@ -23,7 +23,6 @@ export default{
       state.commit("SET_LOADER",false);
     },
     SET_DASHBOARD(state,payload){
-      /* state.commit("SET_LOADER",true); */
         payload = [
                 {
                 messages:{
@@ -95,7 +94,6 @@ export default{
         state.commit("SET_LOADER",false);
     },
     SET_MESSAGES(state, payload){
-      /* state.commit("SET_LOADER",true); */
         payload = [{
             "pinned":"false",
             "members": [
@@ -361,7 +359,6 @@ export default{
     async SET_EMAILS(context){
       if( !context.state.userProfile.newUser )
       {
-        /* context.commit("SET_LOADER",true); */
         await axios.get(`https://www.googleapis.com/gmail/v1/users/${context.state.userId}/messages`,{
         headers:{
           Authorization:`Bearer ${context.state.accessToken}`
@@ -379,7 +376,6 @@ export default{
     },
     async GET_MESSAGEBYID(context, payload){
       var messages = [];
-      console.log("\nstate:::", context.state,"\nPayload:::",payload)
       payload.data.messages.forEach(async(email)=>{
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/messages/${email.id}`,
        {
@@ -391,7 +387,7 @@ export default{
           var msgs = {};
            data.map((res)=>{
            if(res.name == 'Subject')
-             msgs.subject = res.value;
+             msgs.subject = res.value.length > 15 ? res.value.slice(0,20) + '...' : res.value;
            if(res.name == 'Date')
              {
                var d =new Date(res.value);
@@ -402,7 +398,7 @@ export default{
            if(res.name == 'To')
              msgs.to = res.value;
              });    
-         msgs.snippet = response.data.snippet;
+         msgs.snippet = response.data.snippet.length > 30 ? response.data.snippet.slice(0,30) + "..." : response.data.snippet ;
          msgs.threadId = response.data.threadId;
          messages.push(msgs);
         context.commit("SET_LOADER",false);
@@ -428,8 +424,8 @@ export default{
               }else if(content.name == "From"){
                 thread[content.name] = content.value.split(/</)[0];
                   thread["email"] = content.value.split(/</)[1];
-              }else
-              thread[content.name] = content.value;
+              }else if(content.name == 'Subject')
+                thread[content.name] = content.value;
             });
             thread["snippet"] = message.snippet;
             threads.push(thread);
@@ -456,7 +452,6 @@ export default{
       context.commit("SET_LOADER",false);
     },
     async SET_EVENTS(context,payload){
-      console.log("Action.js::: SET_EVENTS::",payload);
       var calendarEvents = []
       await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{
         headers:{
@@ -468,7 +463,6 @@ export default{
         }
       })
       .then((response)=>{
-          console.log("SET EVENTS RESULTS:::", response)
           response.data.items.forEach((event)=>{
               var calEvent = [];
               calEvent.name = event.summary;
@@ -499,9 +493,52 @@ export default{
       context.commit("SET_CONTACTS",payload);
       context.commit("SET_LOADER",false);
     },
-    SET_STORAGE(state,payload){
-      state.commit("SET_STORAGE",payload);
-      state.commit("SET_LOADER",false);
+    async SET_STORAGE(context,payload){
+      await axios.get(`https://www.googleapis.com/drive/v3/files`,{
+        headers:{
+          Authorization: `Bearer ${context.state.accessToken}`
+        },
+        params:{
+          pageSize: 100,
+          trashed:false,
+          fields:'*',
+          q:"mimeType = 'video/mp4' or mimeType = 'image/jpeg' or mimeType contains 'application/vnd.google-apps.document'",
+        }
+      }).then((response)=>{
+        /* context.state.storage.nextPageToken = response.nextPageToken; */
+        payload = response.data.files.map((file)=>{
+          var newFile = [];
+          var date = new Date(file.modifiedTime)
+          newFile.modifiedTime = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+          newFile.thumbnailLink = file.thumbnailLink;
+          newFile.ownedByMe = file.ownedByMe;
+          newFile.owners = file.owners;
+          newFile.originalFilename = file.originalFilename;
+          
+          var computedSize = file.size/1024/1024;
+          var ext = 'MB';
+
+          if(computedSize > 1000)
+            {
+              computedSize = computedSize / 1000;
+              if(computedSize < 1000)
+                ext = 'GB';
+              else
+              {
+                computedSize = computedSize /1000;
+                ext = 'TB';
+              }
+            }
+          newFile.size = computedSize.toFixed(2).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+          newFile.sizeExt = ext;
+          newFile.fileType = file.mimeType.split('/')[0];
+          return newFile;
+        })
+        payload.nextPageToken = response.data.nextPageToken;
+      });
+      console.log("PAYLOAD::",payload);
+      context.commit("SET_STORAGE",payload);
+      context.commit("SET_LOADER",false);
     },
     SET_SETTINGS(state,payload){
       state.commit("SET_SETTINGS",payload);

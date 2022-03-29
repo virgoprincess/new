@@ -59,14 +59,14 @@
               <td>
                 <b-img
                   rounded
-                  :src="require('@/assets/icons/man.jpg')"
+                  :src="file.thumbnailLink"
                   alt=""
                 />
               </td>
-              <td class="fw-700">{{ file.name }}</td>
-              <td>{{ file.owner }}</td>
-              <td>{{ file.lastModified }}</td>
-              <td>{{ file.fileSize }}</td>
+              <td class="fw-700">{{ file.originalFilename}}</td>
+              <td>{{ file.ownedByMe ? 'Me' : 'Other' }}</td>
+              <td>{{ file.modifiedTime }}</td>
+              <td>{{ file.size + ' ' + file.sizeExt }}</td>
               <td class="shared-width">
                 <b-img
                   rounded="circle"
@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: "StorageComponent",
   data() {
@@ -171,56 +172,56 @@ export default {
           fileSize: "20 MB",
         },
       ],
-      files: [
+      /* files: [
         {
-          name: "Design file.ai",
-          owner: "Me",
-          lastModified: "Aug 20, 2021 me",
-          fileSize: "63 MB",
+          originalFilename: "Design file.ai",
+          ownedByMe: true,
+          modifiedTime: "Aug 20, 2021 me",
+          size: "63 MB",
         },
         {
-          name: "Logo mockups for Company",
-          owner: "Me",
-          lastModified: "Jul 12, 2021 me",
-          fileSize: "12 MB",
+          originalFilename: "Logo mockups for Company",
+          ownedByMe: true,
+          modifiedTime: "Jul 12, 2021 me",
+          size: "12 MB",
         },
         {
-          name: "Sketches.png",
-          owner: "Me",
-          lastModified: "Mar 05, 2021 Heather",
-          fileSize: "39 MB",
+          originalFilename: "Sketches.png",
+          ownedByMe: true,
+          modifiedTime: "Mar 05, 2021 Heather",
+          size: "39 MB",
         },
         {
-          name: "IMG3902.jpg",
-          owner: "Me",
-          lastModified: "Aug 20, 2021 me",
-          fileSize: "63 MB",
+          originalFilename: "IMG3902.jpg",
+          ownedByMe: true,
+          modifiedTime: "Aug 20, 2021 me",
+          size: "63 MB",
         },
         {
-          name: "Design file.ai",
-          owner: "Me",
-          lastModified: "Aug 20, 2021 me",
-          fileSize: "63 MB",
+          originalFilename: "Design file.ai",
+          ownedByMe: true,
+          modifiedTime: "Aug 20, 2021 me",
+          size: "63 MB",
         },
           {
-          name: "Sketches.png",
-          owner: "Me",
-          lastModified: "Mar 05, 2021 Heather",
-          fileSize: "39 MB",
+          originalFilename: "Sketches.png",
+          ownedByMe: true,
+          modifiedTime: "Mar 05, 2021 Heather",
+          size: "39 MB",
         },
         {
-          name: "IMG3902.jpg",
-          owner: "Me",
-          lastModified: "Aug 20, 2021 me",
-          fileSize: "63 MB",
+          originalFilename: "IMG3902.jpg",
+          ownedByMe: true,
+          modifiedTime: "Aug 20, 2021 me",
+          size: "63 MB",
         },
         {
-          name: "Design file.ai",
-          owner: "Me",
-          lastModified: "Aug 20, 2021 me",
-          fileSize: "63 MB",
+          originalFilename: "Design file.ai",
+          ownedByMe: true,
+          modifiedTime: "Aug 20, 2021 me",
+          size: "63 MB",
         },
-      ],
+      ], */
     };
   },
   mounted(){
@@ -231,6 +232,9 @@ export default {
       this.progressWidth = 'width:' +(this.progressVal / this.progressMaxVal) * 100 + '%';
       console.log("ProgressWidth::", this.progressWidth);
     }
+  },
+  computed:{
+    ...mapGetters({files:'GET_STORAGE'})
   }
 };
 </script>
@@ -243,7 +247,7 @@ export default {
 }
 .left-section{
   padding-top: 20px;
-  width: 60%;
+  width: 70%;
   margin: auto;
   .tabletable-bordered{ width: 100%; }
   p{margin-bottom:0}
@@ -262,7 +266,7 @@ export default {
     padding: 0 20px;
     .progressbar{
       p{ text-align: right; font-size: 12px; color: $gray; font-weight: 500;}
-  }
+    }
   }
   .file-summary{
     width: 100%;

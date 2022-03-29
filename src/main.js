@@ -19,7 +19,7 @@ const gauthOption = {
   clientId: '297577095455-7fjh38cdku1b866cokcssdskfuk55e7e.apps.googleusercontent.com',
   /* 297577095455-7fjh38cdku1b866cokcssdskfuk55e7e.apps.googleusercontent.com --for github*/
   /* 297577095455-hqdgjabkt1uh7ckdnaagpol7fe3tbal5.apps.googleusercontent.com --for local */
-  scope: 'profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts.readonly https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/contacts.other.readonly',
+  scope: 'profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts.readonly https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/contacts.other.readonly https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file',
   discoverdocs:['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest', 'https://www.googleapis.com/discovery/v1/apis/people/v1/rest'],
   prompt: 'consent',
   fetch_basic_profile: true,

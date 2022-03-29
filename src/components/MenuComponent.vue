@@ -161,6 +161,7 @@ export default {
     }
     ul,
     li {
+      cursor: pointer;
       list-style-type: none;
       margin: 0;
       padding: 0;
