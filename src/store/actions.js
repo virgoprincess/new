@@ -415,6 +415,7 @@ export default{
             Authorization:  `Bearer ${context.state.accessToken}`
           }
         }).then((response)=>{
+          console.log("THREADS::::",response)
           response.data.messages.forEach((message)=>{
             var thread=[];
             message.payload.headers.forEach((content)=>{
@@ -423,14 +424,47 @@ export default{
                 thread[content.name] = d.toLocaleDateString() + " " +d.toLocaleTimeString();
               }else if(content.name == "From"){
                 thread[content.name] = content.value.split(/</)[0];
-                  thread["email"] = content.value.split(/</)[1];
+                  thread.email = content.value.split(/</)[1];
               }else if(content.name == 'Subject')
                 thread[content.name] = content.value;
             });
-            thread["snippet"] = message.snippet;
-            threads.push(thread);
+             
+/* var content = message.payload.parts ? decodeURIComponent(escape(atob(message.payload.parts[0].body.data.split(".")[1]))) : message.snippet; */
+                var result = '';
+                var content = [];
+                var padding = '';
+                var base64Content = '';
+                var data = '';
+              /* btoa(unescape(encodeURIComponent(s))) */
+              /* decodeURIComponent(escape(atob(content))) */
+
+              if(message.payload.parts){
+                /* message.payload.parts.forEach((part)=>{ */
+                  console.log("First Condition:::");
+                  data =  message.payload.parts.length > 1 ? message.payload.parts[1].body.data : message.payload.parts[0].body.data;
+                  if( data != undefined ){
+                  padding = '='.repeat((4 - data.length % 4) % 4);
+                  base64Content = decodeURIComponent(escape((window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/')))));
+                  content.push({"data":base64Content,"mimeType":message.payload.parts.length > 1 ? message.payload.parts[1].mimeType : message.payload.parts[0].mimeType});
+                  }
+
+                /* }); */
+              } else {
+                console.log("Second Condition:::");
+                  data  = message.payload.body.data;
+                  if( data != undefined ){
+                    padding = '='.repeat((4 - data.length % 4) % 4);
+                    base64Content = decodeURIComponent(escape(window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/'))));
+                    content.push({"data":base64Content,"mimeType":message.payload.body.mimeType});
+                  }
+              }
+              thread.content = content;
+              thread.snippet = message.snippet;
+              console.log("Decoded Thread Body::::", thread);
+              threads.push(thread);
           });
-            threads.subject = payload.subject;
+          threads.subject = payload.subject;
+          
           context.commit("SET_THREADBYID",threads);
           context.commit("SET_LOADER",false);
         });
@@ -487,7 +521,6 @@ export default{
         }
       }).then((response)=>{
         var internalContacts =[];
-        
         /* console.log("Contacts:::", response); */
       });
       context.commit("SET_CONTACTS",payload);
@@ -499,7 +532,7 @@ export default{
           Authorization: `Bearer ${context.state.accessToken}`
         },
         params:{
-          pageSize: 100,
+          pageSize: 200,
           trashed:false,
           fields:'*',
           q:"mimeType = 'video/mp4' or mimeType = 'image/jpeg' or mimeType contains 'application/vnd.google-apps.document'",
@@ -508,12 +541,14 @@ export default{
         /* context.state.storage.nextPageToken = response.nextPageToken; */
         payload = response.data.files.map((file)=>{
           var newFile = [];
-          var date = new Date(file.modifiedTime)
+          var date = new Date(file.modifiedTime);
+
           newFile.modifiedTime = date.toLocaleDateString() + " " + date.toLocaleTimeString();
           newFile.thumbnailLink = file.thumbnailLink;
           newFile.ownedByMe = file.ownedByMe;
           newFile.owners = file.owners;
           newFile.originalFilename = file.originalFilename;
+          newFile.permissions = file.permissions;
           
           var computedSize = file.size/1024/1024;
           var ext = 'MB';
@@ -533,10 +568,11 @@ export default{
           newFile.sizeExt = ext;
           newFile.fileType = file.mimeType.split('/')[0];
           return newFile;
-        })
+        });
+
         payload.nextPageToken = response.data.nextPageToken;
       });
-      console.log("PAYLOAD::",payload);
+      console.log("storage:::::",payload);
       context.commit("SET_STORAGE",payload);
       context.commit("SET_LOADER",false);
     },

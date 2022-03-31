@@ -53,7 +53,7 @@
         <ul>
           <b-img
             class="logo"
-            :src="require('@/assets/icons/logo.png')"
+            :src="require('@/assets/images/Sphyr-01.svg')"
             alt="Left image"
           ></b-img>
           <li @click="menuClicked('DASHBOARD')" :class="menu == 'DASHBOARD'? 'menu-active': 'menu-inactive'"><b-icon-app></b-icon-app></li>

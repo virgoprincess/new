@@ -27,7 +27,12 @@
                   <p class="thread-name">{{thread.From}}</p>
                   <p class="thread-date">{{thread.Date}}</p>
                 </div>
-                <p>{{thread.snippet}}</p>
+
+                <div v-for="(part,i) in thread.content" :key="i">
+                  <!-- <div v-if="part.mimeType == 'text/plain'">{{ part.data }}</div> -->
+                  <div v-html="'<div>'+part.data+'</div>'"></div>
+                </div>
+
               </div>
               <div></div>
             </div>
@@ -126,6 +131,7 @@ export default {
               width: 41%;
               position:fixed;
               border-bottom: 1px solid $light-gray;
+              background-color: $background-color;
               padding: 40px 20px 20px 20px;
               svg{
                   color: $dark-gray;

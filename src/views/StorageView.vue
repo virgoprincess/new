@@ -4,16 +4,16 @@
       <h5>Recently Viewed</h5>
       <div class="d-flex gap-3">
         <b-card
-          img-src="https://picsum.photos/600/300/?image=25"
+          :img-src="file.thumbnailLink ? file.thumbnailLink : 'https://picsum.photos/600/300/?image=25'"
           img-alt="Image"
           img-top
           tag="article"
           style="max-width: 20rem"
           class="mb-2"
-          v-for="(file, i) in recentlyViewed"
+          v-for="(file, i) in files.slice(0,4)"
           :key="i"
         >
-          <b-card-text class="d-flex justify-content-between align-items-center">
+          <div class="d-flex justify-content-between align-items-center">
             <div>
               <b-icon-file-earmark-medical-fill
                 v-show="file.fileType == 'file'"
@@ -24,10 +24,10 @@
               <b-icon-image-fill
                 v-show="file.fileType == 'image'"
               ></b-icon-image-fill>
-              <span class="fs-12 fw-700 pl-1">{{ file.fileName }}</span>
+              <span class="fs-12 fw-700 pl-1">{{ file.originalFilename }}</span>
             </div>
-            <p class="fs-9 fw-600">{{ file.fileSize }}</p>
-          </b-card-text>
+            <span class="fs-9 fw-700">{{ file.size}} {{ file.sizeExt }}</span>
+          </div>
         </b-card>
       </div>
 
@@ -64,23 +64,18 @@
                 />
               </td>
               <td class="fw-700">{{ file.originalFilename}}</td>
-              <td>{{ file.ownedByMe ? 'Me' : 'Other' }}</td>
+              <td>
+                <!-- {{ file.ownedByMe ? 'Me' : 'Other' }} -->
+                  <div v-for="(owner,i) in file.owners" :key="i">
+                      {{ owner.me ? 'Me' : owner.displayName }}
+                  </div>
+              </td>
               <td>{{ file.modifiedTime }}</td>
               <td>{{ file.size + ' ' + file.sizeExt }}</td>
               <td class="shared-width">
-                <b-img
+                <b-img v-for="(share,i) in file.permissions" :key="i"
                   rounded="circle"
-                  :src="require('@/assets/icons/man.jpg')"
-                  alt=""
-                />
-                <b-img
-                  rounded="circle"
-                  :src="require('@/assets/icons/man.jpg')"
-                  alt=""
-                />
-                <b-img
-                  rounded="circle"
-                  :src="require('@/assets/icons/man.jpg')"
+                  :src="share.photoLink"
                   alt=""
                 />
               </td>
@@ -91,15 +86,17 @@
     </div>
 
     <div class="right-section">
+
         <div class="file-storage-details">
           <h5>File Storage</h5>
           <div class="progressbar">
             <div class="progress mb-3">
-            <div role="progressbar" class="progress-bar" aria-valuemin="0" :aria-valuemax="progressMaxVal" :aria-valuenow="progressVal" :style="progressWidth"></div>
+              <div role="progressbar" class="progress-bar" aria-valuemin="0" :aria-valuemax="progressMaxVal" :aria-valuenow="progressVal" :style="progressWidth"></div>
             </div>
             <p>{{progressVal}} of {{progressMaxVal}} mb</p>
           </div>
         </div>
+
         <div class="file-summary">
             <div>
               <b-icon-file-earmark-medical-fill></b-icon-file-earmark-medical-fill>
@@ -150,7 +147,7 @@ export default {
       progressMaxVal:'30',
       progressWidth:'width: 0%',
       file:null,
-      recentlyViewed: [
+      recentlyViewed:[
         {
           fileType: "file",
           fileName: "Project",
@@ -391,4 +388,8 @@ th {
     text-align: center;
     padding: 50px 0;
   }
+  .card-body > div{ 
+    gap:10px;
+    > span{ color: $gray; }
+    }
 </style>

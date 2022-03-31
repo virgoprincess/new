@@ -227,13 +227,12 @@ import { mapGetters } from 'vuex'
         nativeEvent.stopPropagation()
       },
       updateRange ({ start, end }) {
-        const events = []
-
+        const events = [];
         const min = new Date(`${start.date}T00:00:00`)
         const max = new Date(`${end.date}T23:59:59`)
         const days = (max.getTime() - min.getTime()) / 86400000
         const eventCount = this.rnd(days, days + 20)
-        console.log("Min:::", min, "\nMax:::", max)
+        /* console.log("Min:::", min, "\nMax:::", max) */
         const params = { "min": min ,"max":max };
         this.$store.dispatch("SET_EVENTS",params);
         /* console.log("Min Month :::",min.getMonth()+1, "\nMax Month::: ",max.getMonth()+1);
