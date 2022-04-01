@@ -2,7 +2,7 @@
   <div id="login-page">
 
      <div class="login-section">
-         <b-img :src="require('@/assets/images/sphyr-logo.png')"></b-img>
+         <b-img class="login-logo" :src="require('@/assets/images/sphyr-01.svg')"></b-img>
          
          <div class="login-form">
             <h2>Sign up</h2>
@@ -210,6 +210,10 @@ export default {
     width: 100%;
     height: 100vh;
     position: relative;
+    .login-logo{
+        width: 100px;
+        height: 61px;
+    }
     .login-section,.image-section{
         width: 50%;
         padding: 20px;

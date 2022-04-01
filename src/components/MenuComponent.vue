@@ -53,7 +53,7 @@
         <ul>
           <b-img
             class="logo"
-            :src="require('@/assets/images/Sphyr-01.svg')"
+            :src="require('@/assets/images/sphyr-logo2.png')"
             alt="Left image"
           ></b-img>
           <li @click="menuClicked('DASHBOARD')" :class="menu == 'DASHBOARD'? 'menu-active': 'menu-inactive'"><b-icon-app></b-icon-app></li>
@@ -197,7 +197,7 @@ export default {
     color: $dark-gray;
   }
 }
-.logo,
+.logo{ width: 45px; }
 .profile img {
   width: 33px;
   margin-right:10px;
