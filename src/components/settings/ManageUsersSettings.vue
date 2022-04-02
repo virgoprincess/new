@@ -3,10 +3,10 @@
     <b-container fluid class="manage-users-form" >
         <b-row>
           <b-col cols="3">
-            <h5>Overview</h5>
+            <h5>Users</h5>
           </b-col>
           <b-col class="align-right">
-            <b-btn >Send Invite</b-btn>
+            <b-btn class="btn-fit">Send Invite</b-btn>
           </b-col>
         </b-row>
         
@@ -25,7 +25,7 @@
             <tr v-for="(member, i) in members" :key="i">
               <td>
                 <b-img
-                  class="logo"
+                  class="logo mr-3"
                   rounded="circle"
                   :src="require('@/assets/images/image-file-3.jpg')"
                   alt="Left image"
@@ -66,9 +66,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .manage-users-settings{
-  padding: 30px 50px;
-  max-height: 86vh;
-  .search-member{
+  /* padding: 30px 50px; */
+  max-height: 77vh;
+  /* .search-member{
     border: 1px solid $light-gray;
     padding-left: 5px;
     background-color: white;
@@ -85,17 +85,14 @@ export default {
     input::placeholder{
       font-style: normal;
     }
-  }
+  } */
   .btn-add{ width: 50px;background-color: #fff; border-color:$light-gray; height:45px;}
   .members-list{ max-height: 70vh;}
-  .tabletable-bordered{ width: 100%; }
+/*   .tabletable-bordered{ width: 100%; }
   
   table {
   border-collapse: separate;
   border-spacing: 0 15px;
-  }
-  td {
-    @extend .fs-14;
   }
   th,
   td {
@@ -112,6 +109,6 @@ export default {
     position: -webkit-sticky;
     background-color: $background-color;
     top: 0;
-  }
+  } */
 }
 </style>

@@ -532,7 +532,7 @@ export default{
           Authorization: `Bearer ${context.state.accessToken}`
         },
         params:{
-          pageSize: 200,
+          pageSize: 20,
           trashed:false,
           fields:'*',
           q:"mimeType = 'video/mp4' or mimeType = 'image/jpeg' or mimeType contains 'application/vnd.google-apps.document'",
@@ -547,7 +547,7 @@ export default{
           newFile.thumbnailLink = file.thumbnailLink;
           newFile.ownedByMe = file.ownedByMe;
           newFile.owners = file.owners;
-          newFile.originalFilename = file.originalFilename;
+          newFile.originalFilename = file.originalFilename ? file.originalFilename.length > 15 ? file.originalFilename.slice(0,15) + '...' : file.originalFilename : file.originalFilename;
           newFile.permissions = file.permissions;
           
           var computedSize = file.size/1024/1024;

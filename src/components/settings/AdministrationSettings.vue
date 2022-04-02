@@ -6,7 +6,7 @@
             <h5>Settings</h5>
           </b-col>
           <b-col class="align-right">
-            <b-btn >Save</b-btn>
+            <b-btn class="btn-save">Save</b-btn>
           </b-col>
         </b-row>
         <b-row class="justify-content-between align-items-baseline">
@@ -57,13 +57,18 @@
 </template>
 <script>
 export default {
-  name:'AdministrationSettings'
+  name:'AdministrationSettings',
+  data(){
+    return{
+      selected:'',
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
 .administration-settings::v-deep{
-  max-height: 86vh;
-  padding: 30px 50px;
+  max-height: 77vh;
+  /* padding: 30px 50px; */
 
   .col-4{
    padding: 0;

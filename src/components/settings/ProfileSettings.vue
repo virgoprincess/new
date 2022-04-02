@@ -16,7 +16,7 @@
           ></b-img>
           </b-col>
           <b-col class="align-right">
-            <b-btn >Save</b-btn>
+            <b-btn class="btn-save">Save</b-btn>
           </b-col>
         </b-row>
 
@@ -108,15 +108,17 @@
 </template>
 <script>
 export default {
-  name:'ProfileSettings'
+  name:'ProfileSettings',
+  data(){
+    return{
+      selected:'',
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
 .profile-settings::v-deep{
-  max-height: 86vh;
-   .profile-form{
-     padding: 30px 50px;
-   }
+  max-height: 77vh;
   .profile-row{
     display: flex;
     justify-content: end !important;

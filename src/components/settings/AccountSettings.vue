@@ -8,7 +8,7 @@
             <h5>Settings</h5>
           </b-col>
           <b-col class="align-right">
-            <b-btn >Save</b-btn>
+            <b-btn class="btn-save">Save</b-btn>
           </b-col>
         </b-row>
         <b-row>
@@ -129,17 +129,22 @@
 
 <script>
 export default {
-    name:'AccountSettings'
+    name:'AccountSettings',
+    data(){
+      return{
+        selected:'',
+      }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .account-settings{ 
-  max-height: 86vh;
+  max-height: 77vh;
  }
- .account-form::v-deep{
+ /* .account-form::v-deep{
    padding: 30px 50px;
- }
+ } */
  .col-4{
    padding: 0;
  }

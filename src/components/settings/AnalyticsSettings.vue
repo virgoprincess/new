@@ -1,7 +1,11 @@
 <template>
   <div class="analytics-settings">
     <b-container fluid class="analytics-form" >
-        <h5>Overview</h5>
+        <b-row>
+          <b-col cols=3>
+            <h5>Analytics</h5>
+          </b-col>
+        </b-row>
         <b-row>
           <b-col>
             <div>
@@ -86,16 +90,17 @@ export default {
         { name:'Tony Roberts', email:'email@gmail.com', role:'User'},
         { name:'Joseph Adams', email:'email@gmail.com', role:'User'},
         { name:'Ray Smith', email:'email@gmail.com', role:'Guest'},
-      ]
+      ],
+      searchedText:''
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .analytics-settings{
-  padding: 30px 50px;
-  max-height: 86vh;
-  .row{
+  /* padding: 30px 50px; */
+  max-height: 77vh;
+  .row:not(:first-child){
         padding-bottom: 100px;
         margin: 0;
   }
@@ -119,14 +124,11 @@ export default {
   }
   .btn-add{ width: 50px;background-color: #fff; border-color:$light-gray; height:45px;}
   .members-list{ max-height: 55vh;}
-  .tabletable-bordered{ width: 100%; }
+ /*  .tabletable-bordered{ width: 100%; }
   
   table {
   border-collapse: separate;
   border-spacing: 0 15px;
-  }
-  td {
-    @extend .fs-14;
   }
   th,
   td {
@@ -143,6 +145,6 @@ export default {
     position: -webkit-sticky;
     background-color: $background-color;
     top: 0;
-  }
+  } */
 }
 </style>

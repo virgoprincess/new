@@ -6,7 +6,7 @@
             <h5>Overview</h5>
           </b-col>
           <b-col class="align-right">
-            <b-btn >Save</b-btn>
+            <b-btn class="btn-save">Save</b-btn>
           </b-col>
         </b-row>
         <b-row>
@@ -96,15 +96,16 @@ export default {
         { name:'Tony Roberts', email:'email@gmail.com', role:'User'},
         { name:'Joseph Adams', email:'email@gmail.com', role:'User'},
         { name:'Ray Smith', email:'email@gmail.com', role:'Guest'},
-      ]
+      ],
+      searchedText:''
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .overview-settings{
-  padding: 30px 50px;
-  max-height: 86vh;
+  /* padding: 30px 50px; */
+  max-height: 77vh;
   .search-member{
     border: 1px solid $light-gray;
     padding-left: 5px;
@@ -125,14 +126,11 @@ export default {
   }
   .btn-add{ width: 50px;background-color: #fff; border-color:$light-gray; height:45px;}
   .members-list{ max-height: 55vh;}
-  .tabletable-bordered{ width: 100%; }
+/* .tabletable-bordered{ width: 100%; }
   
   table {
   border-collapse: separate;
   border-spacing: 0 15px;
-  }
-  td {
-    @extend .fs-14;
   }
   th,
   td {
@@ -149,6 +147,6 @@ export default {
     position: -webkit-sticky;
     background-color: $background-color;
     top: 0;
-  }
+  } */
 }
 </style>
