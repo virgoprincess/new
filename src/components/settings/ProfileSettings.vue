@@ -118,6 +118,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .profile-settings::v-deep{
+  .row:first-child{
+    border-bottom: 0;
+    margin-bottom: 0px;
+  }
   max-height: 77vh;
   .profile-row{
     display: flex;

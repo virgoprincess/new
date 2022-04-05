@@ -5,7 +5,7 @@
       </div>
       <div class="dashboard-right scrollable">
           <notifications-component/>
-          <dashboard-calendar-component/>
+          <dashboard-calendar-component @processed="setLoader"/>
       </div>
 
   </div>
@@ -24,7 +24,13 @@ export default {
     methods:{
         hideFeed(result){
             this.results.splice(this.results.indexOf(result),1);
+        },
+        setLoader(){
+            this.$store.commit("SET_LOADER",false);
         }
+    },
+    updated(){
+        /* this.$store.commit("SET_LOADER",false); */
     },
     computed:{
         ...mapGetters({

@@ -48,6 +48,7 @@
 import { mapGetters } from 'vuex'
 export default {
   name:'EventsComponents',
+  emits:["processed"],
   props:{
     selectedDate:Date,
   },
@@ -91,7 +92,9 @@ export default {
         console.log("formated events::",event);
         return event;
       })
-      console.log("COnsole Eve:::", this.events);
+        console.log("watch events change::::");
+        this.$emit("processed");
+
     }
   }
 }

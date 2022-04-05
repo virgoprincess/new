@@ -50,7 +50,7 @@
     </v-col>
   </v-row>
   <hr>
-  <events-components :selected-date="currentDate"/>
+  <events-components :selected-date="currentDate" @processed="$emit('processed')"/>
   </div>
 </template>
 

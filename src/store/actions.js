@@ -91,7 +91,7 @@ export default{
             
         ];
         state.commit("SET_DASHBOARD",payload);
-        state.commit("SET_LOADER",false);
+        /* state.commit("SET_LOADER",false); */
     },
     SET_MESSAGES(state, payload){
         payload = [{
@@ -353,7 +353,7 @@ export default{
         },
         ];
         state.commit("SET_MESSAGES",payload);
-        state.commit("SET_LOADER",false);
+        /* state.commit("SET_LOADER",false); */
     },
 
     async SET_EMAILS(context){
@@ -401,15 +401,15 @@ export default{
          msgs.snippet = response.data.snippet.length > 30 ? response.data.snippet.slice(0,30) + "..." : response.data.snippet ;
          msgs.threadId = response.data.threadId;
          messages.push(msgs);
-        context.commit("SET_LOADER",false);
+          context.commit("SET_EMAILS",messages);  
+          context.commit("SET_LOADER",false);
          });
       });
-      context.commit("SET_EMAILS",messages);
     },
     async GET_THREADSBYID(context,payload){
       var threads = [];
 
-        context.commit("SET_LOADER",true);
+        /* context.commit("SET_LOADER",true); */
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/threads/${payload.threadId}`,{
           headers:{
             Authorization:  `Bearer ${context.state.accessToken}`
@@ -466,7 +466,7 @@ export default{
           threads.subject = payload.subject;
           
           context.commit("SET_THREADBYID",threads);
-          context.commit("SET_LOADER",false);
+         /*  context.commit("SET_LOADER",false); */
         });
     },
     async SET_CALENDAR(context,payload){
@@ -483,7 +483,7 @@ export default{
           context.commit("SET_LOADER",false);
       });
       context.commit("SET_CALENDAR",payload); */
-      context.commit("SET_LOADER",false);
+      /* context.commit("SET_LOADER",false); */
     },
     async SET_EVENTS(context,payload){
       var calendarEvents = []
@@ -507,10 +507,10 @@ export default{
               calEvent.timed = true;
               calendarEvents.push(calEvent);
           });
-          context.commit("SET_LOADER",false);
+          /* context.commit("SET_LOADER",false); */
       });
       context.commit("SET_CALENDAR",calendarEvents);
-      context.commit("SET_LOADER",false);
+      /* context.commit("SET_LOADER",false); */
     },
     async SET_CONTACTS(context,payload){
       /* https://people.googleapis.com/v1/otherContacts?readMask=names,emailAddresses,phoneNumbers */
@@ -524,7 +524,7 @@ export default{
         /* console.log("Contacts:::", response); */
       });
       context.commit("SET_CONTACTS",payload);
-      context.commit("SET_LOADER",false);
+      /* context.commit("SET_LOADER",false); */
     },
     async SET_STORAGE(context,payload){
       await axios.get(`https://www.googleapis.com/drive/v3/files`,{
@@ -574,10 +574,10 @@ export default{
       });
       console.log("storage:::::",payload);
       context.commit("SET_STORAGE",payload);
-      context.commit("SET_LOADER",false);
+      /* context.commit("SET_LOADER",false); */
     },
     SET_SETTINGS(state,payload){
       state.commit("SET_SETTINGS",payload);
-      state.commit("SET_LOADER",false); 
+     /*  state.commit("SET_LOADER",false);  */
     },
 }

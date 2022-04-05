@@ -103,10 +103,13 @@ export default {
         pinned:[],
       }
     },
- mounted(){
-   this.pinned = this.results.filter((result)=> result.pinned == 'true');
-   console.log("Pinned:", JSON.stringify(this.pinned));
- },
+    mounted(){
+      this.pinned = this.results.filter((result)=> result.pinned == 'true');
+      console.log("Pinned:", JSON.stringify(this.pinned));
+    },
+    updated(){
+      this.$store.commit("SET_LOADER",false);
+    },
    computed:{
         ...mapGetters({
             results:"GET_MESSAGES",

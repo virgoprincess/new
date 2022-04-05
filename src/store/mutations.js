@@ -23,6 +23,7 @@ export default{
    },
    SET_LOADER(state,payload){
       state.isLoading = payload;
+      console.log("Loader is called::::");
    },
    SET_USER_ID(state,payload){
       state.userId = payload;

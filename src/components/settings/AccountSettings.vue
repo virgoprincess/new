@@ -79,7 +79,7 @@
             <p class="desc">Log out from all devices in the case of theft, loss, etc.</p>
           </b-col>
           <b-col class="align-right">
-            <b-btn>Sign Out</b-btn>
+            <b-btn class="btn-outline">Sign Out</b-btn>
           </b-col>
         </b-row>
 
@@ -88,7 +88,7 @@
             <label>Deactivate Account</label>
           </b-col>
           <b-col class="align-right">
-            <b-btn>Deactivate</b-btn>
+            <b-btn class="btn-outline">Deactivate</b-btn>
           </b-col>
         </b-row>
 

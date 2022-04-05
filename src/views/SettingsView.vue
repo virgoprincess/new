@@ -27,9 +27,17 @@
 <script>
 export default {
     name:'SetttingsComponent',
+    created(){
+      this.$router.push({path: '/settings/account'})
+    },
+    mounted(){
+      this.$store.commit("SET_LOADER",false);
+    },
     methods:{
       menuClicked(menu){
-        this.$router.push({path: '/settings/'+menu.toLowerCase()})
+        console.log("current route:::",this.$route.path)
+        console.log("destination route:::",'/settings/'+menu.toLowerCase())
+        if(this.$route.path != '/settings/'+ menu.toLowerCase()) this.$router.push({path: '/settings/'+menu.toLowerCase()})
       }
     }
 }
@@ -86,6 +94,11 @@ export default {
 }
 .settings-content::v-deep{
    padding: 30px 50px;
+   .row{
+         border-bottom: 1px solid $lighter-gray;
+    margin-bottom: 5px;
+   }
+   .btn-outline{ color: $black; }
   .dropdown-menu{width:100% !important;}
    .btn-secondary{ background-color: transparent; border-color: $gray;}
    .dropdown-toggle{background-color: #fff; border-color: $light-gray; height: 40px; text-align: left; color: $black;}
@@ -116,7 +129,7 @@ export default {
   td {
     font-size: 12px; font-weight: 600;
     text-align: left;
-    border-bottom: 1px solid $light-gray;
+    border-bottom: 1px solid $lighter-gray;
     padding: 10px;
     img {
       width: 50px;

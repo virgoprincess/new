@@ -6,7 +6,7 @@
             <h5>Billings History</h5>
           </b-col>
           <b-col class="align-right">
-            <b-btn class="d-inline-flex align-items-center justify-content-center gap-3 btn-fit"> <b-icon-cloud-download/>Download All</b-btn>
+            <b-btn class="d-inline-flex align-items-center justify-content-center gap-3 btn-fit btn-outline"> <b-icon-cloud-download/>Download All</b-btn>
           </b-col>
         </b-row>
         
@@ -42,7 +42,7 @@
       </div>
 
       <b-row class="pb-5">
-        <b-col cols="3"><b-btn class="btn-fit">View All</b-btn></b-col>
+        <b-col cols="3"><b-btn class="btn-fit btn-outline">View All</b-btn></b-col>
       </b-row>
       <b-row>
         <b-col>
@@ -197,12 +197,17 @@ export default {
         { item:'INVOICE - 00236 ', balance:'$0', charges:'$500', date:'Oct. 1, 2022', status:'pending'},
         { item:'INVOICE - 00237 ', balance:'$0', charges:'$500', date:'Sept. 1, 2022', status:'paid'},
         { item:'INVOICE - 00238 ', balance:'$0', charges:'$500', date:'Aug. 1, 2022', status:'paid'},
-      ]
+      ],
+      selected:''
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.row:first-child{
+    border-bottom: 0;
+    margin-bottom: 0px;
+  }
 .billing-settings{ max-height: 77vh; }
   .billing-list{
     max-height: 77vh;

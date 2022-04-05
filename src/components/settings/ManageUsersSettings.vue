@@ -6,7 +6,7 @@
             <h5>Users</h5>
           </b-col>
           <b-col class="align-right">
-            <b-btn class="btn-fit">Send Invite</b-btn>
+            <b-btn class="btn-fit btn-outline">Send Invite</b-btn>
           </b-col>
         </b-row>
         
@@ -35,6 +35,7 @@
               <td>{{ member.username }}</td>
               <td class="fw-700">{{ member.email}}</td>
               <td> {{member.role}} </td>
+              <td></td>
             </tr>
           </tbody>
         </table>
@@ -66,6 +67,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .manage-users-settings{
+  .row:first-child{
+    border-bottom: 0;
+    margin-bottom: 0px;
+  }
   /* padding: 30px 50px; */
   max-height: 77vh;
   /* .search-member{

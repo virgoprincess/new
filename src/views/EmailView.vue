@@ -19,23 +19,25 @@
                         2 / 4,302
                 </div>
             </div>
-            <div class="email-content" v-if="threads">
-              <div class="thread" v-for="(thread,i) in threads" :key="i">
-                
-                  <h3>{{thread.Subject}}</h3>
-                <div class="d-flex justify-content-between">
-                  <p class="thread-name">{{thread.From}}</p>
-                  <p class="thread-date">{{thread.Date}}</p>
-                </div>
+            <b-overlay :show="show" rounded="sm" opacity="1" class="thread-loader">
+              <div class="email-content" v-if="threads">
+                <div class="thread" v-for="(thread,i) in threads" :key="i">
+                  
+                    <h3>{{thread.Subject}}</h3>
+                  <div class="d-flex justify-content-between">
+                    <p class="thread-name">{{thread.From}}</p>
+                    <p class="thread-date">{{thread.Date}}</p>
+                  </div>
 
-                <div v-for="(part,i) in thread.content" :key="i">
-                  <!-- <div v-if="part.mimeType == 'text/plain'">{{ part.data }}</div> -->
-                  <div v-html="'<div>'+part.data+'</div>'"></div>
-                </div>
+                  <div v-for="(part,i) in thread.content" :key="i">
+                    <!-- <div v-if="part.mimeType == 'text/plain'">{{ part.data }}</div> -->
+                    <div v-html="'<div>'+part.data+'</div>'"></div>
+                  </div>
 
+                </div>
+                <div></div>
               </div>
-              <div></div>
-            </div>
+            </b-overlay>
           <!-- </div> -->
       </div> 
 
@@ -77,10 +79,12 @@ export default {
     data(){
       return{
         emailIds:[],
+        show: false,
       }
     },
     methods:{
       getThread(res){
+        this.show = true;
         this.$store.dispatch("GET_THREADSBYID",res);
       },
     },
@@ -90,11 +94,18 @@ export default {
         messages:'GET_MESSAGES',
         threads:'GET_THREADS',
       })
+    },
+  watch:{
+    threads(){
+      console.log("threads changed:::")
+        this.show = false;
     }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.thread-loader{height: 86vh; z-index: 1;}
 .email-component{
     width:100%;
     margin: auto;
@@ -133,6 +144,7 @@ export default {
               border-bottom: 1px solid $light-gray;
               background-color: $background-color;
               padding: 40px 20px 20px 20px;
+              z-index: 2;
               svg{
                   color: $dark-gray;
                   width: 16px;

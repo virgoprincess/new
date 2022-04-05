@@ -160,6 +160,9 @@
 <script>
 export default {
     name:'ContactsComponent',
+    mounted(){
+      this.$store.commit("SET_LOADER",false);
+    },
 /*     data(){
       return{
         menu:'contacts'

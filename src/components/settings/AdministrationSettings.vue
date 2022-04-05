@@ -48,7 +48,7 @@
             <p class="desc">This will permanently delete the account</p>
           </b-col>
           <b-col class="align-right">
-            <b-btn>Delete</b-btn>
+            <b-btn class="btn-outline">Delete</b-btn>
           </b-col>
         </b-row>
 

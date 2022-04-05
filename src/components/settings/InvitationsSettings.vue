@@ -6,7 +6,7 @@
             <h5>Invitations</h5>
           </b-col>
           <b-col class="align-right">
-            <b-btn class="btn-fit">Send Invite</b-btn>
+            <b-btn class="btn-fit btn-outline">Send Invite</b-btn>
           </b-col>
         </b-row>
         
@@ -64,6 +64,10 @@ export default {
 <style lang="scss" scoped>
 .invitations-settings{
   max-height: 77vh;
+  .row:first-child{
+    border-bottom: 0;
+    margin-bottom: 0px;
+  }
 }
 /* .tabletable-bordered{ width: 100%; }
   table {

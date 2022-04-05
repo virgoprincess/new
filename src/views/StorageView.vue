@@ -232,6 +232,11 @@ export default {
   },
   computed:{
     ...mapGetters({files:'GET_STORAGE'})
+  },
+  watch:{
+    files(){
+      this.$store.commit("SET_LOADER",false);
+    }
   }
 };
 </script>

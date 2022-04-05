@@ -100,6 +100,10 @@ export default {
 .analytics-settings{
   /* padding: 30px 50px; */
   max-height: 77vh;
+  .row{
+    border-bottom: 0;
+    margin-bottom: 0px;
+  }
   .row:not(:first-child){
         padding-bottom: 100px;
         margin: 0;

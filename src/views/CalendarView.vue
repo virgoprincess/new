@@ -305,6 +305,7 @@ import { mapGetters } from 'vuex'
           event.color = this.categories[this.rnd(0, this.categories.length - 1)].color + '10';
           return event;
         });
+      this.$store.commit("SET_LOADER",false);
       }
     }
   }

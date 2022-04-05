@@ -1,7 +1,7 @@
 
 <template>
   <div class="canvass">
-    <b-overlay :show="show" rounded="sm">
+    <b-overlay :show="show" rounded="sm" opacity="1" class="loader">
       <div class="content">
         <router-view/>
       </div>
@@ -28,7 +28,7 @@ export default {
 
 
 <style lang="scss">
-
+.loader{height: 86vh;}
 .canvass{
   padding:0 0 0 100px;
   z-index: -1;
