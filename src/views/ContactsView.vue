@@ -3,9 +3,9 @@
       <p class="fs-28 fw-500">Contacts</p>
       <div class="contacts-navbar d-flex justify-content-between">
           <b-nav>
-              <b-nav-item class="blue-small-text">All</b-nav-item>
-              <b-nav-item class="gray-small-text">Internal</b-nav-item>
-              <b-nav-item class="gray-small-text">External</b-nav-item>
+              <b-nav-item @click="tabChanged('all')" :class="menu == 'all' ? 'blue-small-text': 'gray-small-text'">All</b-nav-item>
+              <b-nav-item @click="tabChanged('internal')"  :class="menu == 'internal' ? 'blue-small-text': 'gray-small-text'">Internal</b-nav-item>
+              <b-nav-item @click="tabChanged('external')"  :class="menu == 'external' ? 'blue-small-text': 'gray-small-text'">External</b-nav-item>
           </b-nav>
           <b-nav class="align-items-center">
               <span class="gray-small-text">Sort by:</span>
@@ -30,127 +30,17 @@
                     </tr>
                 </thead>
                 <tbody >
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> <span>(123) 456-7890</span> </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> <span>sheather@companyemail.com</span>  </td>
+                    <tr v-for="(contact,i) in current" :key="i">
+                        <td> <b-img rounded="circle" :src=" contact.photoUrl != '' ? contact.photoUrl : require('@/assets/icons/man.jpg')" alt="" /> </td>
+                        <td class="fw-700"> {{ contact.name != '' ? contact.name : 'None' }} </td>
+                        <td> {{ contact.title != '' ? contact.title : 'None' }} </td>
+                        <td> {{ contact.org != '' ? contact.org : 'None' }}</td>
+                        <td> {{ contact.location != '' ? contact.location : 'None' }} </td>
+                        <td> <b-icon-telephone></b-icon-telephone> <span>{{ contact.phone != '' ? contact.phone : 'None' }}</span> </td>
+                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> <span>{{ contact.email != '' ? contact.email : 'None' }}</span>  </td>
                         <td> <b-icon-calendar-fill></b-icon-calendar-fill> <span>View</span></td>
                         <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
-                    <tr>
-                        <td> <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> </td>
-                        <td class="fw-700"> Bruce Scott </td>
-                        <td> Sales Manager </td>
-                        <td> Sales</td>
-                        <td> Lehi, UT </td>
-                        <td> <b-icon-telephone></b-icon-telephone> (123) 456-7890 </td>
-                        <td> <b-icon-envelope-fill></b-icon-envelope-fill> heather@companyemail.com </td>
-                        <td> <b-icon-calendar-fill></b-icon-calendar-fill> View</td>
-                        <td> <b-icon-caret-right-fill></b-icon-caret-right-fill> </td>
-                    </tr>
+                    </tr>                    
                 </tbody>
               </table>
           </div>
@@ -158,11 +48,36 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name:'ContactsComponent',
+    data(){
+        return{
+            menu:'all',
+            current:[],
+        }
+    },
     mounted(){
       this.$store.commit("SET_LOADER",false);
     },
+    computed:{
+        ...mapGetters({contacts:'GET_CONTACTS'})
+    },
+    methods:{
+        tabChanged(val){
+            console.log("Menu:::", val);
+            this.menu = val ;
+            if( this.menu == 'all' ) this.current = this.contacts.all;
+            if( this.menu == 'internal' ) this.current = this.contacts.internal;
+            if( this.menu == 'external' ) this.current = this.contacts.external;
+        }
+    },
+    watch:{
+        contacts(){
+            this.current = this.contacts.all;
+            console.log("Updated Contacts:::",this.contacts);
+        }
+    }
 /*     data(){
       return{
         menu:'contacts'

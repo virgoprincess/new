@@ -18,7 +18,11 @@ export default new Vuex.Store({
         threads:[],
         emails:[],
         calendarEvents:[],
-        contacts:[],
+        contacts:[{
+            all:[],
+            internal:[],
+            external:[]
+        }],
         storage:[],
         settings:[],
 

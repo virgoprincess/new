@@ -15,20 +15,21 @@
             </b-button>
           </b-button-group>
         </b-col>
-        <b-col cols="1" class="profile">
+        <b-col cols="1" class="profile d-flex justify-content-center align-items-center" @click="showProfileOptions = !showProfileOptions">
+          <b-icon-dot></b-icon-dot>
           <b-img
             rounded="circle"
             :src="userProfile ? userProfile.imageUrl : ''"
             alt="default"
           />
-          <b-icon-chevron-down @click="showProfileOptions = !showProfileOptions" stroke="black" stroke-width="2"/>
+          <b-icon-chevron-down stroke="black" stroke-width="2"/>
         </b-col>
       </b-row>
     </div>
 
 
     <b-list-group class="profile-options" v-if="showProfileOptions" @mouseleave="showProfileOptions = !showProfileOptions">
-      <b-list-group-item class=" profile">
+      <b-list-group-item class=" profile-status">
           <b-img rounded :src="userProfile ? userProfile.imageUrl : ''" alt="profile.png"></b-img>
           <div>
             <p>{{userProfile ? userProfile.name : ''}}</p>
@@ -46,7 +47,6 @@
       <b-list-group-item><p @click="showProfileOptions = !showProfileOptions">Downloads</p></b-list-group-item>
       <b-list-group-item><p @click="showProfileOptions = !showProfileOptions; logout()">Sign out of Sphyr</p></b-list-group-item>
     </b-list-group>
-
 
     <div class="left-menu">
       <div class="menu-container">
@@ -138,6 +138,9 @@ export default {
   height: 100px;
   border-bottom: 1px solid $light-gray;
 }
+.profile{
+  cursor: pointer;
+}
 .left-menu {
   position: fixed;
   background-color: #fff;
@@ -180,6 +183,11 @@ export default {
     color: $dark-gray;
   }
 }
+.bi-dot{
+  width: 50px;
+  height: 50px;
+  color: $bright-green;
+}
 .menu-active {
 
   border: 1px solid $light-blue;
@@ -201,6 +209,7 @@ export default {
 .profile img {
   width: 33px;
   margin-right:10px;
+  margin-left: -10px;
 }
 b-icon-search {
   width: 20px;
@@ -209,12 +218,13 @@ b-icon-search {
   text-align: right;
   .btn-group {
     align-items: center;
-    button {
+    button, button:hover{
       font-size: 0.8rem;
       display: flex;
       align-items: center;
       gap: 5px;
       border: 2px solid $blue;
+      background-color: transparent;
       color: $black;
       font-weight: 600;
       border-radius: 5px;
@@ -250,7 +260,7 @@ b-icon-search {
   height: 12px;
 }
 .profile-options{
-  margin-right: 5%;
+  margin-right: 2%;
   top: 85px;
   font-size: 14px;
   font-weight: 500;
@@ -258,7 +268,7 @@ b-icon-search {
   box-shadow: 2px 2px 8px #00000029 !important;
   right: 0;
   border: 1px solid $lighter-gray;
-  z-index: 2;
+  z-index: 10;
   border-radius: 5px;
   position: absolute;
 
@@ -280,15 +290,16 @@ b-icon-search {
     padding: 10px 0;
     cursor: default;
     p{ padding: 5px 25px 5px 25px; }
-    > img{ margin-left: 25px; }
+    > img{ margin:0 10px 0 25px; }
     }
 
  .list-group-item:not(:first-child){
      p:hover{background-color: $blue; color: #fff; cursor: pointer;}
  }
- .profile{
+ .profile-status{
     display: flex;
     p{padding: 0};
+
     svg{ margin-right: 5px; color: $bright-yellow;}
   }
 }

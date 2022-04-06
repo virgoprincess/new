@@ -515,15 +515,58 @@ export default{
     async SET_CONTACTS(context,payload){
       /* https://people.googleapis.com/v1/otherContacts?readMask=names,emailAddresses,phoneNumbers */
       /* https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos */
-      await axios.get(`https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos,locations,calendarUrls`,{
+      await axios.get(`https://people.googleapis.com/v1/people/me/connections`,{
         headers:{
           Authorization: `Bearer ${context.state.accessToken}`
+        },params:{
+          personFields:'emailAddresses,names,genders,urls,locations,occupations,events,phoneNumbers,addresses,coverPhotos,photos,organizations',
         }
       }).then((response)=>{
         var internalContacts =[];
-        /* console.log("Contacts:::", response); */
+        console.log("Internal Data::::",response.data.connections)
+        response.data.connections.forEach((contact)=>{
+          /* console.log("contacts::::" ,contact) */
+          var contactInfo = [];
+          contactInfo.photoUrl = contact.photos ? contact.photos[0].url:'';
+          contactInfo.name = contact.names ?  contact.names[0].displayName : '';
+          contactInfo.title = contact.organizations ? contact.organizations[0].title : '';
+          contactInfo.org = contact.organizations ? contact.organizations[0].name : '';
+          contactInfo.phone = contact.phoneNumbers ? contact.phoneNumbers[0].value : '';
+          contactInfo.location = contact.locations ? contact.locations[0].value : '';
+          contactInfo.email = contact.emailAddresses ? contact.emailAddresses[0].value :'';
+          internalContacts.push(contactInfo);
+        });
+        context.state.contacts.internal = internalContacts;
       });
-      context.commit("SET_CONTACTS",payload);
+
+      await axios.get(`https://people.googleapis.com/v1/otherContacts?sources=READ_SOURCE_TYPE_PROFILE&sources=READ_SOURCE_TYPE_CONTACT`,{
+        headers:{ Authorization: `Bearer ${context.state.accessToken}` },
+        params:{
+          readMask: 'emailAddresses,names,genders,urls,locations,occupations,events,phoneNumbers,addresses,coverPhotos,photos,organizations',
+        }
+      }).then((response)=>{
+        console.log("External Data::::",response.data.otherContacts)
+        context.state.contacts.external = response.data.otherContacts;
+        var externalContacts =[];
+        var all = [];
+        response.data.otherContacts.forEach((contact)=>{
+          var contactInfo = [];
+          contactInfo.photoUrl = contact.photos ? contact.photos[0].url:'';
+          contactInfo.name = contact.names ? contact.names[0].displayName : '';
+          contactInfo.title = contact.organizations ? contact.organizations[0].title : '';
+          contactInfo.phone = contact.phoneNumbers ? contact.phoneNumbers[0].value : '';
+          contactInfo.org = contact.organizations ? contact.organizations[0].name : '';
+          contactInfo.location = contact.locations ? contact.locations[0].value : '';
+          contactInfo.email = contact.emailAddresses ? contact.emailAddresses[0].value :'';
+          externalContacts.push(contactInfo);
+        })
+        context.state.contacts.external = externalContacts;
+        all = context.state.contacts.internal.concat(externalContacts);
+        context.state.contacts.all = all;
+        console.log("Other Contacts Results::::",response.data.otherContacts,"\nAll::::", all)
+        /* context.commit("SET_CONTACTS",all); */
+      });
+      
       /* context.commit("SET_LOADER",false); */
     },
     async SET_STORAGE(context,payload){

@@ -26,7 +26,7 @@ const gauthOption = {
 }
 Vue.use(GAuth, gauthOption)
 
-new Vue({
+new Vue({     
   vuetify,
   store,
   router,
