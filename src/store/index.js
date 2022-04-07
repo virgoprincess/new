@@ -18,14 +18,9 @@ export default new Vuex.Store({
         threads:[],
         emails:[],
         calendarEvents:[],
-        contacts:[{
-            all:[],
-            internal:[],
-            external:[]
-        }],
+        contacts:[],
         storage:[],
         settings:[],
-
     },
     getters:{
         GET_CURRENTMENU:state =>state.menu,

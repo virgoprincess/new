@@ -155,7 +155,7 @@ export default {
 
 <style lang="scss" scoped >
 .dashboard-calendar-component{
-  padding-top: 20px;
+  margin-top: 20px;
   height: fit-content !important;
   width: 100% !important;
   background-color: #fff;

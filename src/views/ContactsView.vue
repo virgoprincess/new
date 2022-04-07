@@ -57,11 +57,14 @@ export default {
             current:[],
         }
     },
-    mounted(){
-      this.$store.commit("SET_LOADER",false);
-    },
     computed:{
-        ...mapGetters({contacts:'GET_CONTACTS'})
+        ...mapGetters({contacts:'GET_CONTACTS'}),
+    },
+    watch:{
+        contacts:function(){
+            console.log("watcher::");
+            this.current = this.contacts.all;
+        }
     },
     methods:{
         tabChanged(val){
@@ -72,12 +75,6 @@ export default {
             if( this.menu == 'external' ) this.current = this.contacts.external;
         }
     },
-    watch:{
-        contacts(){
-            this.current = this.contacts.all;
-            console.log("Updated Contacts:::",this.contacts);
-        }
-    }
 /*     data(){
       return{
         menu:'contacts'

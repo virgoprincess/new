@@ -14,7 +14,6 @@
 <script>
 import NewsfeedComponent from '../components/dashboard/NewsfeedComponent.vue'
 import NotificationsComponent from '../components/dashboard/NotificationsComponent.vue'
-
 import { mapGetters } from "vuex"
 import DashboardCalendarComponent from '@/components/dashboard/DashboardCalendarComponent.vue'
 export default {

@@ -35,6 +35,7 @@
                   </div>
 
                 </div>
+                <reply-forward/>
                 <div></div>
               </div>
             </b-overlay>
@@ -72,9 +73,11 @@
 import PreviewComponent from '@/components/commons/PreviewComponent.vue'
 import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 import FileIconComponent from '@/components/commons/attachments/FileIconComponent.vue'
+/* import ReplyForward from '@/components/commons/ReplyForwarComponent.vue' */
+import ReplyForward from '@/components/dashboard/ReplyForwardComponent.vue'
 import { mapGetters } from "vuex"
 export default {
-    components:{PreviewComponent, ProfileComponent, FileIconComponent},
+    components:{PreviewComponent, ProfileComponent, FileIconComponent,ReplyForward},
     name:'email-component',
     data(){
       return{
@@ -93,7 +96,8 @@ export default {
         results:'GET_EMAILS',
         messages:'GET_MESSAGES',
         threads:'GET_THREADS',
-      })
+      }),
+
     },
   watch:{
     threads(){
@@ -113,8 +117,8 @@ export default {
     display: flex;
     gap: 20px;
 
-    .email-left{ width: 30% }
-    .email-center{ width: 45%; }
+    .email-left{ width: 25% }
+    .email-center{ width: 55%; }
     .email-right{ width: 25%; border-left: 1px solid $light-gray !important; }
     /* .email-center,.email-left,.email-right{ height: 100%; } */
 
@@ -139,7 +143,7 @@ export default {
       .email-center{
           position: relative;
           .email-menu{
-              width: 41%;
+              width: 48%;
               position:fixed;
               border-bottom: 1px solid $light-gray;
               background-color: $background-color;
@@ -159,9 +163,8 @@ export default {
       }
 
     .email-content{
-
+      padding: 120px 20px 0;
       p{ font-size: 14px; margin: 0; }
-      padding-top: 120px;
       .thread{ border-bottom: 1px solid $light-gray;    padding: 20px 0; }
       .thread-name{ font-weight: 800;}
       .thread-date{ color: $gray; font-size: 11px; font-weight: 600;}

@@ -20,6 +20,7 @@ export default{
         state.commit("SET_RESET");
       }
       state.commit("SETUSER_ACCOUNT",profileInfo);
+      state.dispatch("SET_CONTACTS");
       state.commit("SET_LOADER",false);
     },
     SET_DASHBOARD(state,payload){
@@ -366,10 +367,11 @@ export default{
         params:{
           labelIds:'INBOX',
           includeSpamTrash:false,
-          maxResults:20
+          maxResults:50
         }
       })
         .then((response)=>{
+         /* console.log("Emails:::",response); */
           context.dispatch("GET_MESSAGEBYID",response)
         });
       }
@@ -393,13 +395,26 @@ export default{
                var d =new Date(res.value);
                msgs.date = d.toLocaleDateString() + " " +d.toLocaleTimeString();
              }
-           if(res.name == 'From')
-             msgs.from = res.value.split(/</)[0];
+           if(res.name == 'From'){
+              msgs.from = res.value.split(/</)[0];
+              msgs.email = res.value.split(/</)[1] ? res.value.split(/</)[1].replace(/>/,''):'';
+           }
            if(res.name == 'To')
-             msgs.to = res.value;
-             });    
+            msgs.to = res.value; 
+
+            var result = context.state.contacts.all.find(contact => msgs.email === contact.email);
+            msgs.photoUrl = result != undefined ? result.photoUrl : '';
+            console.log("result::::" ,result, "\nPhoto Url:::",msgs.photoUrl);
+            });    
          msgs.snippet = response.data.snippet.length > 30 ? response.data.snippet.slice(0,30) + "..." : response.data.snippet ;
          msgs.threadId = response.data.threadId;
+         /* var contacts = context.state.contacts;
+         contacts.all.forEach(contact => {
+              if(contact.photos)
+              {
+
+              }
+         }); */
          messages.push(msgs);
           context.commit("SET_EMAILS",messages);  
           context.commit("SET_LOADER",false);
@@ -515,6 +530,7 @@ export default{
     async SET_CONTACTS(context,payload){
       /* https://people.googleapis.com/v1/otherContacts?readMask=names,emailAddresses,phoneNumbers */
       /* https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos */
+      var setContacts = [];
       await axios.get(`https://people.googleapis.com/v1/people/me/connections`,{
         headers:{
           Authorization: `Bearer ${context.state.accessToken}`
@@ -536,7 +552,8 @@ export default{
           contactInfo.email = contact.emailAddresses ? contact.emailAddresses[0].value :'';
           internalContacts.push(contactInfo);
         });
-        context.state.contacts.internal = internalContacts;
+        setContacts.internal = internalContacts;
+        /* context.state.contacts.internal = internalContacts; */
       });
 
       await axios.get(`https://people.googleapis.com/v1/otherContacts?sources=READ_SOURCE_TYPE_PROFILE&sources=READ_SOURCE_TYPE_CONTACT`,{
@@ -560,11 +577,14 @@ export default{
           contactInfo.email = contact.emailAddresses ? contact.emailAddresses[0].value :'';
           externalContacts.push(contactInfo);
         })
-        context.state.contacts.external = externalContacts;
-        all = context.state.contacts.internal.concat(externalContacts);
-        context.state.contacts.all = all;
+        /* context.state.contacts.external = externalContacts; */
+        setContacts.external = externalContacts;
+        setContacts.all = setContacts.internal.concat(setContacts.external);
+        /* context.state.contacts.all = all;
+        setContacts.all = all; */
         console.log("Other Contacts Results::::",response.data.otherContacts,"\nAll::::", all)
-        /* context.commit("SET_CONTACTS",all); */
+        context.commit("SET_CONTACTS",setContacts);
+        context.commit("SET_LOADER",false);
       });
       
       /* context.commit("SET_LOADER",false); */
