@@ -9,7 +9,7 @@
                 <p class="date">{{data[0].date}}</p>
             </div>
             <p class="email-subj">{{ data[0].subject }}</p>  <!-- this is for email -->
-            <p class="msg">{{data[0].snippet}}</p>
+            <div class="msg" v-html="'<div><p>'+data[0].snippet+'</p></div>'">{{data[0].snippet}}</div>
         </div>
 
         <div class="d-flex flex-column w-100" v-else>

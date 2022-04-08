@@ -437,13 +437,16 @@ export default{
               if(content.name == "Date") {
                 var d =new Date(content.value);
                 thread[content.name] = d.toLocaleDateString() + " " +d.toLocaleTimeString();
-              }else if(content.name == "From"){
+              }
+              if(content.name == "From"){
                 thread[content.name] = content.value.split(/</)[0];
                   thread.email = content.value.split(/</)[1];
-              }else if(content.name == 'Subject')
+              }
+              if(content.name == 'Subject')
                 thread[content.name] = content.value;
+              
             });
-             
+             thread.snippet = message.snippet.length > 0 ? message.snippet.slice(0,70)+'...' : '';
 /* var content = message.payload.parts ? decodeURIComponent(escape(atob(message.payload.parts[0].body.data.split(".")[1]))) : message.snippet; */
                 var result = '';
                 var content = [];
@@ -456,12 +459,34 @@ export default{
               if(message.payload.parts){
                 /* message.payload.parts.forEach((part)=>{ */
                   console.log("First Condition:::");
-                  data =  message.payload.parts.length > 1 ? message.payload.parts[1].body.data : message.payload.parts[0].body.data;
+                  if(message.payload.parts){
+                    
+                    message.payload.parts.forEach(part=>{
+                      console.log("parts:::",part)
+                      if( part.mimeType != 'text/plain' ){
+                        
+                        /* part.body.attachmentId to get attachements */
+                        data = part.body.data ? part.body.data : part.parts ? part.parts[0].body.data : '';
+                        if( data != undefined && data != '' ){
+                          padding = '='.repeat((4 - data.length % 4) % 4);
+                          base64Content = decodeURIComponent(escape((window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/')))));
+                          content.push({"data":base64Content,"mimeType":part.mimeType});
+                        }
+                        /* skip getting attachments for now */
+                        /* else{
+                          data = window.atob(data);
+                          content.push({"data":data, "mimeType":part.mimeType});
+                        } */
+                      }
+                    });
+                    console.log("content:::",content)
+                  }
+                  /* data =  message.payload.parts.length > 1 ? message.payload.parts[1].body.data : message.payload.parts[0].body.data;
                   if( data != undefined ){
                   padding = '='.repeat((4 - data.length % 4) % 4);
                   base64Content = decodeURIComponent(escape((window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/')))));
                   content.push({"data":base64Content,"mimeType":message.payload.parts.length > 1 ? message.payload.parts[1].mimeType : message.payload.parts[0].mimeType});
-                  }
+                  } */
 
                 /* }); */
               } else {
@@ -470,12 +495,16 @@ export default{
                   if( data != undefined ){
                     padding = '='.repeat((4 - data.length % 4) % 4);
                     base64Content = decodeURIComponent(escape(window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/'))));
+                    console.log("data:::",message.payload.body)
                     content.push({"data":base64Content,"mimeType":message.payload.body.mimeType});
+                  }else{
+                    console.log("it went here:::",data)
                   }
               }
               thread.content = content;
-              thread.snippet = message.snippet;
-              console.log("Decoded Thread Body::::", thread);
+              /* thread.snippet = message.snippet; */
+              /* console.log("Decoded Thread Body::::", thread); */
+              /* console.log("Thread Content:::",thread); */
               threads.push(thread);
           });
           threads.subject = payload.subject;

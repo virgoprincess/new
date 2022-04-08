@@ -29,9 +29,9 @@
                     <p class="thread-date">{{thread.Date}}</p>
                   </div>
 
-                  <div v-for="(part,i) in thread.content" :key="i">
-                    <!-- <div v-if="part.mimeType == 'text/plain'">{{ part.data }}</div> -->
-                    <div v-html="'<div>'+part.data+'</div>'"></div>
+                  <p :style="(threads.length -1 ) == i ? 'display:none' : 'display:block'" class="thread-snippet" :class="'thread-snippet'+i"  @click="toggleDisplay(i)" v-html="'<div>'+thread.snippet+'</div>'"></p>
+                  <div v-for="(part,k) in thread.content" :key="k">
+                    <div :style="(threads.length -1 ) == i ? 'display:block' : 'display:none'" class="thread-content" :class="'thread-content'+i" v-html="'<div><p>'+part.data+'</p></div>'"></div>
                   </div>
 
                 </div>
@@ -89,7 +89,27 @@ export default {
       getThread(res){
         this.show = true;
         this.$store.dispatch("GET_THREADSBYID",res);
+        if(document.getElementsByClassName('thread-content')){
+          var length = document.getElementsByClassName('thread-content').length;
+
+          for(var i=0; i<length; i++){
+            if( i == length -1 ){
+              document.getElementsByClassName('thread-content')[i].style.display = 'block';
+              document.getElementsByClassName('thread-snippet')[i].style.display = 'none';
+            }else{
+              document.getElementsByClassName('thread-content')[i].style.display = 'none';
+              document.getElementsByClassName('thread-snippet')[i].style.display = 'block';
+            }
+          }
+
+        }
       },
+      toggleDisplay(val){
+        var tagClass = 'thread-content'+val;
+        var snippetClass = 'thread-snippet'+val;
+        document.getElementsByClassName(tagClass)[0].style.display = 'block';
+        document.getElementsByClassName(snippetClass)[0].style.display = 'none';
+      }
     },
     computed:{
       ...mapGetters({
@@ -160,12 +180,15 @@ export default {
                   svg{color: $black;}
               }
           }
+          .thread-content{ font-size: 14px; }
       }
 
     .email-content{
+      cursor: pointer;
       padding: 120px 20px 0;
       p{ font-size: 14px; margin: 0; }
-      .thread{ border-bottom: 1px solid $light-gray;    padding: 20px 0; }
+      .thread:not(:nth-last-child(-n+3)){ border-bottom: 1px solid $light-gray; }
+      .thread{padding: 20px 0;}
       .thread-name{ font-weight: 800;}
       .thread-date{ color: $gray; font-size: 11px; font-weight: 600;}
     }
