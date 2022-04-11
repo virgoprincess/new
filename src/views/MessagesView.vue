@@ -15,13 +15,6 @@
           <p class="blue-small-text align-content-lg-start">Today</p>
         </div>
         <preview-component v-for="(result,i) in results" :key="i" :data="[result.members[0].profileInfo,result.messages[0].content,'','chat']"/>
-        <!-- <preview-component/>
-        <preview-component/>
-        <preview-component/>
-        <preview-component/>
-        <preview-component/>
-        <preview-component/>
-        <preview-component/> -->
       </b-list-group>
 
       <b-list-group class="online">
@@ -40,7 +33,16 @@
     </div>
 
 
-    <div class="messages-center">center</div>
+    <div class="messages-center">
+      <message-threads :data="threads.messages"/>
+      <div class="send-message">
+        <b-form-textarea id="textarea"
+                         placeholder="Type message ..."
+                         rows="3" max-rows="4"> </b-form-textarea>
+                         <b-icon-paperclip></b-icon-paperclip>
+          <b-icon-cursor-fill></b-icon-cursor-fill>
+      </div>
+    </div>
 
     <div class="messages-right scrollable">
 
@@ -94,9 +96,10 @@ import FileIconComponent from '../components/commons/attachments/FileIconCompone
 import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 
 import { mapGetters } from "vuex"
+import MessageThreads from '@/components/Messages/MessageThreads.vue'
 
 export default {
-  components:{PreviewComponent,ContactName,FileIconComponent, ProfileComponent},
+  components:{PreviewComponent,ContactName,FileIconComponent, ProfileComponent, MessageThreads},
     name:'MessagesComponent',
     data(){
       return{
@@ -113,6 +116,7 @@ export default {
    computed:{
         ...mapGetters({
             results:"GET_MESSAGES",
+            threads:"GET_MESSAGE_THREADS",
         })
     }
 }
@@ -124,11 +128,40 @@ export default {
     margin: auto;
     position: relative;
     display: flex;
-    gap: 20px;
+    /* gap: 20px; */
 
     .messages-left{ width: 30%; }
     .messages-center{
       width: 45%;
+      position: relative;
+      max-height: 86vh;
+      .send-message{
+          display: flex;
+          align-items: center;
+          bottom: 0;
+          gap: 15px;
+          height: 18%;
+          border-top: 1px solid $light-gray;
+          margin-top: 10px;
+          padding: 0 20px;
+        textarea{
+          padding: 30px 50px;
+          background-color: transparent;
+          margin: 0px;
+          font-size: 13px; border: none; overflow-y: hidden !important;
+          box-shadow: none;
+          resize: none;
+          overflow-y: scroll;
+          height: 100% !important;
+          
+        }
+        textarea::placeholder{
+            font-size: 13px; color: $gray !important;
+        }
+        textarea:focus{
+          border:0;
+        }
+      }
     }
     .messages-right{ width: 25%; border-left: 1px solid $light-gray !important; }
  /*    .messages-center,.messages-left, .messages-right{ height: 100%; } */
@@ -139,10 +172,7 @@ export default {
       padding: 1rem 1rem 0 1rem;
       }
     }
-    
-
     .online{
-      
       border-radius: 0;
       .list-group-item{ border: none; }
       margin-top: 7px;
@@ -181,5 +211,18 @@ export default {
       }
     }
 }
-
+.bi-paperclip{
+  transform: rotate(38deg);
+  color: $dark-gray;
+  width: 25px;
+  height: auto;
+}
+.bi-cursor-fill{
+  color: #fff;
+    width: 35px;
+    height: 35px;
+    padding: 8px;
+    border-radius: 90px 90px 90px 90px;
+    @extend .gradient-blue-bg-color;
+}
 </style>

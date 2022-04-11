@@ -83,6 +83,7 @@ export default {
       return{
         emailIds:[],
         show: false,
+        initCall:true,
       }
     },
     methods:{
@@ -123,6 +124,12 @@ export default {
     threads(){
       console.log("threads changed:::")
         this.show = false;
+    },
+    results(){
+      if(this.initCall) {
+        this.$store.dispatch("GET_THREADSBYID",this.results[0]);
+        this.initCall = false;
+      }
     }
   }
 }

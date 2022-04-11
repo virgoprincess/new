@@ -354,9 +354,342 @@ export default{
         },
         ];
         state.commit("SET_MESSAGES",payload);
+        state.dispatch("SET_MESSAGE_THREADSBYID");
         /* state.commit("SET_LOADER",false); */
     },
-
+    SET_MESSAGE_THREADSBYID(state,payload){
+      console.log("SET_MESSAGE_THREADSBYID is called:::")
+      var results = {
+        "meta": {
+          "page": 0,
+          "page_size": 1,
+          "first_page_url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages?Order=desc&PageSize=1&Page=0",
+          "previous_page_url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages?Order=desc&PageSize=1&Page=0",
+          "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages?Order=desc&PageSize=1&Page=0",
+          "next_page_url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages?Order=desc&PageSize=1&Page=1&PageToken=PAIMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+          "key": "messages"
+        },
+        "messages": [
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC123",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "Hi Jess, I can't make it today. I have so many things to do for my thesis.",
+            "media": [
+              {
+                "sid": "MEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "size": 42056,
+                "content_type": "image/jpeg",
+                "filename": "car.jpg"
+              }
+            ],
+            "author": "Hannah Marquez",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlWo1DN8gOdNE5UMHgNT8IExJr6zkwxVQZC16sKqxqie35eWVBiYwv5POGNZYUo=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:38:21Z",
+            "date_updated": "2022-03-24T20:38:21Z",
+            "index": 9,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC124",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "Oh! not a problem. We'll hang out next time.",
+            "media": null,
+            "author": "Jess Parker",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlxGW6ffJA-WIdIHBsom2v0LVtOTq6G-mH8Qb-t_RCeBIgTsb76btMqS2_TSSjD=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:37:57Z",
+            "date_updated": "2022-03-24T20:37:57Z",
+            "index": 0,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC123",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "By the way, I am on leave next Tuesday. If you're free, let's tatch up.",
+            "media": null,
+            "author": "Hannah Marquez",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlWo1DN8gOdNE5UMHgNT8IExJr6zkwxVQZC16sKqxqie35eWVBiYwv5POGNZYUo=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:38:21Z",
+            "date_updated": "2022-03-24T20:38:21Z",
+            "index": 5,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC124",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "Oh cool! Yeah, That would be great. I'm free next week <3",
+            "media": [
+              {
+                "sid": "MEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "size": 42056,
+                "content_type": "image/jpeg",
+                "filename": "car.jpg"
+              }
+            ],
+            "author": "Jess Parker",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlxGW6ffJA-WIdIHBsom2v0LVtOTq6G-mH8Qb-t_RCeBIgTsb76btMqS2_TSSjD=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:38:21Z",
+            "date_updated": "2022-03-24T20:38:21Z",
+            "index": 9,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC123",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "Can't wait to see you. brb have a call from a client.",
+            "media": [
+              {
+                "sid": "MEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "size": 42056,
+                "content_type": "image/jpeg",
+                "filename": "car.jpg"
+              }
+            ],
+            "author": "Hannah Marquez",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlWo1DN8gOdNE5UMHgNT8IExJr6zkwxVQZC16sKqxqie35eWVBiYwv5POGNZYUo=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:38:21Z",
+            "date_updated": "2022-03-24T20:38:21Z",
+            "index": 9,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC124",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "Okay!",
+            "media": null,
+            "author": "Jess Parker",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlxGW6ffJA-WIdIHBsom2v0LVtOTq6G-mH8Qb-t_RCeBIgTsb76btMqS2_TSSjD=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:37:57Z",
+            "date_updated": "2022-03-24T20:37:57Z",
+            "index": 0,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC123",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "Hey! Leslie will be coming home tomorrow. ",
+            "media": null,
+            "author": "Hannah Marquez",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlWo1DN8gOdNE5UMHgNT8IExJr6zkwxVQZC16sKqxqie35eWVBiYwv5POGNZYUo=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:38:21Z",
+            "date_updated": "2022-03-24T20:38:21Z",
+            "index": 5,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC124",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "Really? That's good news!",
+            "media": [
+              {
+                "sid": "MEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "size": 42056,
+                "content_type": "image/jpeg",
+                "filename": "car.jpg"
+              }
+            ],
+            "author": "Jess Parker",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlxGW6ffJA-WIdIHBsom2v0LVtOTq6G-mH8Qb-t_RCeBIgTsb76btMqS2_TSSjD=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:38:21Z",
+            "date_updated": "2022-03-24T20:38:21Z",
+            "index": 9,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          }
+          ,
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC123",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "It's been 6 years since the last time I saw her.",
+            "media": null,
+            "author": "Hannah Marquez",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlWo1DN8gOdNE5UMHgNT8IExJr6zkwxVQZC16sKqxqie35eWVBiYwv5POGNZYUo=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:38:21Z",
+            "date_updated": "2022-03-24T20:38:21Z",
+            "index": 5,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+          {
+            "sid": "IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "account_sid": "AC124",
+            "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "body": "Me, either. She's married now right? I miss you guys so much.",
+            "media": [
+              {
+                "sid": "MEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "size": 42056,
+                "content_type": "image/jpeg",
+                "filename": "car.jpg"
+              }
+            ],
+            "author": "Jess Parker",
+            "participant_sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "photoUrl":'https://lh3.googleusercontent.com/cm/ABXenNlxGW6ffJA-WIdIHBsom2v0LVtOTq6G-mH8Qb-t_RCeBIgTsb76btMqS2_TSSjD=s100',
+            "attributes": {
+              "importance": "high"
+            },
+            "date_created": "2022-03-24T20:38:21Z",
+            "date_updated": "2022-03-24T20:38:21Z",
+            "index": 9,
+            "delivery": {
+              "total": 2,
+              "sent": "all",
+              "delivered": "some",
+              "read": "some",
+              "failed": "none",
+              "undelivered": "none"
+            },
+            "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "links": {
+              "delivery_receipts": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Messages/IMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Receipts"
+            }
+          },
+        ]
+      }
+      state.commit('SET_MESSAGE_THREADSBYID',results);
+    },
     async SET_EMAILS(context){
       if( !context.state.userProfile.newUser )
       {

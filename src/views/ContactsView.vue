@@ -19,12 +19,12 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Name</th>
+                        <th style="width:20%">Name</th>
                         <th>Title</th>
                         <th>Team</th>
                         <th>Location</th>
                         <th>Phone</th>
-                        <th>Email</th>
+                        <th style="width:20%">Email</th>
                         <th>Calendar</th>
                         <th></th>
                     </tr>
@@ -102,10 +102,12 @@ export default {
     table {
         border-collapse: separate;
         border-spacing: 0 15px;
+        table-layout: fixed;
+        word-wrap: break-word;
     }
     td{ @extend .fs-14;}
     th,td {
-        text-align: center;
+        text-align: left;
         border-bottom: 1px solid $light-gray;
         padding: 10px;
     }

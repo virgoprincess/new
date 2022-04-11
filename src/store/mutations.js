@@ -37,8 +37,12 @@ export default{
    SET_MESSAGES(state,payload){
       state.messages = payload;
    },
+   SET_MESSAGE_THREADSBYID(state,payload){
+      state.messageThreads = payload;
+      console.log("message threads:::",state.messageThreads);
+   },
    SET_THREADBYID(state,payload){
-      state.threads = payload;
+      state.emailThreads = payload;
    },
    SET_EMAILS(state,payload){
       state.emails = payload;

@@ -124,6 +124,24 @@ $bold:700;
   text-overflow: none;
   scrollbar-width: none;
 }
+.white-bg{ background-color: #fff; }
+.blue-bg{ background-color: $blue; color: #fff; }
+.left-border-radius{
+  -webkit-border-radius: 25px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius: 25px;
+  -moz-border-radius-topleft: 0;
+  border-radius: 25px;
+  border-top-left-radius: 0;
+}
+.right-border-radius{
+  -webkit-border-radius: 25px;
+  -webkit-border-top-right-radius: 0;
+  -moz-border-radius: 25px;
+  -moz-border-radius-topleft: 0;
+  border-radius: 25px;
+  border-top-right-radius: 0;
+}
 .gradient-blue-bg{
   background: rgb(85,201,232);
   background: -moz-linear-gradient(140deg, rgba(85,201,232,1) 0%, rgba(42,145,222,1) 100%);
