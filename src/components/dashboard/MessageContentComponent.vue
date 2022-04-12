@@ -1,7 +1,8 @@
 <template>
   <div class="message-content">
-      <div class="subject">{{ data.subject }}</div>
-      <div class="message">{{ data.message }}</div>
+      <div class="subject">{{ data.messageContent.subject }}</div>
+      <div style="display:block" class="message" :class="data.id+'-hide'">{{ data.messageContent.message.slice(0,80) + '...' }} <b-link @click="showReadMore(data.id)">Read more</b-link> </div>
+      <div style="display:none" class="message" :class="data.id+'-show'">{{ data.messageContent.message}}</div>
   </div>
 </template>
 
@@ -10,6 +11,12 @@ export default {
     name:'MessageContentComponent',
     props:{
         data:[],
+    },
+    methods:{
+        showReadMore(uid){
+            document.getElementsByClassName(uid+'-hide')[0].style.display = 'none';
+            document.getElementsByClassName(uid+'-show')[0].style.display = 'block';
+        }
     }
 }
 </script>

@@ -86,6 +86,24 @@
           </b-col>
         </b-row>
 
+        <b-row class="justify-content-between">
+          <b-col cols="3">
+            <label for="">Do not Disturb</label>
+          </b-col>
+          <b-col class="d-flex flex-column">
+            <b-form-radio v-model="selected"  name="invitation-radios" value="default" class="pt-4">
+                <p>Default</p>
+              </b-form-radio>
+              <b-form-radio v-model="selected"  name="invitation-radios" value="automatic" class="pt-4">
+                <p>Automatically disable notifications from:</p>
+              </b-form-radio>
+            <div class="d-flex gap-3 pt-4" >
+              <b-form-input type="text" placeholder="Start Time"></b-form-input>
+              <b-form-input type="text" placeholder="End Time"></b-form-input>
+            </div>
+          </b-col>
+        </b-row>
+
         <b-row>
           <b-col cols="3">
             <label>Local Time</label>

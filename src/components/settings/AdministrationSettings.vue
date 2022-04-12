@@ -24,23 +24,23 @@
           </b-col>
         </b-row>
 
-        <b-row class="justify-content-between">
+        <!-- <b-row class="justify-content-between">
           <b-col cols="3">
-            <label for="">Joining Sphyr</label>
+            <label for="">Do not Disturb</label>
           </b-col>
           <b-col class="d-flex flex-column">
-            <b-form-radio v-model="selected"  name="invitation-radios" value="A" class="pt-4">
-                <p>Allow invitations</p>
+            <b-form-radio v-model="selected"  name="invitation-radios" value="default" class="pt-4">
+                <p>Default</p>
               </b-form-radio>
-              <b-form-radio v-model="selected"  name="invitation-radios" value="A" class="pt-4">
-                <p>Allow invitations adn approve invitations for any email address from the following domains</p>
+              <b-form-radio v-model="selected"  name="invitation-radios" value="automatic" class="pt-4">
+                <p>Automatically disable notifications from:</p>
               </b-form-radio>
             <div class="d-flex gap-3 pt-4" >
               <b-form-input type="text" placeholder="Start Time"></b-form-input>
               <b-form-input type="text" placeholder="End Time"></b-form-input>
             </div>
           </b-col>
-        </b-row>
+        </b-row> -->
 
         <b-row>
           <b-col cols="3">
@@ -67,6 +67,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .administration-settings::v-deep{
+  .custom-control-input{
+    width: 50px !important;
+  }
+  .custom-control-label{ width: 100%;}
   max-height: 77vh;
   /* padding: 30px 50px; */
 

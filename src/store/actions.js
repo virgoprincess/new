@@ -28,6 +28,7 @@ export default{
                 {
                 messages:{
                     type:"1",
+                    id:"ME01",
                     time:"10:52 AM",
                     profileInfo:{ firstName:"Michael", lastName:"Williams",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/f21ce49c84cbcc1afa4c408d997c1949?s=400&d=robohash&r=x" },
                     messageContent:{
@@ -44,6 +45,7 @@ export default{
             {
                 messages:{
                     type:"2",
+                    id:"ME02",
                     time:"10:52 AM",
                     profileInfo:{ firstName:"John", lastName:"Scott",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/f5c3451ebd1abd59a67ad3b41b90b796?s=400&d=robohash&r=x" },
                     messageContent:{
@@ -61,6 +63,7 @@ export default{
             {
                 messages:{
                     type:"1",
+                    id:"ME03",
                     time:"10:52 AM",
                     profileInfo:{ firstName:"Hillary", lastName:"Wilson",jobTitle:"Executive", profileImage:"https://avatars.dicebear.com/v2/female/04ffc0c2338bad4bdb2e8661625ce1cc.svg" },
                     messageContent:{
@@ -76,6 +79,7 @@ export default{
             {
                 messages:{
                     type:"2",
+                    id:"ME04",
                     time:"10:52 AM",
                     profileInfo:{ firstName:"Robert", lastName:"Patt",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/04ffc0c2338bad4bdb2e8661625ce1cc?s=400&d=robohash&r=x" },
                     messageContent:{
@@ -735,9 +739,13 @@ export default{
            if(res.name == 'To')
             msgs.to = res.value; 
 
-            var result = context.state.contacts.all.find(contact => msgs.email === contact.email);
+            /* console.log("contacts:::",context.state.contacts.all) */
+            var result = [];
+            if( context.state.contacts.all != undefined ){
+              result = context.state.contacts.all.find(contact => msgs.email === contact.email);
+            }
+            /* var result = context.state.contacts.all != undefined ? context.state.contacts.all.find(contact => msgs.email === contact.email) : ''; */
             msgs.photoUrl = result != undefined ? result.photoUrl : '';
-            console.log("result::::" ,result, "\nPhoto Url:::",msgs.photoUrl);
             });    
          msgs.snippet = response.data.snippet.length > 30 ? response.data.snippet.slice(0,30) + "..." : response.data.snippet ;
          msgs.threadId = response.data.threadId;
@@ -900,8 +908,11 @@ export default{
           personFields:'emailAddresses,names,genders,urls,locations,occupations,events,phoneNumbers,addresses,coverPhotos,photos,organizations',
         }
       }).then((response)=>{
+        console.log("Internal Data::::",response.data.connections);
+
         var internalContacts =[];
-        console.log("Internal Data::::",response.data.connections)
+        if(response.data.connections != undefined){
+        /* console.log("Internal Data::::",response.data.connections) */
         response.data.connections.forEach((contact)=>{
           /* console.log("contacts::::" ,contact) */
           var contactInfo = [];
@@ -914,8 +925,8 @@ export default{
           contactInfo.email = contact.emailAddresses ? contact.emailAddresses[0].value :'';
           internalContacts.push(contactInfo);
         });
+        }
         setContacts.internal = internalContacts;
-        /* context.state.contacts.internal = internalContacts; */
       });
 
       await axios.get(`https://people.googleapis.com/v1/otherContacts?sources=READ_SOURCE_TYPE_PROFILE&sources=READ_SOURCE_TYPE_CONTACT`,{
@@ -924,7 +935,9 @@ export default{
           readMask: 'emailAddresses,names,genders,urls,locations,occupations,events,phoneNumbers,addresses,coverPhotos,photos,organizations',
         }
       }).then((response)=>{
-        console.log("External Data::::",response.data.otherContacts)
+        console.log("External Data::::",response.data.otherContacts);
+        if( response.data.otherContacts != undefined){
+          
         context.state.contacts.external = response.data.otherContacts;
         var externalContacts =[];
         var all = [];
@@ -944,11 +957,12 @@ export default{
         setContacts.all = setContacts.internal.concat(setContacts.external);
         /* context.state.contacts.all = all;
         setContacts.all = all; */
-        console.log("Other Contacts Results::::",response.data.otherContacts,"\nAll::::", all)
+        console.log("All contacts",setContacts)
         context.commit("SET_CONTACTS",setContacts);
-        context.commit("SET_LOADER",false);
+        }
       });
       
+      context.commit("SET_LOADER",false);
       /* context.commit("SET_LOADER",false); */
     },
     async SET_STORAGE(context,payload){

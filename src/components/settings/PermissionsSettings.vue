@@ -25,11 +25,11 @@
         </b-col>
       </b-row>
 
-    <b-row>
+    <b-row class="justify-content-between">
       <b-col cols="3">
         <label for="">Required Admin Approval</label>
       </b-col>
-      <b-col class="d-flex justify-content-end gap-4">
+      <b-col cols="4" class="yes-no d-flex justify-content-between gap-4">
         <b-form-radio v-model="selected"  name="approval-radios" value="Yes">
             <label for="">Yes</label>
         </b-form-radio>
@@ -54,15 +54,15 @@
       </b-col>
     </b-row>
 
-    <b-row>
+    <b-row class="justify-content-between">
       <b-col cols="3">
         <label for="">Uploading and sharing files in conversations with people from other companies</label>
       </b-col>
-      <b-col class="d-flex justify-content-end gap-4">
-        <b-form-radio v-model="selected"  name="storage-radios" value="enable">
+      <b-col cols="4" class="d-flex justify-content-between gap-4">
+        <b-form-radio v-model="selected"  name="storage-radios" value="shareEnable">
             <label for="">Enable</label>
         </b-form-radio>
-        <b-form-radio v-model="selected"  name="storage-radios" value="disable">
+        <b-form-radio v-model="selected"  name="storage-radios" value="shareDisable">
             <label for="">Disable</label>
         </b-form-radio>
       </b-col>
@@ -82,11 +82,11 @@
       </b-col>
     </b-row>
 
-    <b-row>
+    <b-row class="justify-content-between">
       <b-col cols="3">
         <label for="">Member Analytics</label>
       </b-col>
-      <b-col class="d-flex justify-content-end gap-4">
+      <b-col cols="4" class="d-flex justify-content-between gap-4">
         <b-form-radio v-model="selected"  name="analytics-radios" value="enable">
             <label for="">Enable</label>
         </b-form-radio>
@@ -134,5 +134,6 @@ export default {
 <style lang="scss" scoped>
   .permissions-settings{
     max-height: 77vh;
+    .yes-no{padding-right: 40px;}
   }
 </style>

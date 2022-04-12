@@ -5,15 +5,15 @@
           <b-icon-chat-dots class="news-type-chat" v-if="data.messages.type == 2"></b-icon-chat-dots>
       </div>
       <div class="newsfeed-info d-flex">
-         <div>
-             <div class="newsfeed-top">
+         <div class="newsfeed-content">
+            <div class="newsfeed-top">
                 <contact-name :data="data.messages.profileInfo"/>
                 <div class="date">
                     <div class="day">TODAY</div>
                     <div class="time">{{data.messages.time}}</div>
                 </div>
             </div>
-            <message-content-component :data="data.messages.messageContent"/>
+            <message-content-component :data="data.messages"/>
             <attachments-components :data="data.messages.attachments"/>
          </div>
          <b-icon-check-circle class="check-btn" @click="$emit('hideFeed')"></b-icon-check-circle>
@@ -34,7 +34,6 @@ export default {
     props:{
         data:[],
     },
-
 }
 </script>
 
@@ -48,6 +47,7 @@ export default {
         > div{ position: relative;}
         .newsfeed-info{    padding: 20px 0 20px 60px;}
     }
+    .newsfeed-content{width: 100%;}
     .news-type-email,.news-type-chat{
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;

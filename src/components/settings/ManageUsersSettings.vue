@@ -35,7 +35,7 @@
               <td>{{ member.username }}</td>
               <td class="fw-700">{{ member.email}}</td>
               <td> {{member.role}} </td>
-              <td></td>
+              <td>{{ member.status }}</td>
             </tr>
           </tbody>
         </table>
@@ -50,16 +50,16 @@ export default {
   data(){
     return{
       members:[
-        { name:'James Stewart', email:'email@gmail.com', role:'Admin',username:'James123'},
-        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner',username:'Rachel1121'},
-        { name:'Tony Roberts', email:'email@gmail.com', role:'User',username:'tonyrob332'},
-        { name:'Joseph Adams', email:'email@gmail.com', role:'User',username:'josephadeam'},
-        { name:'Ray Smith', email:'email@gmail.com', role:'Guest',username:'454dRay'},
-        { name:'James Stewart', email:'email@gmail.com', role:'Admin',username:'James123'},
-        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner',username:'James123'},
-        { name:'Tony Roberts', email:'email@gmail.com', role:'User',username:'James123'},
-        { name:'Joseph Adams', email:'email@gmail.com', role:'User',username:'James123'},
-        { name:'Ray Smith', email:'email@gmail.com', role:'Guest',username:'James123'},
+        { name:'James Stewart', email:'email@gmail.com', role:'Admin',username:'James123', status:'inactive'},
+        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner',username:'Rachel1121', status:'active'},
+        { name:'Tony Roberts', email:'email@gmail.com', role:'User',username:'tonyrob332', status:'active'},
+        { name:'Joseph Adams', email:'email@gmail.com', role:'User',username:'josephadeam', status:'active'},
+        { name:'Ray Smith', email:'email@gmail.com', role:'Guest',username:'454dRay', status:'active'},
+        { name:'James Stewart', email:'email@gmail.com', role:'Admin',username:'James123', status:'active'},
+        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner',username:'James123', status:'active'},
+        { name:'Tony Roberts', email:'email@gmail.com', role:'User',username:'James123', status:'active'},
+        { name:'Joseph Adams', email:'email@gmail.com', role:'User',username:'James123', status:'active'},
+        { name:'Ray Smith', email:'email@gmail.com', role:'Guest',username:'James123', status:'active'},
       ]
     }
   }
