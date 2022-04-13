@@ -42,7 +42,7 @@
         <div class="d-flex align-items-center gap-2">
           <b-input-group class="search-member">
             <b-icon-search />
-            <b-form-input  v-model="searchedText"  placeholder="Search" autocomplete="off" ></b-form-input>
+            <b-form-input  v-model="search"  placeholder="Search" autocomplete="off" ></b-form-input>
           </b-input-group>
           <b-button class="btn-add">
               <b-icon-plus />
@@ -51,7 +51,9 @@
       </div>
 
       <div class="members-list scrollable">
-        <table class="tabletable-bordered">
+        <b-table small :items="filteredData" :fields="fields" responsive="sm">
+        </b-table>
+        <!-- <table class="tabletable-bordered">
           <thead>
             <tr>
               <th>Name</th>
@@ -74,7 +76,7 @@
               <td> {{member.role}} </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
 
       </b-container>
@@ -83,27 +85,57 @@
 <script>
 export default {
   name:'OverviewSettings',
+  mounted(){
+    this.setupTable();
+  },
+   methods:{
+    setupTable(){
+      this.filteredData = this.members;
+    }
+  },
   data(){
     return{
-      members:[
-        { name:'James Stewart', email:'email@gmail.com', role:'Admin'},
-        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner'},
-        { name:'Tony Roberts', email:'email@gmail.com', role:'User'},
-        { name:'Joseph Adams', email:'email@gmail.com', role:'User'},
-        { name:'Ray Smith', email:'email@gmail.com', role:'Guest'},
-        { name:'James Stewart', email:'email@gmail.com', role:'Admin'},
-        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner'},
-        { name:'Tony Roberts', email:'email@gmail.com', role:'User'},
-        { name:'Joseph Adams', email:'email@gmail.com', role:'User'},
-        { name:'Ray Smith', email:'email@gmail.com', role:'Guest'},
+      fields:[
+        {
+          key:'name',
+          sortable:true,
+        },
+        {
+          key:'emailAddress',
+          sortable:true,
+        },
+        {
+          key:'role',
+          sortable:true,
+        },
       ],
-      searchedText:''
+      members:[
+        { name:'James Stewart', emailAddress:'stewartJ@gmail.com', role:'Admin'},
+        { name:'Jane Williams', emailAddress:'janeW@gmail.com', role:'Owner'},
+        { name:'Tony Roberts', emailAddress:'rob123@gmail.com', role:'User'},
+        { name:'Joseph Adams', emailAddress:'josam11@gmail.com', role:'User'},
+        { name:'Ray Smith', emailAddress:'raysun@gmail.com', role:'Guest'},
+        { name:'James Bond', emailAddress:'bondpaper@gmail.com', role:'Admin'},
+        { name:'Rachel Williams', emailAddress:'willra@gmail.com', role:'Owner'},
+        { name:'Julia Roberts', emailAddress:'robj@gmail.com', role:'User'},
+        { name:'Joseph Marco', emailAddress:'jmsilence@gmail.com', role:'User'},
+        { name:'Ray Velasco', emailAddress:'velascor@gmail.com', role:'Guest'},
+      ],
+      search:'',
+      filteredData:[],
+    }
+  },
+  watch:{
+    search(){
+      this.filteredData = this.members.filter(member => {
+        return member.name.toLowerCase().match(this.search.toString().toLowerCase()) || member.emailAddress.toLowerCase().match(this.search.toString().toLowerCase()) || member.role.toLowerCase().match(this.search.toString().toLowerCase());
+      });
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.overview-settings{
+.overview-settings::v-deep{
   /* padding: 30px 50px; */
   max-height: 77vh;
   .search-member{
@@ -115,7 +147,7 @@ export default {
     width: 350px;
     svg{ color: $light-gray; }
     input{
-      color: $light-gray;
+      color: $black;
       background-color: transparent;
       padding: 0 0 0 5px;
       border: 0;
@@ -124,7 +156,7 @@ export default {
       font-style: normal;
     }
   }
-  .btn-add{ width: 50px;background-color: #fff; border-color:$light-gray; height:45px;}
+  .btn-add,.btn-add:focus,.btn-add:hover{ width: 50px;background-color: #fff; border-color:$light-gray; height:45px;color: $black;}
   .members-list{ max-height: 55vh;}
 /* .tabletable-bordered{ width: 100%; }
   
@@ -148,5 +180,15 @@ export default {
     background-color: $background-color;
     top: 0;
   } */
+   th{
+    background-image: none !important;
+  }
+  img {
+      width: 50px;
+      height: 50px;
+    }
+  .sr-only{
+    display: none;
+  }
 }
 </style>

@@ -20,7 +20,7 @@ export default{
         state.commit("SET_RESET");
       }
       state.commit("SETUSER_ACCOUNT",profileInfo);
-      state.dispatch("SET_CONTACTS");
+      if(payload != null) state.dispatch("SET_CONTACTS");
       state.commit("SET_LOADER",false);
     },
     SET_DASHBOARD(state,payload){

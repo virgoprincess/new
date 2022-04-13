@@ -23,7 +23,7 @@
                         <th>Title</th>
                         <th>Team</th>
                         <th>Location</th>
-                        <th>Phone</th>
+                        <th style="width:15%">Phone</th>
                         <th style="width:20%">Email</th>
                         <th>Calendar</th>
                         <th></th>

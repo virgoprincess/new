@@ -36,7 +36,7 @@
         <div class="d-flex align-items-center gap-2">
           <b-input-group class="search-member">
             <b-icon-search />
-            <b-form-input  v-model="searchedText"  placeholder="Search" autocomplete="off" ></b-form-input>
+            <b-form-input  v-model="search"  placeholder="Search" autocomplete="off" ></b-form-input>
           </b-input-group>
           <b-button class="btn-add">
               <b-icon-plus />
@@ -45,7 +45,17 @@
       </div>
 
       <div class="members-list scrollable">
-        <table class="tabletable-bordered">
+        <b-table small :items="filteredData" :fields="fields" responsive="sm">
+          <template #cell(user)="data">
+             <b-img
+                  class="logo"
+                  rounded="circle"
+                  :src="require('@/assets/images/image-file-3.jpg')"
+                  alt="Left image"
+                ></b-img> {{ data.item.user }}
+          </template>
+        </b-table>
+        <!-- <table class="tabletable-bordered">
           <thead>
             <tr>
               <th>Name</th>
@@ -68,7 +78,7 @@
               <td> {{member.role}} </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
 
       </b-container>
@@ -77,27 +87,66 @@
 <script>
 export default {
   name:'AnalyticsSettings',
+  mounted(){
+    this.setupTable();
+  },
+  methods:{
+    setupTable(){
+      this.filteredData = this.members;
+    }
+  },
   data(){
     return{
-      members:[
-        { name:'James Stewart', email:'email@gmail.com', role:'Admin'},
-        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner'},
-        { name:'Tony Roberts', email:'email@gmail.com', role:'User'},
-        { name:'Joseph Adams', email:'email@gmail.com', role:'User'},
-        { name:'Ray Smith', email:'email@gmail.com', role:'Guest'},
-        { name:'James Stewart', email:'email@gmail.com', role:'Admin'},
-        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner'},
-        { name:'Tony Roberts', email:'email@gmail.com', role:'User'},
-        { name:'Joseph Adams', email:'email@gmail.com', role:'User'},
-        { name:'Ray Smith', email:'email@gmail.com', role:'Guest'},
+      fields:[
+        {
+          key:'user',
+          sortable:true,
+        },
+        {
+          key:'userType',
+          sortable:true,
+        },
+        {
+          key:'dateCreated',
+          label:'Account Creation',
+          sortable:true,
+        },
+        {
+          key:'daysActive',
+          sortable:true,
+        },
+        {
+          key:'totalMessages',
+          sortable:true,
+        },
       ],
-      searchedText:''
+      filteredData:[],
+      members:[
+        {user:'James Stewart',userType:'Admin',dateCreated:'Dec. 12, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'Justin James',userType:'Owner',dateCreated:'Jan. 01, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'Bond Justin',userType:'Owner',dateCreated:'Feb. 24, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'Leslie Craig',userType:'Owner',dateCreated:'Mar. 09, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'Mark Bond',userType:'Owner',dateCreated:'Apr. 07, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'Joseph Lee',userType:'Owner',dateCreated:'May. 15, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'John Cruz',userType:'Admin',dateCreated:'June. 17, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'Marie Luis',userType:'Owner',dateCreated:'July. 23, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'Copper Luke',userType:'Owner',dateCreated:'Aug. 29, 2022', daysActive:'91',totalMessages:'1,938'},
+        {user:'Sherly Bert',userType:'Admin',dateCreated:'Sept. 08, 2022', daysActive:'91',totalMessages:'1,938'},
+      ],
+      search:''
+    }
+  },
+  watch:{
+    search(){
+      this.filteredData = this.members.filter(member => {
+        return member.user.toLowerCase().match(this.search.toString().toLowerCase()) || member.userType.toLowerCase().match(this.search.toString().toLowerCase());
+      });
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.analytics-settings{
+.analytics-settings::v-deep{
   /* padding: 30px 50px; */
   max-height: 77vh;
   .row{
@@ -117,7 +166,7 @@ export default {
     width: 350px;
     svg{ color: $light-gray; }
     input{
-      color: $light-gray;
+      color: $black;
       background-color: transparent;
       padding: 0 0 0 5px;
       border: 0;
@@ -126,9 +175,9 @@ export default {
       font-style: normal;
     }
   }
-  .btn-add{ width: 50px;background-color: #fff; border-color:$light-gray; height:45px;}
+  .btn-add,.btn-add:focus,.btn-add:hover{ width: 50px;background-color: #fff; border-color:$light-gray; height:45px;color: $black;}
   .members-list{ max-height: 55vh;}
- /*  .tabletable-bordered{ width: 100%; }
+  /* .tabletable-bordered{ width: 100%; }
   
   table {
   border-collapse: separate;
@@ -150,5 +199,15 @@ export default {
     background-color: $background-color;
     top: 0;
   } */
+  th{
+    background-image: none !important;
+  }
+  img {
+      width: 50px;
+      height: 50px;
+    }
+  .sr-only{
+    display: none;
+  }
 }
 </style>

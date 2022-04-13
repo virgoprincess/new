@@ -24,6 +24,7 @@ export default {
         if(this.$route.path != '/dashboard')
         this.$router.push({path:'/dashboard'}) 
         this.setupTimers();
+        this.setupBeforeUnload();
       } else
         {
         console.log("isSignedIn?:::",this.$store.state.isSignedIn);
@@ -75,6 +76,12 @@ export default {
         
         this.startTimer();
         },
+        setupBeforeUnload(){
+          window.addEventListener('beforeunload',function(e){
+            console.log("Page reloads or refreshed:::");
+            return false;
+          })
+        }
     }
 }
 </script>
