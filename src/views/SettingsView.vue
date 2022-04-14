@@ -3,19 +3,19 @@
       <div class="settings-menu">
         <h5>Settings</h5>
         <b-list-group>
-          <b-list-group-item @click="menuClicked('account')">Account</b-list-group-item>
-          <b-list-group-item @click="menuClicked('profile')">Profile</b-list-group-item>
-          <b-list-group-item @click="menuClicked('analytics')">Analytics</b-list-group-item>
-          <b-list-group-item @click="menuClicked('overview')">Overview</b-list-group-item>
+          <b-list-group-item @click="menuClicked('account')" :class="menu === 'account'? 'menu-active':'menu-inactive'">Account</b-list-group-item>
+          <b-list-group-item @click="menuClicked('profile')" :class="menu === 'profile'? 'menu-active':'menu-inactive'">Profile</b-list-group-item>
+          <b-list-group-item @click="menuClicked('analytics')" :class="menu === 'analytics'? 'menu-active':'menu-inactive'">Analytics</b-list-group-item>
+          <b-list-group-item @click="menuClicked('overview')" :class="menu === 'overview'? 'menu-active':'menu-inactive'">Overview</b-list-group-item>
         </b-list-group>
 
         <h5>Administration</h5>
         <b-list-group>
-          <b-list-group-item @click="menuClicked('administration')">Settings</b-list-group-item>
-          <b-list-group-item @click="menuClicked('permissions')">Permissions</b-list-group-item>
-          <b-list-group-item @click="menuClicked('manageusers')">Manage Users</b-list-group-item>
-          <b-list-group-item @click="menuClicked('invitations')">Invitations</b-list-group-item>
-          <b-list-group-item @click="menuClicked('billings')">Billing</b-list-group-item>
+          <b-list-group-item @click="menuClicked('administration')" :class="menu === 'administration'? 'menu-active':'menu-inactive'">Settings</b-list-group-item>
+          <b-list-group-item @click="menuClicked('permissions')" :class="menu === 'permissions'? 'menu-active':'menu-inactive'">Permissions</b-list-group-item>
+          <b-list-group-item @click="menuClicked('manageusers')" :class="menu === 'manageusers'? 'menu-active':'menu-inactive'">Manage Users</b-list-group-item>
+          <b-list-group-item @click="menuClicked('invitations')" :class="menu === 'invitations'? 'menu-active':'menu-inactive'">Invitations</b-list-group-item>
+          <b-list-group-item @click="menuClicked('billings')" :class="menu === 'billings'? 'menu-active':'menu-inactive'">Billing</b-list-group-item>
         </b-list-group>
       </div>
       <div class="settings-content">
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name:'SetttingsComponent',
     created(){
@@ -37,8 +38,16 @@ export default {
       menuClicked(menu){
         console.log("current route:::",this.$route.path)
         console.log("destination route:::",'/settings/'+menu.toLowerCase())
+        this.$store.dispatch("SET_CURRENTMENU",menu);      
         if(this.$route.path != '/settings/'+ menu.toLowerCase()) this.$router.push({path: '/settings/'+menu.toLowerCase()})
       }
+    },
+    computed:{
+      ...mapGetters(
+        {
+          menu : "GET_CURRENTMENU",
+        }
+      )
     }
 }
 </script>
@@ -84,13 +93,20 @@ export default {
     color: $gray;
     font-weight: 600;
   }
-  .list-group-item:hover,.list-group-item:focus{
+  /* .list-group-item:hover,.list-group-item:focus{
     background-color: $lighter-gray;
-  }
+  } */
   .list-group-item:last-child{
     margin-bottom: 50px;
   }
   h5{padding-left: 55px;}
+  
+  .menu-active{
+    background-color: $lighter-gray;
+  }
+  /* .menu-inactive{
+    background-color:transparent;
+  } */
 }
 .settings-content::v-deep{
    padding: 30px 50px;

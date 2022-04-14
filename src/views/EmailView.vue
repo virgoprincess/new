@@ -1,7 +1,7 @@
 <template>
   <div class="email-component" v-if="results.length > 0">
       <div class="email-left scrollable">
-          <preview-component @click-mail="getThread(result)" v-for="(result,i) in results" :key="i" :data="[result,'email']"/>
+          <preview-component @click-mail="getThread(result)" :selectedId="selectedMessage" v-for="(result,i) in results" :key="i" :data="[result,'email']"/>
       </div>
       <div class="email-center scrollable">
           <!-- <div class="email-fixed-menu"> -->
@@ -84,11 +84,13 @@ export default {
         emailIds:[],
         show: false,
         initCall:true,
+        selectedMessage:'',
       }
     },
     methods:{
       getThread(res){
         this.show = true;
+        this.selectedMessage = res.threadId;
         this.$store.dispatch("GET_THREADSBYID",res);
         if(document.getElementsByClassName('thread-content')){
           var length = document.getElementsByClassName('thread-content').length;
@@ -128,6 +130,7 @@ export default {
     results(){
       if(this.initCall) {
         this.$store.dispatch("GET_THREADSBYID",this.results[0]);
+        this.selectedMessage = this.results[0].threadId;
         this.initCall = false;
       }
     }

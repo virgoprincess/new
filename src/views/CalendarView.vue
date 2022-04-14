@@ -143,10 +143,11 @@
       </v-col>
     </v-row>
 
-    <div>
-      <div class="small-calendar">
+    <div class="side-calendar">
+      <!-- <div class="small-calendar">
         <b-calendar v-model="monthValue" :date-info-fn="dateClass" locale="en"></b-calendar>
-      </div>
+      </div> -->
+      <small-calendar/>
 
       <div class="event-categories">
         <div class="d-flex justify-content-between align-items-center"><h6 class="fw-700">Categories</h6> <b-icon-plus-circle></b-icon-plus-circle></div>
@@ -162,8 +163,10 @@
 </template>
 
 <script>
+import SmallCalendar from '@/components/calendar/SmallCalendar.vue';
 import { mapGetters } from 'vuex'
   export default {
+  components: { SmallCalendar },
     data: () => ({
       monthValue:'',
       focus: '',
@@ -318,7 +321,9 @@ import { mapGetters } from 'vuex'
 }
 .big-calendar {
   padding-right: 20px;
+  width: 80%;
 }
+.side-calendar{width: 20%; }
 .event-categories{
   padding-top: 20px;
 
@@ -342,7 +347,7 @@ import { mapGetters } from 'vuex'
 
   .v-btn.type-label{ border: 0; }
   
-  .v-btn--has-bg:focus:before,.v-btn--has-bg:hover:before{ opacity: 0 !important; }
+  .big-calendar .v-btn--has-bg:focus:before,.big-calendar .v-btn--has-bg:hover:before{ opacity: 0.24 !important; }
   .v-past::before,.v-future::before{ background:$gray; }
   .v-present::before{ @extend .gradient-blue-bg;  }
   .v-past::before,.v-future::before,.v-present::before{
@@ -360,7 +365,7 @@ import { mapGetters } from 'vuex'
     top: 0;
     transition: opacity .2s cubic-bezier(.4,0,.6,1);
   }
-  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present{
+  .big-calendar .v-past:hover,.v-past:focus-within,.big-calendar .v-future:hover,.big-calendar .v-future:focus-within,.big-calendar .v-present{
     .v-calendar-daily_head-weekday,.v-btn > span{
       color: #fff !important;
     }
@@ -396,5 +401,8 @@ import { mapGetters } from 'vuex'
     color: $gray;
     strong{ color: black;}
   }
+  /* .row{
+    flex: 0;
+  } */
 }
 </style>

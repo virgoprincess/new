@@ -1,5 +1,5 @@
 <template>
-  <b-list-group-item class="preview-list" @click="$emit('click-mail')" v-if="data.length > 0">
+  <b-list-group-item :class="data[1]=='email' && selectedId == data[0].threadId ? 'selected':''" class="preview-list" @click="$emit('click-mail')" v-if="data.length > 0">
       <div class="d-flex gap-3">
         <b-img rounded="circle" :src="data[0].photoUrl != '' ? data[0].photoUrl : 'https://gravatar.com/avatar/f21ce49c84cbcc1afa4c408d997c1949?s=400&d=robohash&r=x'" alt='' v-if="data[1] == 'email'" /> 
         <b-img rounded="circle" :src="data[0].profileImage" alt="" v-else /> 
@@ -29,6 +29,7 @@ export default {
     name:'PreviewComponent',
     props:{
         data:[],
+        selectedId:String,
 
     }
 }
@@ -53,4 +54,5 @@ img{
 .name,.email-subj{ font-size: 15px; font-weight: 700;}
 .date{font-size: 12px; color: $gray; font-weight: 500;}
 .msg{font-size: 13px; color: $gray; font-weight: 500;}
+.selected{ background-color: transparent; }
 </style>

@@ -764,14 +764,12 @@ export default{
     },
     async GET_THREADSBYID(context,payload){
       var threads = [];
-
         /* context.commit("SET_LOADER",true); */
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/threads/${payload.threadId}`,{
           headers:{
             Authorization:  `Bearer ${context.state.accessToken}`
           }
         }).then((response)=>{
-          console.log("THREADS::::",response)
           response.data.messages.forEach((message)=>{
             var thread=[];
             message.payload.headers.forEach((content)=>{
@@ -839,7 +837,7 @@ export default{
                     console.log("data:::",message.payload.body)
                     content.push({"data":base64Content,"mimeType":message.payload.body.mimeType});
                   }else{
-                    console.log("it went here:::",data)
+                    //do something here
                   }
               }
               thread.content = content;

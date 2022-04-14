@@ -63,7 +63,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .invitations-settings{
-  max-height: 77vh;
+  max-height: 71vh;
   .row:first-child{
     border-bottom: 0;
     margin-bottom: 0px;

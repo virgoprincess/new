@@ -201,7 +201,10 @@ export default {
   } */
   th{
     background-image: none !important;
+    width: 20%;
   }
+  td{vertical-align: middle;}
+  th:first-child
   img {
       width: 50px;
       height: 50px;

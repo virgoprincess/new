@@ -182,6 +182,7 @@ export default {
   } */
    th{
     background-image: none !important;
+    width: 33.33%;
   }
   img {
       width: 50px;
