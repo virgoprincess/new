@@ -1,2 +1,2 @@
 
-export const timeoutInMS = 18000000;
+export const timeoutInMS = 180000;

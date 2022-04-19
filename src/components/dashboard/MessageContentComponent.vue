@@ -1,8 +1,8 @@
 <template>
   <div class="message-content">
       <div class="subject">{{ data.messageContent.subject }}</div>
-      <div style="display:block" class="message" :class="data.id+'-hide'">{{ data.messageContent.message.slice(0,80) + '...' }} <b-link @click="showReadMore(data.id)">Read more</b-link> </div>
-      <div style="display:none" class="message" :class="data.id+'-show'">{{ data.messageContent.message}}</div>
+      <div :style="data.messageContent.message.length > 92 ? 'display:block':'display:none'" class="message" :class="data.id+'-hide'">{{ data.messageContent.message.slice(0,80) + '...' }} <b-link @click="showReadMore(data.id)">Read more</b-link> </div>
+      <div :style="data.messageContent.message.length <= 92 ? 'display:block': 'display:none'" class="message" :class="data.id+'-show'">{{ data.messageContent.message}}</div>
   </div>
 </template>
 

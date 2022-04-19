@@ -11,7 +11,14 @@
         </b-row>
         
       <div class="members-list scrollable">
-        <table class="tabletable-bordered">
+        <b-table small responsive="sm" :items="members" :fields="fields" >
+          <template #cell(status)="data">
+            <div class="member-status" :class="data.item.status.toLowerCase() === 'accepted' ? 'accepted' :'pending'">
+              <b-icon-check2 v-show="data.item.status.toLowerCase() == 'accepted'"/> {{data.item.status}}
+            </div> 
+          </template>
+        </b-table>
+        <!-- <table class="tabletable-bordered">
           <thead>
             <tr>
               <th>Name</th>
@@ -28,13 +35,13 @@
               <td>{{ member.invitedBy}}</td>
               <td>{{member.date}} </td>
               <td> 
-                <div class="member-status" :class="member.status === 'accepted' ? 'accepted' :'pending'">
+                <div class="member-status" :class="member.status.toLowerCase() === 'accepted' ? 'accepted' :'pending'">
                   <b-icon-check2/> {{member.status}}
                 </div> 
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
 
       </b-container>
@@ -45,28 +52,62 @@ export default {
   name:'InvitationsSettings',
   data(){
     return{
+      fields:[
+        {
+          key:'name',
+          sortable:true,
+        },
+        {
+          key:'email',
+          label:'Email Address',
+          sortable:true,
+        },
+        {
+          key:'invitedBy',
+          sortable:true,
+        },
+        {
+          key:'date',
+          sortable:true,
+        },
+        {
+          key:'status',
+          sortable:true,
+        }
+      ],
       members:[
-        { name:'James Stewart', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'accepted'},
-        { name:'Rachel Williams', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'pending'},
-        { name:'Tony Roberts', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'accepted'},
-        { name:'Joseph Adams', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'accepted'},
-        { name:'Ray Smith', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'pending'},
-        { name:'James Stewart', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'accepted'},
-        { name:'Rachel Williams', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'accepted'},
-        { name:'Tony Roberts', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'accepted'},
-        { name:'Joseph Adams', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'accepted'},
-        { name:'Ray Smith', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'accepted'},
+        { name:'James Stewart', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Accepted'},
+        { name:'Rachel Williams', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Pending'},
+        { name:'Tony Roberts', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Accepted'},
+        { name:'Joseph Adams', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Accepted'},
+        { name:'Ray Smith', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Pending'},
+        { name:'James Stewart', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Accepted'},
+        { name:'Rachel Williams', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Accepted'},
+        { name:'Tony Roberts', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Accepted'},
+        { name:'Joseph Adams', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Accepted'},
+        { name:'Ray Smith', email:'email@gmail.com', invitedBy:'Jessica Shaw', date:'Dec. 1, 2022', status:'Accepted'},
       ]
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.invitations-settings{
+.invitations-settings::v-deep{
   max-height: 71vh;
   .row:first-child{
     border-bottom: 0;
     margin-bottom: 0px;
+  }
+  th{
+    background-image: none !important;
+    /* width: 33.33%; */
+  }
+  img {
+      width: 50px;
+      height: 50px;
+    }
+  .sr-only{
+    display: none;
   }
 }
 /* .tabletable-bordered{ width: 100%; }

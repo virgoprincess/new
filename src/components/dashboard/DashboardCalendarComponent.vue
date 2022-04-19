@@ -198,8 +198,9 @@ export default {
     .v-btn{max-height: 40px;}
     .v-calendar-daily_head-day-label{ margin: 0; }
     }
-  .v-past::before,.v-future::before{ background:$gray; }
-  .v-present::before{ @extend .gradient-blue-bg;  }
+  .v-past::before,.v-future::before,.v-present::before,.v-present:focus-within{ @extend .gradient-blue-bg; }
+  /* .v-present::before{ @extend .gradient-blue-bg; } */
+  .v-present{ border-radius: 5px; }
   .v-past::before,.v-future::before,.v-present::before{
     z-index: -1;
     border-radius: 5px;
@@ -213,7 +214,7 @@ export default {
     top: 0;
     transition: opacity .2s cubic-bezier(.4,0,.6,1);
   }
-  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present{
+  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present:hover,.v-present:focus-within{
     .v-calendar-daily_head-weekday,.v-btn > span{
       color: #fff !important;
     }
@@ -227,11 +228,14 @@ export default {
     background-color: transparent !important;
     color: $black !important;
   }
-  .v-present::before{
+ /*  .v-present::before{
     opacity: 1;
-  }
+  } */
   .v-ripple__animation--in{
     opacity: 0 !important;
+  }
+  .black--text{
+    color: $gray !important;
   }
 }
 </style>

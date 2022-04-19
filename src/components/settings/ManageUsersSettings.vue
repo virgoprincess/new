@@ -11,7 +11,8 @@
         </b-row>
         
       <div class="members-list scrollable">
-        <table class="tabletable-bordered">
+        <b-table small :fields="fields" :items="members" responsive="sm"></b-table>
+        <!-- <table class="tabletable-bordered">
           <thead>
             <tr>
               <th>Name</th>
@@ -38,7 +39,7 @@
               <td>{{ member.status }}</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
 
       </b-container>
@@ -49,24 +50,48 @@ export default {
   name:'ManageUsersSettings',
   data(){
     return{
+      fields:[
+        {
+          key:'name',
+          sortable:true,
+        },
+        {
+          key:'username',
+          sortable:true,
+        },
+        {
+          key:'email',
+          label:'Email Address',
+          sortable:true,
+        },
+        {
+          key:'role',
+          label:'User Type',
+          sortable:true,
+        },
+        {
+          key:'status',
+          sortable:true,
+        }
+      ],
       members:[
-        { name:'James Stewart', email:'email@gmail.com', role:'Admin',username:'James123', status:'inactive'},
-        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner',username:'Rachel1121', status:'active'},
-        { name:'Tony Roberts', email:'email@gmail.com', role:'User',username:'tonyrob332', status:'active'},
-        { name:'Joseph Adams', email:'email@gmail.com', role:'User',username:'josephadeam', status:'active'},
-        { name:'Ray Smith', email:'email@gmail.com', role:'Guest',username:'454dRay', status:'active'},
-        { name:'James Stewart', email:'email@gmail.com', role:'Admin',username:'James123', status:'active'},
-        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner',username:'James123', status:'active'},
-        { name:'Tony Roberts', email:'email@gmail.com', role:'User',username:'James123', status:'active'},
-        { name:'Joseph Adams', email:'email@gmail.com', role:'User',username:'James123', status:'active'},
-        { name:'Ray Smith', email:'email@gmail.com', role:'Guest',username:'James123', status:'active'},
+        { name:'James Stewart', email:'email@gmail.com', role:'Admin',username:'James123', status:'Inactive'},
+        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner',username:'Rachel1121', status:'Active'},
+        { name:'Tony Roberts', email:'email@gmail.com', role:'User',username:'tonyrob332', status:'Active'},
+        { name:'Joseph Adams', email:'email@gmail.com', role:'User',username:'josephadeam', status:'Active'},
+        { name:'Ray Smith', email:'email@gmail.com', role:'Guest',username:'454dRay', status:'Active'},
+        { name:'James Stewart', email:'email@gmail.com', role:'Admin',username:'James123', status:'Active'},
+        { name:'Rachel Williams', email:'email@gmail.com', role:'Owner',username:'James123', status:'Active'},
+        { name:'Tony Roberts', email:'email@gmail.com', role:'User',username:'James123', status:'Active'},
+        { name:'Joseph Adams', email:'email@gmail.com', role:'User',username:'James123', status:'Active'},
+        { name:'Ray Smith', email:'email@gmail.com', role:'Guest',username:'James123', status:'Active'},
       ]
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.manage-users-settings{
+.manage-users-settings::v-deep{
   .row:first-child{
     border-bottom: 0;
     margin-bottom: 0px;
@@ -115,5 +140,16 @@ export default {
     background-color: $background-color;
     top: 0;
   } */
+   th{
+    background-image: none !important;
+    width: 33.33%;
+  }
+  img {
+      width: 50px;
+      height: 50px;
+    }
+  .sr-only{
+    display: none;
+  }
 }
 </style>

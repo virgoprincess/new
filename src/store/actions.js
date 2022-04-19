@@ -33,7 +33,7 @@ export default{
                     profileInfo:{ firstName:"Michael", lastName:"Williams",jobTitle:"Executive", profileImage:"https://gravatar.com/avatar/f21ce49c84cbcc1afa4c408d997c1949?s=400&d=robohash&r=x" },
                     messageContent:{
                         subject:"Scheduling a call with new lead",
-                        message:"Hi there, this is Liam from SparksServices, I saw you signed up for a free trial on our website. Can we set up a time for a phone call to walk through our product?"
+                        message:"Hi there, this is Liam from SparksServices, I saw you signed up for a free trial on our site"
                         },
                     attachments:[
                         {fileType:"image",fileUrl:'/images/image-file.jpg',firstName:"Sample.jpg"},
@@ -912,15 +912,15 @@ export default{
         if(response.data.connections != undefined){
         /* console.log("Internal Data::::",response.data.connections) */
         response.data.connections.forEach((contact)=>{
-          /* console.log("contacts::::" ,contact) */
           var contactInfo = [];
           contactInfo.photoUrl = contact.photos ? contact.photos[0].url:'';
-          contactInfo.name = contact.names ?  contact.names[0].displayName : '';
+          contactInfo.name = contact.names ?  contact.names[0].displayName :'';
           contactInfo.title = contact.organizations ? contact.organizations[0].title : '';
           contactInfo.org = contact.organizations ? contact.organizations[0].name : '';
           contactInfo.phone = contact.phoneNumbers ? contact.phoneNumbers[0].value : '';
           contactInfo.location = contact.locations ? contact.locations[0].value : '';
           contactInfo.email = contact.emailAddresses ? contact.emailAddresses[0].value :'';
+          contactInfo.type = 'internal';
           internalContacts.push(contactInfo);
         });
         }
@@ -942,12 +942,13 @@ export default{
         response.data.otherContacts.forEach((contact)=>{
           var contactInfo = [];
           contactInfo.photoUrl = contact.photos ? contact.photos[0].url:'';
-          contactInfo.name = contact.names ? contact.names[0].displayName : '';
+          contactInfo.name = contact.names ? contact.names[0].displayName :  contact.emailAddresses ? contact.emailAddresses[0].value.split(/@/)[0]:'';
           contactInfo.title = contact.organizations ? contact.organizations[0].title : '';
           contactInfo.phone = contact.phoneNumbers ? contact.phoneNumbers[0].value : '';
           contactInfo.org = contact.organizations ? contact.organizations[0].name : '';
           contactInfo.location = contact.locations ? contact.locations[0].value : '';
           contactInfo.email = contact.emailAddresses ? contact.emailAddresses[0].value :'';
+          contactInfo.type = 'external';
           externalContacts.push(contactInfo);
         })
         /* context.state.contacts.external = externalContacts; */

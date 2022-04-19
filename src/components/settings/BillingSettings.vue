@@ -11,7 +11,17 @@
         </b-row>
         
       <div class="billing-list scrollable">
-        <table class="tabletable-bordered">
+        <b-table small responsive="sm" :items="lists" :fields="fields">
+          <template #cell(status)='data'>
+            <div class="billing-status" :class="data.item.status.toLowerCase() === 'paid' ? 'paid' :'pending'">
+              <b-icon-check2 v-show="data.item.status.toLowerCase() === 'paid'"/> {{data.item.status}}
+            </div> 
+          </template>
+          <template #cell(download)>
+            <b-icon-cloud-download/>
+          </template>
+        </b-table>
+        <!-- <table class="tabletable-bordered">
           <thead>
             <tr>
               <th>Name</th>
@@ -29,7 +39,7 @@
               <td>{{ member.charges}}</td>
               <td>{{member.date}} </td>
               <td class="d-flex"> 
-                <div class="billing-status" :class="member.status === 'paid' ? 'paid' :'pending'">
+                <div class="billing-status" :class="member.status.toLowerCase() === 'paid' ? 'paid' :'pending'">
                   <b-icon-check2/> {{member.status}}
                 </div> 
               </td>
@@ -38,7 +48,7 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
 
       <b-row class="pb-5">
@@ -191,12 +201,39 @@ export default {
   name:'BillingSettings',
   data(){
     return{
-      members:[
-        { item:'INVOICE - 00234 ', balance:'$0', charges:'$500', date:'Dec. 1, 2022', status:'paid'},
-        { item:'INVOICE - 00235 ', balance:'$0', charges:'$500', date:'Nov. 1, 2022', status:'paid'},
-        { item:'INVOICE - 00236 ', balance:'$0', charges:'$500', date:'Oct. 1, 2022', status:'pending'},
-        { item:'INVOICE - 00237 ', balance:'$0', charges:'$500', date:'Sept. 1, 2022', status:'paid'},
-        { item:'INVOICE - 00238 ', balance:'$0', charges:'$500', date:'Aug. 1, 2022', status:'paid'},
+      fields:[
+        {
+          key:'item',
+          sortable:true,
+        },
+        {
+          key:'balance',
+          sortable:true,
+        },
+        {
+          key:'charges',
+          sortable:true,
+        },
+        {
+          key:'date',
+          sortable:true,
+        },
+        {
+          key:'status',
+          sortable:true,
+        },
+        {
+          key:'download',
+          label:'',
+          sortable:false,
+        }
+      ],
+      lists:[
+        { item:'INVOICE - 00234 ', balance:'$0', charges:'$500', date:'Dec. 1, 2022', status:'Paid'},
+        { item:'INVOICE - 00235 ', balance:'$0', charges:'$500', date:'Nov. 1, 2022', status:'Paid'},
+        { item:'INVOICE - 00236 ', balance:'$0', charges:'$500', date:'Oct. 1, 2022', status:'Pending'},
+        { item:'INVOICE - 00237 ', balance:'$0', charges:'$500', date:'Sept. 1, 2022', status:'Paid'},
+        { item:'INVOICE - 00238 ', balance:'$0', charges:'$500', date:'Aug. 1, 2022', status:'Paid'},
       ],
       selected:''
     }
@@ -208,7 +245,20 @@ export default {
     border-bottom: 0;
     margin-bottom: 0px;
   }
-.billing-settings{ max-height: 77vh; }
+.billing-settings::v-deep{ 
+  max-height: 77vh; 
+  th{
+    background-image: none !important;
+    /* width: 33.33%; */
+  }
+  img {
+      width: 50px;
+      height: 50px;
+    }
+  .sr-only{
+    display: none;
+  }
+  }
   .billing-list{
     max-height: 77vh;
   }

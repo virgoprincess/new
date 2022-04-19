@@ -17,7 +17,7 @@
                 <p class="name fs-15">{{data[0].firstName + data[0].lastName}}</p>
                 <p class="date">12:52 PM</p>
             </div>
-            <p class="msg">{{data[1]}}</p>
+            <p class="msg">{{data[1].length > 92 ? data[1].slice(0,89) + '...' : data[1]}}</p>
         </div>
 
       </div>
