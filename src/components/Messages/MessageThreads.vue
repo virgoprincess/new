@@ -17,7 +17,7 @@ export default {
 
 <style lang="scss" scoped>
 .message-threads{
-  padding: 20px 20px 0 20px;
+  padding: 0 7%;
   height: 80%;
 }
 </style>

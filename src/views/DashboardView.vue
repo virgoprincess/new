@@ -41,17 +41,19 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-component{
-    width: 85%;
+    justify-content: center;
+    width: 80%;
     margin: auto;
     position: relative;
     display: flex;
-    padding: 20px 0;
     gap: 20px;
     .dashboard-left{
+        padding: 20px 0;
         width: 62%;
     }
     .dashboard-right{
-        width: 35%;
+        padding: 20px 0;
+        width: 30%;
     }
     /* .dashboard-right{
         width: 25%;

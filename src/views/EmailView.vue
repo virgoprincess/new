@@ -149,7 +149,7 @@ export default {
 
     .email-left{ width: 25% }
     .email-center{ width: 55%; }
-    .email-right{ width: 25%; border-left: 1px solid $light-gray !important; }
+    .email-right{ width: 20%; border-left: 1px solid $light-gray !important; }
     /* .email-center,.email-left,.email-right{ height: 100%; } */
 
 

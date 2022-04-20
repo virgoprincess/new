@@ -67,6 +67,12 @@ export default {
             console.log("watcher::");
              if( this.contacts.all ){
                 this.contacts.all.sort(this.sortContactsbyName);
+                this.contacts.all.map(contact =>{
+                    if(contact.phone){
+                        contact.phone = this.formatPhone(contact.phone);
+                    }
+                    return contact;
+                })
              }
             this.current = this.contacts.all;
         }
@@ -82,11 +88,25 @@ export default {
             return 0;
         },
         tabChanged(val){
-            console.log("Menu:::", val);
             this.menu = val ;
             if( this.menu == 'all' ) this.current = this.contacts.all;
             if( this.menu == 'internal' ) this.current = this.contacts.internal;
             if( this.menu == 'external' ) this.current = this.contacts.external;
+        },
+        //this format is applicable for US phone numbers only
+        formatPhone(phone){
+            phone = ''+phone.replace(/\D/g,'');
+            const match = phone.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+            if( match ){
+                var intlCode = (match[1] ? '+1 ' : '');
+                return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+            }
+            return phone;
+
+            /* phone = ''+phone.replace(/\D/g,'');
+            const match = phone.match(/^(\d{1,3})(\d{0,3})(\d{0,4})(\d{0,4})$/);
+            if(match) phone = `(${match[1]}${match[2] ? ') ' : ''}${match[2]}${match[3] ? '-' : ''}${match[3]}${match[4] ? ' x' : ''}${match[4]}`;
+            return phone; */
         }
     },
 /*     data(){

@@ -3,7 +3,7 @@
     <b-input-group >
       <div class="d-flex justify-content-center align-items-center" @click="!isSearching ? isSearching = true: ''">
         <b-icon-search />
-      <b-form-input  v-model="searchedText"  placeholder="Search" autocomplete="off" ></b-form-input>
+      <b-form-input  v-model="searchedText"  :placeholder="menu != 'DASHBOARD' ? 'Search '+ menu.charAt(0).toUpperCase()+menu.slice(1).toLowerCase() : 'Search'" autocomplete="off" ></b-form-input>
       </div>
       <b-icon-x @click="isSearching = false"/>
     </b-input-group>
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name:'SearchComponent',
   data(){
@@ -79,6 +80,11 @@ export default {
       this.isDisabled = true;
     }
   },
+  computed:{
+    ...mapGetters({
+      menu:'GET_CURRENTMENU'
+    })
+  }
 /*   watch:{
     isSearching(){
       if(!this.isSearching)this.searchedText = "";
@@ -93,13 +99,13 @@ export default {
 .search-component{
   /* caret-color: transparent; */
   cursor: default;
-  width: 200px;
+  width: 350px;
   z-index: 99;
   position: absolute;
   padding: 10px;
   background-color: #fff;
   box-shadow: none;
-  margin: 20px 0 0 310px;
+  margin: 10px 0 0 310px;
   border-radius: 10px;
   .input-group{
     border-radius: 90px;
@@ -111,7 +117,7 @@ export default {
   }
     input {
       background-color: transparent;
-      font-size: 1.2rem;
+      font-size: 18px;
       font-weight: 400;
       border: none;
     }
@@ -189,6 +195,7 @@ export default {
   }
 }
 .on-search{
+  /* padding: 10px; */
   width: 537px !important;
   height: 356px !important;
   box-shadow: 2px 2px 8px #00000029 !important;

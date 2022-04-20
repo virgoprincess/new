@@ -80,6 +80,8 @@
             ref="calendar"
             v-model="focus"
             color="black"
+            first-time="T05:00:00"
+            interval-count="16"
             :type="type"
             :events="events"
             @click:event="showEvent"
@@ -231,8 +233,8 @@ import { mapGetters } from 'vuex'
       },
       updateRange ({ start, end }) {
         const events = [];
-        const min = new Date(`${start.date}T00:00:00`)
-        const max = new Date(`${end.date}T23:59:59`)
+        const min = new Date(`${start.date}T06:00:00`)
+        const max = new Date(`${end.date}T20:00:00`)
         const days = (max.getTime() - min.getTime()) / 86400000
         const eventCount = this.rnd(days, days + 20)
         /* console.log("Min:::", min, "\nMax:::", max) */

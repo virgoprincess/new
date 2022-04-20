@@ -147,6 +147,9 @@ export default {
             repassword:{ required, sameAsPassword: sameAs("password") },
         }
     },
+    /* created(){
+       console.log("Access Token Login:::",localStorage.getItem('accessToken'));
+    }, */
     methods:{
         validateState(name){
             const { $dirty, $error } = this.$v.user[name];
@@ -188,9 +191,12 @@ export default {
                 const basicProfile = googleUser.getBasicProfile(); */
                 this.$store.commit("SET_USER_ID",googleUser.getBasicProfile().getEmail());
                 this.$store.commit("SET_ACCESS_TOKEN",googleUser.getAuthResponse(true).access_token);
+                localStorage.userId = googleUser.getBasicProfile().getEmail();
+                localStorage.accessToken = googleUser.getAuthResponse(true).access_token;
                 if(this.isSignIn && googleUser.getAuthResponse(true).access_token) {
                     googleUser.newUser = false;
                     this.$store.dispatch("SETUSER_ACCOUNT",googleUser);
+                    localStorage.googleUser = googleUser;
                     this.$router.push({name:'home'}); 
                 }else{
                     this.$store.commit("SET_LOADER",false);

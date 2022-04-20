@@ -4,15 +4,15 @@
       <div class="notif-container">
           <b-img rounded :src="require('@/assets/images/image-file.jpg')" alt="" />
           <div>
-              <div class="notif-title">Title of message</div>
-              <div class="notif-message">Lorem ipsum sed usted dolor…</div>
+              <div class="notif-title">Earth Quake Drill</div>
+              <div class="notif-message">Please participate the drill which will happen anytime today.</div>
           </div>
       </div>
       <div class="notif-container">
-          <b-img rounded :src="require('@/assets/images/image-file.jpg')" alt="" />
+          <b-img rounded :src="require('@/assets/images/image-file.jpg')" alt=""/>
           <div>
-              <div class="notif-title">Title of message</div>
-              <div class="notif-message">Lorem ipsum sed usted dolor…</div>
+              <div class="notif-title">Wear Mask</div>
+              <div class="notif-message">Wear your mask at all times.</div>
           </div>
       </div>
   </div>

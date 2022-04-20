@@ -30,7 +30,7 @@ export default {
 <style lang="scss">
 .loader{height: 86vh;}
 .canvass{
-  padding:0 0 0 100px;
+  padding:0 0 0 75px;
   z-index: -1;
   width: 100%;
   height: 86vh;

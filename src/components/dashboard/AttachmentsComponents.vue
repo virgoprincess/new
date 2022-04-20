@@ -21,9 +21,10 @@ export default {
 
 <style lang="scss" scoped>
     .attachments{
-        display: flex;
-        gap: 10px;
-    }
+      padding-left: 15px;
+      display: flex;
+      gap: 10px;
+  }
     /* img{
         width: 76px;
         height: 53px;

@@ -8,14 +8,14 @@
             <b-form-input type="search" placeholder="Search"></b-form-input>
           </b-input-group>
         </b-col> -->
-        <b-col cols="2" class="add-new">
+        <b-col cols="2" class="add-new p-0">
           <b-button-group>
             <b-button variant="outline-primary">
               <b-icon-plus /> Add New
             </b-button>
           </b-button-group>
         </b-col>
-        <b-col cols="1" class="profile d-flex justify-content-center align-items-center" @click="showProfileOptions = !showProfileOptions">
+        <b-col cols="1" class="profile d-flex justify-content-center align-items-center p-0" @click="showProfileOptions = !showProfileOptions">
           <b-icon-dot></b-icon-dot>
           <b-img
             rounded="circle"
@@ -85,6 +85,7 @@ export default {
   methods:{
     async logout(){
       try {
+            localStorage.clear();
             const result = await this.$gAuth.signOut();
             this.$router.push({path:'/login'}) 
             this.$store.dispatch("SETUSER_ACCOUNT",null);
@@ -119,23 +120,25 @@ export default {
 #menu {
   width: 100%;
   margin: auto;
+  height: 75px;
   position: relative;
 }
-.top-menu{
+/* .top-menu{
   height: 100px;
-}
+} */
 .top-menu > .row {
   max-width: 1920px;
   position: fixed;
-  gap: 20px;
+  align-content: center;
+  /* gap: 20px; */
   align-items: center;
-  padding: 25px;
+  padding-right: 25px;
   z-index: 1;
   margin: 0 5px;
   top: 0;
   background-color: #fff;
   width: 100%;
-  height: 100px;
+  height: 75px;
   border-bottom: 1px solid $light-gray;
 }
 .profile{
@@ -146,14 +149,14 @@ export default {
   background-color: #fff;
   margin: auto;
   height: 100%;
-  width: 100px;
+  width: 75px;
   top: 0;
   /* left: 0; */
   /* margin-left:-15px; */
   z-index: 51;
 
   .logo {
-    padding: 35px 0;
+    padding: 20px 0;
   }
   .menu-container {
     ul {
@@ -261,7 +264,7 @@ b-icon-search {
 }
 .profile-options{
   margin-right: 2%;
-  top: 85px;
+  top: 74px;
   font-size: 14px;
   font-weight: 500;
   width: 300px;

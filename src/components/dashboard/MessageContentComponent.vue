@@ -1,7 +1,7 @@
 <template>
   <div class="message-content">
       <div class="subject">{{ data.messageContent.subject }}</div>
-      <div :style="data.messageContent.message.length > 92 ? 'display:block':'display:none'" class="message" :class="data.id+'-hide'">{{ data.messageContent.message.slice(0,80) + '...' }} <b-link @click="showReadMore(data.id)">Read more</b-link> </div>
+      <div :style="data.messageContent.message.length > 92 ? 'display:block':'display:none'" class="message" :class="data.id+'-hide'">{{ data.messageContent.message.slice(0,74) + '...' }} <b-link @click="showReadMore(data.id)">Read more</b-link> </div>
       <div :style="data.messageContent.message.length <= 92 ? 'display:block': 'display:none'" class="message" :class="data.id+'-show'">{{ data.messageContent.message}}</div>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
 
 <style lang="scss" scoped>
 .message-content{
-    padding: 20px 0 10px 0;
+    padding: 20px 0 10px 15px;
     .subject{
         font-size: 18px;
         font-weight: 600;

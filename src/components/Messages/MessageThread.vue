@@ -7,7 +7,7 @@
         <span class="fs-11 fw-600 gray-small-text">11:32 pm</span>
       </div>
       <div class="text-message ">
-        <p class="fs-14 fw-400">
+        <p class="fs-13 fw-400">
           {{ data.body }}
         </p>
       </div>
@@ -35,15 +35,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 .message-thread{
+  padding-top: 20px;
   p{margin:0}
-  .profile{width: 44px; height: 44px; }
+  .profile{width: 37px; height: 37px; }
   .name{line-height: 12px;margin-top: 5px;}
   .text-message{
-      margin: 10px 0;
-     padding: 5px;
-     max-width: 580px;
-     position: relative;
-     width: fit-content;
+  /*   margin: 10px 0;
+    padding: 5px; */
+    max-width: 350px;
+    position: relative;
+    width: fit-content;
     p{ padding: 10px 10px; width: fit-content; width: 100%;}
   }
   .media-message{

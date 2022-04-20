@@ -20,6 +20,7 @@ export default {
         SearchComponent
     },
     beforeMount(){
+      console.log("Access Token Main Component beforeMount:::",localStorage.getItem('accessToken'));
       if( this.$store.state.isSignedIn ){
         if(this.$route.path != '/dashboard')
         this.$router.push({path:'/dashboard'}) 

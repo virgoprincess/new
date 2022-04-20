@@ -26,7 +26,6 @@
           <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> 
           <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> 
           <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> 
-          <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> 
         </b-list-group-item>
       </b-list-group>
 
@@ -130,9 +129,9 @@ export default {
     display: flex;
     /* gap: 20px; */
 
-    .messages-left{ width: 30%; }
+    .messages-left{ width: 25%; }
     .messages-center{
-      width: 45%;
+      width: 55%;
       position: relative;
       max-height: 86vh;
       .send-message{
@@ -163,7 +162,7 @@ export default {
         }
       }
     }
-    .messages-right{ width: 25%; border-left: 1px solid $light-gray !important; }
+    .messages-right{ width: 20%; border-left: 1px solid $light-gray !important; }
  /*    .messages-center,.messages-left, .messages-right{ height: 100%; } */
     
     .pinned, .today, .online {
