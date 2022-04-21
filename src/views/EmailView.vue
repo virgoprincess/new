@@ -4,7 +4,6 @@
           <preview-component @click-mail="getThread(result)" :selectedId="selectedMessage" v-for="(result,i) in results" :key="i" :data="[result,'email']"/>
       </div>
       <div class="email-center scrollable">
-          <!-- <div class="email-fixed-menu"> -->
             <div class="email-menu d-flex justify-content-between">
                 <div class="menu-icons d-flex gap-4">
                     <b-icon-envelope-fill></b-icon-envelope-fill>

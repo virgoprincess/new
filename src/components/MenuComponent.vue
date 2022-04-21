@@ -2,12 +2,6 @@
   <div id="menu">
     <div class="top-menu">
       <b-row align-h="end">
-        <!-- <b-col md="7" class="search ml-md-auto">
-          <b-input-group>
-            <b-icon-search />
-            <b-form-input type="search" placeholder="Search"></b-form-input>
-          </b-input-group>
-        </b-col> -->
         <b-col cols="2" class="add-new p-0">
           <b-button-group>
             <b-button variant="outline-primary">

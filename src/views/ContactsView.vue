@@ -109,14 +109,6 @@ export default {
             return phone; */
         }
     },
-/*     data(){
-      return{
-        menu:'contacts'
-      }
-    },
-    mounted(){
-      this.$store.dispatch("SET_CURRENTMENU",this.menu)
-    } */
 }
 </script>
 

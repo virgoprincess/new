@@ -11,11 +11,6 @@
           {{ data.body }}
         </p>
       </div>
-     <!--  <div class="media-message">
-        <b-img :src="require('@/assets/images/image-file-3.jpg')"></b-img>
-        <b-img :src="require('@/assets/images/image-file-3.jpg')"></b-img>
-      </div> -->
-   
     </div>
 
   </div>

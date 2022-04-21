@@ -28,9 +28,6 @@ export default {
             this.$store.commit("SET_LOADER",false);
         }
     },
-    updated(){
-        /* this.$store.commit("SET_LOADER",false); */
-    },
     computed:{
         ...mapGetters({
             results:"GET_DASHBOARD",

@@ -46,14 +46,6 @@
     <div class="messages-right scrollable">
 
       <div class="profile-info d-flex flex-column gap-3 align-items-center fs-15">
-        <!-- <b-img rounded="circle" :src="require('@/assets/icons/man.jpg')" alt="" /> 
-        <p class="fs-15">Bruce Scott</p>
-        <div class="d-flex">
-          <b-icon-telephone-fill></b-icon-telephone-fill>
-          <b-icon-envelope-fill></b-icon-envelope-fill>
-          <b-icon-chat-dots-fill></b-icon-chat-dots-fill>
-          <b-icon-calendar-event-fill></b-icon-calendar-event-fill>
-        </div> -->
         <profile-component/>
       </div>
 

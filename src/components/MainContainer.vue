@@ -13,11 +13,6 @@
 import { mapGetters } from 'vuex'
 export default {
     name:'MainContainer',
-    /* data(){
-      return{
-        show:true,
-      }
-    }, */
     computed:{
       ...mapGetters({
         show:'GET_LOADER'
