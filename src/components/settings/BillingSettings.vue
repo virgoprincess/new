@@ -13,7 +13,7 @@
       <div class="billing-list scrollable">
         <b-table small responsive="sm" :items="lists" :fields="fields">
           <template #cell(status)='data'>
-            <div class="billing-status" :class="data.item.status.toLowerCase() === 'paid' ? 'paid' :'pending'">
+            <div class="billing-status" :class="data.item.status.toLowerCase() === 'paid' ? 'green-highlight' :'red-highlight'">
               <b-icon-check2 v-show="data.item.status.toLowerCase() === 'paid'"/> {{data.item.status}}
             </div> 
           </template>
@@ -39,7 +39,7 @@
               <td>{{ member.charges}}</td>
               <td>{{member.date}} </td>
               <td class="d-flex"> 
-                <div class="billing-status" :class="member.status.toLowerCase() === 'paid' ? 'paid' :'pending'">
+                <div class="billing-status" :class="member.status.toLowerCase() === 'paid' ? 'green-highlight' :'red-highlight'">
                   <b-icon-check2/> {{member.status}}
                 </div> 
               </td>

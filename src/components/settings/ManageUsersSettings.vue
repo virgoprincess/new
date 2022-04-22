@@ -11,7 +11,13 @@
         </b-row>
         
       <div class="members-list scrollable">
-        <b-table small :fields="fields" :items="members" responsive="sm"></b-table>
+        <b-table small :fields="fields" :items="members" responsive="sm">
+          <template #cell(status)='data'>
+            <div class="billing-status" :class="data.item.status.toLowerCase() === 'active' ? 'green-highlight' :'red-highlight'">
+              <b-icon-check2 v-show="data.item.status.toLowerCase() === 'active'"/> {{data.item.status}}
+            </div> 
+          </template>
+        </b-table>
         <!-- <table class="tabletable-bordered">
           <thead>
             <tr>
@@ -142,7 +148,7 @@ export default {
   } */
    th{
     background-image: none !important;
-    width: 33.33%;
+    width: 20%;
   }
   img {
       width: 50px;

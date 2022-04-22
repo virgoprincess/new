@@ -44,6 +44,7 @@ export default {
     position: relative;
     display: flex;
     gap: 20px;
+    min-height: 86vh;
     .dashboard-left{
         padding: 20px 0;
         width: 62%;

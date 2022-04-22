@@ -4,7 +4,7 @@
           <b-icon-envelope class="news-type-email" v-if="data.messages.type == 1"></b-icon-envelope>
           <b-icon-chat-dots class="news-type-chat" v-if="data.messages.type == 2"></b-icon-chat-dots>
       </div>
-      <div class="newsfeed-info d-flex">
+      <div class="newsfeed-info">
          <div class="newsfeed-content">
             <div class="newsfeed-top">
                 <contact-name :data="data.messages.profileInfo"/>
@@ -16,9 +16,26 @@
             <message-content-component :data="data.messages"/>
             <attachments-components :data="data.messages.attachments"/>
          </div>
-         <b-icon-check-circle class="check-btn" @click="$emit('hideFeed')"></b-icon-check-circle>
+         <!-- <b-icon-check-circle class="check-btn" @click="$emit('hideFeed')"></b-icon-check-circle> -->
       </div>
-      <reply-forward/>
+      <div class="d-flex justify-content-between">
+          <div class="clear-snooze d-flex gap-3">
+              <b-link class="no-text-decor" @click="$emit('hideFeed')">Clear</b-link>
+              <b-link class="no-text-decor" @click="showSnooze = true">Snooze</b-link>
+          </div>
+          <div class="snooze-options" v-show="showSnooze" @mouseleave="showSnooze = false">
+            <b-list-group >
+                <span>Snooze</span>
+                <b-list-group-item button @click="showSnooze = false">1 hr</b-list-group-item>
+                <b-list-group-item button @click="showSnooze = false">1 day</b-list-group-item>
+                <b-list-group-item button @click="showSnooze = false">1 week</b-list-group-item>
+                <b-list-group-item button @click="showSnooze = false">Custom</b-list-group-item>
+                <b-list-group-item button @click="showSnooze = false">Never</b-list-group-item>
+            </b-list-group>
+          </div>
+        <!-- <b-icon-check-circle class="check-btn" @click="$emit('hideFeed')"></b-icon-check-circle> -->
+        <reply-forward/>
+      </div>
   </div>
 </template>
 
@@ -34,6 +51,11 @@ export default {
     props:{
         data:[],
     },
+    data(){
+        return{
+            showSnooze:false,
+        }
+    }
 }
 </script>
 
@@ -45,7 +67,39 @@ export default {
         background-color: #fff;
         margin-bottom: 20px;
         > div{ position: relative;}
-        .newsfeed-info{    padding: 20px 0 20px 60px;}
+        .newsfeed-info{    padding: 20px 60px 20px 60px;}
+        .clear-snooze{ 
+            padding-left: 73px; font-size: 12px;
+            font-weight: 700;
+        }
+        .snooze-options{
+            position: absolute;
+            z-index: 2;
+            padding-left: 90px;
+            font-size: 12px;
+            text-align: center;
+            top: -12px;
+            & span{ font-weight: 700;}
+            .list-group{ 
+                background-color: #fff; 
+                box-shadow: 2px 2px 8px #00000029;
+                border-radius: 10px;
+                width: 108px;
+                padding: 12px 5px 5px 5px;
+                gap: 2px;
+            }
+            & button{
+                color: #9C9C9C;
+                border-radius: 5px;
+                border: none;
+                padding: 5px;
+            }
+            & button:hover, & button:focus{
+                background-color: $blue;
+                color: #fff;
+            }
+
+        }
     }
     .newsfeed-content{width: 100%;}
     .news-type-email,.news-type-chat{

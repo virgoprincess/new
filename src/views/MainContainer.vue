@@ -22,7 +22,7 @@ export default {
       ...mapGetters({
         show:'GET_LOADER'
       }),
-    }
+    },
 }
 </script>
 

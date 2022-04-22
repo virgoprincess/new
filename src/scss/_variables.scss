@@ -126,6 +126,9 @@ $bold:700;
 }
 .white-bg{ background-color: #fff; }
 .blue-bg{ background-color: $blue; color: #fff; }
+.no-text-decor{ 
+    text-decoration: none;
+}
 .left-border-radius{
   -webkit-border-radius: 25px;
   -webkit-border-top-left-radius: 0;

@@ -20,10 +20,20 @@ export default {
         SearchComponent
     },
     beforeMount(){
-      console.log("Access Token Main Component beforeMount:::",localStorage.getItem('accessToken'));
       if( this.$store.state.isSignedIn ){
         if(this.$route.path != '/dashboard')
         this.$router.push({path:'/dashboard'}) 
+         this.setupTimers();
+        this.setupBeforeUnload();
+      }else if( localStorage.getItem('isSignIn') ){
+        this.setUserCredentials();
+        this.changeRoute();
+          /* this.$router.push({name:localStorage.getItem('currentPath')}); */
+        /* if(this.$route.path != '/dashboard')
+        {
+          localStorage.setItem('currentPath','dashboard')
+          this.$router.push({path:'/dashboard'});
+        } */
         this.setupTimers();
         this.setupBeforeUnload();
       } else
@@ -33,10 +43,24 @@ export default {
         }
     },
     beforeDestroy(){
-      console.log("BeforeDestroy has been called:::");
       this.removeSessionTracker();
     },
     methods:{
+        changeRoute(){
+          var reroute = false;
+          var path = localStorage.getItem('currentPath');
+          (this.$route.path != '/'+path) ? reroute = true : reroute = false;
+        this.$store.dispatch("SET_CURRENTMENU",path.toUpperCase());        
+        this.$store.dispatch("SET_"+path.toUpperCase());
+        if( reroute ) this.$router.push({path: '/'+path.toLowerCase()});
+        },
+        setUserCredentials(){
+          var userProfile = JSON.parse(localStorage.getItem('userProfile'));
+          this.$store.commit("SET_USER_ID",localStorage.getItem('userId'));
+          this.$store.commit("SET_ACCESS_TOKEN",localStorage.getItem('accessToken'));
+          this.$store.commit("SETUSER_ACCOUNT",userProfile);
+          /* this.$store.commit("SET_CONTACTS"); */
+        },
         async handleInactive(){
           try {
                 const result = await this.$gAuth.signOut();

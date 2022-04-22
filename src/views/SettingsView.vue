@@ -158,11 +158,11 @@ export default {
     background-color: $background-color;
     top: 0;
   }
-  .pending{
+  .red-highlight{
     color: $brown;
     background-color:$light-brown;
   }
-  .accepted,.paid{ 
+  .green-highlight{ 
     color: $medium-green;
     background-color:$light-green;
    }

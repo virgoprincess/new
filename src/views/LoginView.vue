@@ -187,6 +187,7 @@ export default {
                 this.$store.commit("SET_LOADER",true);
                 const googleUser = await this.$gAuth.signIn();
                 this.isSignIn = this.$gAuth.isAuthorized;   
+                localStorage.setItem('isSignIn',this.signIn)
                 /* const access_token = googleUser.getAuthResponse(true).access_token;
                 const basicProfile = googleUser.getBasicProfile(); */
                 this.$store.commit("SET_USER_ID",googleUser.getBasicProfile().getEmail());
@@ -196,7 +197,8 @@ export default {
                 if(this.isSignIn && googleUser.getAuthResponse(true).access_token) {
                     googleUser.newUser = false;
                     this.$store.dispatch("SETUSER_ACCOUNT",googleUser);
-                    localStorage.googleUser = googleUser;
+                    localStorage.userProfile = JSON.stringify(this.$store.state.userProfile);
+                    console.log("UserProfile from store:::",localStorage.getItem('userProfile'))
                     this.$router.push({name:'home'}); 
                 }else{
                     this.$store.commit("SET_LOADER",false);

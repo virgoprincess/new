@@ -13,7 +13,7 @@
       <div class="members-list scrollable">
         <b-table small responsive="sm" :items="members" :fields="fields" >
           <template #cell(status)="data">
-            <div class="member-status" :class="data.item.status.toLowerCase() === 'accepted' ? 'accepted' :'pending'">
+            <div class="member-status" :class="data.item.status.toLowerCase() === 'accepted' ? 'green-highlight' :'red-highlight'">
               <b-icon-check2 v-show="data.item.status.toLowerCase() == 'accepted'"/> {{data.item.status}}
             </div> 
           </template>
