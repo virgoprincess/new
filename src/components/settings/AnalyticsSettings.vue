@@ -1,32 +1,41 @@
 <template>
-  <div class="analytics-settings">
+  <div class="analytics-settings scrollable">
     <b-container fluid class="analytics-form" >
         <b-row>
           <b-col cols=3>
             <h5>Analytics</h5>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row class="align-items-baseline">
           <b-col>
             <div>
               <p>Number of Users</p>
+              <div class="d-flex">
+                <users-chart class="chart"/>
+                <active-users-chart class="chart"/>
+              </div>
+              <div>
+              </div>
             </div>
           </b-col>
           <b-col>
             <div>
               <p>When messages are sent</p>
+              IN PROGRESS..
             </div>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row class="align-items-baseline">
           <b-col>
             <div>
               <p>When messages are read</p>
+              IN PROGRESS..
             </div>
           </b-col>
           <b-col>
             <div>
               <p>File Storage</p>
+              <file-storage-chart class="chart"/>
             </div>
           </b-col>
         </b-row>
@@ -85,7 +94,11 @@
   </div>
 </template>
 <script>
+import ActiveUsersChart from '../charts/ActiveUsersChart.vue';
+import FileStorageChart from '../charts/fileStorageChart.vue';
+import UsersChart from '../charts/UsersChart.vue';
 export default {
+  components: { ActiveUsersChart, UsersChart, FileStorageChart },
   name:'AnalyticsSettings',
   mounted(){
     this.setupTable();
@@ -211,6 +224,11 @@ export default {
     }
   .sr-only{
     display: none;
+  }
+
+  .chart{
+    width:230px !important;
+    height: 230px !important;
   }
 }
 </style>

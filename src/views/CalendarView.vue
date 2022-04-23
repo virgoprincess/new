@@ -330,7 +330,7 @@ import { mapGetters } from 'vuex'
     width: 65px;
     margin: auto;
     z-index: -1;
-    border-radius: 50%;
+    border-radius: 5px;
     bottom: 0;
     content: "";
     left: 0;

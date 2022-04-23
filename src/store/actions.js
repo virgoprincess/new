@@ -68,7 +68,7 @@ export default{
                     profileInfo:{ firstName:"Hillary", lastName:"Wilson",jobTitle:"Executive", profileImage:"https://avatars.dicebear.com/v2/female/04ffc0c2338bad4bdb2e8661625ce1cc.svg" },
                     messageContent:{
                         subject:"Thank you text after an initial call",
-                        message:"Hi Joe, thank you for taking the time for a call today. We’re excited to take next steps with you on your home renovation, we’ll check back in a few days once you’ve had some time to crunch the numbers."
+                        message:"Hi Joe, thank you for taking the time for a call today. We’re excited to take next steps with you on your home renovation, we’ll check back in a few days once you’ve had some time to crunch the numbers. I also sent you a copy of the proposal presented last week through email. Please let me know if you have questions. Thanks!"
                         },
                     attachments:[
                         {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:'Mockup.pdf',fileSize:"200 MB"},
@@ -96,7 +96,7 @@ export default{
             
         ];
         state.commit("SET_DASHBOARD",payload);
-        /* state.commit("SET_LOADER",false); */
+        state.commit("SET_LOADER",false);
     },
     SET_MESSAGES(state, payload){
         payload = [{

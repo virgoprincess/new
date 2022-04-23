@@ -59,6 +59,7 @@ export default {
           this.$store.commit("SET_USER_ID",localStorage.getItem('userId'));
           this.$store.commit("SET_ACCESS_TOKEN",localStorage.getItem('accessToken'));
           this.$store.commit("SETUSER_ACCOUNT",userProfile);
+          this.$store.dispatch("SET_CONTACTS");
           /* this.$store.commit("SET_CONTACTS"); */
         },
         async handleInactive(){

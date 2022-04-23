@@ -18,7 +18,7 @@
          </div>
          <!-- <b-icon-check-circle class="check-btn" @click="$emit('hideFeed')"></b-icon-check-circle> -->
       </div>
-      <div class="d-flex justify-content-between">
+      <div :style="displaySnoozeOption ? 'display:flex; justify-content:space-between;':''">
           <div class="clear-snooze d-flex gap-3">
               <b-link class="no-text-decor" @click="$emit('hideFeed')">Clear</b-link>
               <b-link class="no-text-decor" @click="showSnooze = true">Snooze</b-link>
@@ -34,7 +34,7 @@
             </b-list-group>
           </div>
         <!-- <b-icon-check-circle class="check-btn" @click="$emit('hideFeed')"></b-icon-check-circle> -->
-        <reply-forward/>
+        <reply-forward @compose="show"/>
       </div>
   </div>
 </template>
@@ -54,13 +54,20 @@ export default {
     data(){
         return{
             showSnooze:false,
+            displaySnoozeOption:true,
+        }
+    },
+    methods:{
+        show(visible){
+            this.displaySnoozeOption = !visible;
+            console.log("isVisible::",visible);
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    .newsfeed{
+    .newsfeed::v-deep{
         /* width: 700px; */
         height: fit-content;
         border-radius: 5px;
@@ -70,7 +77,11 @@ export default {
         .newsfeed-info{    padding: 20px 60px 20px 60px;}
         .clear-snooze{ 
             padding-left: 73px; font-size: 12px;
-            font-weight: 700;
+            & a{
+                font-weight: 700;
+                font-size: 12px;
+                color: $gray;
+            }
         }
         .snooze-options{
             position: absolute;

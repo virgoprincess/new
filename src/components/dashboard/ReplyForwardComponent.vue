@@ -1,13 +1,13 @@
 <template>
   <div class="reply-forward" :class="showCompose">
-    <reply-forward-button @compose="isVisible = !isVisible" />
+    <reply-forward-button @compose="isVisible = !isVisible;$emit('compose',isVisible)" />
     <div class="message">
       <div class="message-top">
         <div>
             <b-icon-reply-fill></b-icon-reply-fill>
             <p class="email">michaelwilliams@email.com</p>
         </div>
-        <b-icon-trash @click="isVisible = !isVisible"></b-icon-trash>
+        <b-icon-trash @click="isVisible = !isVisible;$emit('compose',isVisible)"></b-icon-trash>
       </div>
       <div class="message-content">
         <b-form-textarea id="textarea"
@@ -16,7 +16,7 @@
       </div>
       <div class="send"> 
           <b-icon-paperclip></b-icon-paperclip>
-          <b-button-group @click="isVisible = !isVisible">
+          <b-button-group @click="isVisible = !isVisible;$emit('compose',isVisible)">
               <b-icon-cursor-fill></b-icon-cursor-fill>
               Send
           </b-button-group>
@@ -100,7 +100,7 @@ p{
             gap: 10px;
         }
     }
-    .email{ font-size: 12px; color: $gray; font-weight: 500;}
+    .email{ font-size: 12px; color: $gray; font-weight: 500; margin-bottom: 0;}
     .message-content {
       textarea{
         margin-top: 10px;
