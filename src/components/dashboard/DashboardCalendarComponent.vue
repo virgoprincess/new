@@ -180,7 +180,7 @@ export default {
   .v-toolbar__title{ display: block !important; visibility: visible !important; font-size: 18px; font-weight: 700; }
   .v-calendar-daily__body,.v-calendar-daily__intervals-head{ display: none; }
   .v-calendar,.v-calendar-daily_head-day{ border: 0 !important;}
-
+  .v-calendar-daily__head{ height:65px; margin: 0px;}
   .dashboard-calendar{
     position: relative;
     width: 100%;
@@ -193,9 +193,9 @@ export default {
   }
   .v-calendar-daily_head-day{ 
     z-index: 1; 
-    margin: 3px;
+    /* margin: 3px; */
     padding: 3px 0;
-    .v-btn{max-height: 40px;}
+    .v-btn{max-height: 30px;}
     .v-calendar-daily_head-day-label{ margin: 0; }
     }
   .v-past::before,.v-future::before,.v-present::before,.v-present:focus-within{ @extend .gradient-blue-bg; }
@@ -214,7 +214,7 @@ export default {
     top: 0;
     transition: opacity .2s cubic-bezier(.4,0,.6,1);
   }
-  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present:hover,.v-present:focus-within{
+  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present:hover,.v-present,.v-present:focus-within{
     .v-calendar-daily_head-weekday,.v-btn > span{
       color: #fff !important;
     }
@@ -228,14 +228,35 @@ export default {
     background-color: transparent !important;
     color: $black !important;
   }
- /*  .v-present::before{
+  .v-present:before{
     opacity: 1;
-  } */
+  }
   .v-ripple__animation--in{
     opacity: 0 !important;
   }
   .black--text{
     color: $gray !important;
   }
+  button.v-btn.v-btn--fab.v-btn--has-bg.v-btn--round.theme--light.v-size--default.black{
+    padding-top: 20px;
+    .v-btn__content{
+      display: flex;
+      flex-direction: column;
+      max-height: 53px;
+    }
+    ::after{
+      content: ".";
+      vertical-align: middle;
+    }
+  }
+  /* .v-calendar-daily_head-day.v-present
+  {
+    display: flex;
+    flex-direction: column;
+    max-height: 53px;
+    & ::after{
+      content:'.'
+    }
+  } */
 }
 </style>

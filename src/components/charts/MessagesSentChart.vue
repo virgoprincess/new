@@ -6,13 +6,22 @@ import Chart from 'chart.js/auto'
 export default {
   name:'MessagesSentChart',
   mounted(){
-    const datapoints = [2,4,6,8,10]
+    const datapoints = [2,4,6,8,10,8,2,6,10,]
     const data = {
-      labels: ['8','9','10','11','12','1','2','3','4','5'],
+      labels: [['8','AM'],'9','10','11',['12','PM'],'1','2','3','4','5'],
       datasets: [{
           data: datapoints,
-          backgroundColor: ['#9C9C9C'],
-      }]
+          backgroundColor: ['#8C64D1'],
+          categoryPercentage:.4,
+          barPercentage:.5,
+      },
+      {
+          data: [2,2,7,8,4,10,8,2,4,6],
+          backgroundColor: ['#D8D8D8'],
+          categoryPercentage:.4,
+          barPercentage:.5,
+      }
+      ]
     };
 
     const counter = {
@@ -37,6 +46,19 @@ export default {
       data,
       options:{
         responsive:true,
+        scales:{
+          y:{
+            beginAtZero:true,
+            grid:{
+              display:false,
+            }
+          },
+          x:{
+            grid:{
+              display:false
+            }
+          }
+        },
         plugins:{
           tooltip:{
             enabled:false,

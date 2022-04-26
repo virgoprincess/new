@@ -54,7 +54,7 @@ export default {
             }
           },
           counter:{
-            fontColor:'#2A91DE',
+            fontColor:'#81C28B',
             fontSize1:'100',
             fontSize2:'35',
             fontFamily:'sans-serif',

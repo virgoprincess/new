@@ -7,7 +7,7 @@
           </b-col>
         </b-row>
         <b-row class="align-items-baseline">
-          <b-col>
+          <b-col cols=6>
             <div>
               <p>Number of Users</p>
               <div class="d-flex">
@@ -21,19 +21,19 @@
           <b-col>
             <div>
               <p>When messages are sent</p>
-              IN PROGRESS..
+              <messages-sent-chart/>
             </div>
           </b-col>
         </b-row>
         <b-row class="align-items-baseline">
-          <b-col>
+          <b-col cols=6>
             <div>
               <p>When messages are read</p>
-              IN PROGRESS..
+              <messages-read-chart/>
             </div>
           </b-col>
           <b-col>
-            <div>
+            <div class="settings-file-storage">
               <p>File Storage</p>
               <file-storage-chart class="chart"/>
             </div>
@@ -96,9 +96,11 @@
 <script>
 import ActiveUsersChart from '../charts/ActiveUsersChart.vue';
 import FileStorageChart from '../charts/fileStorageChart.vue';
+import MessagesReadChart from '../charts/MessagesReadChart.vue';
+import MessagesSentChart from '../charts/MessagesSentChart.vue';
 import UsersChart from '../charts/UsersChart.vue';
 export default {
-  components: { ActiveUsersChart, UsersChart, FileStorageChart },
+  components: { ActiveUsersChart, UsersChart, FileStorageChart, MessagesSentChart, MessagesReadChart },
   name:'AnalyticsSettings',
   mounted(){
     this.setupTable();
@@ -227,8 +229,10 @@ export default {
   }
 
   .chart{
-    width:230px !important;
-    height: 230px !important;
+    width:210px !important;
+    height: 210px !important;
   }
+  .settings-file-storage .chart{ margin: auto; }
+  p{padding-bottom: 10px;}
 }
 </style>
