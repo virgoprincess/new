@@ -54,5 +54,5 @@ img{
 .name,.email-subj{ font-size: 15px; font-weight: 700;}
 .date{font-size: 12px; color: $gray; font-weight: 500;}
 .msg{font-size: 13px; color: $gray; font-weight: 500;}
-.selected{ background-color: transparent; }
+
 </style>

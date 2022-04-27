@@ -1,9 +1,17 @@
 <template>
   <div class="email-component" v-if="results.length > 0">
       <div class="email-left scrollable">
+         <b-list-group-item class="new-message" @click="composeEmail" :class="newMessage ? 'selected': ''">
+           <div class="d-flex gap-3">
+             <b-img rounded="circle" src="https://lh3.googleusercontent.com/a/AATXAJzMWOnYLEs5DFxS3pzirHMbjQv4Qhc5_S9C6fna=s96-c" alt="" /> 
+             <p class="name fs-12 fw-700">New Email</p>
+           </div>
+         </b-list-group-item>
           <preview-component @click-mail="getThread(result)" :selectedId="selectedMessage" v-for="(result,i) in results" :key="i" :data="[result,'email']"/>
       </div>
       <div class="email-center scrollable">
+        <compose-component v-if="newMessage"/>
+        <div class="emails" v-else>
             <div class="email-menu d-flex justify-content-between">
                 <div class="menu-icons d-flex gap-4">
                     <b-icon-envelope-fill></b-icon-envelope-fill>
@@ -38,7 +46,8 @@
                 <div></div>
               </div>
             </b-overlay>
-          <!-- </div> -->
+        </div>
+            
       </div> 
 
       <div class="email-right scrollable">
@@ -74,9 +83,10 @@ import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 import FileIconComponent from '@/components/commons/attachments/FileIconComponent.vue'
 /* import ReplyForward from '@/components/commons/ReplyForwarComponent.vue' */
 import ReplyForward from '@/components/dashboard/ReplyForwardComponent.vue'
+import ComposeComponent from '@/components/commons/ComposeComponent.vue'
 import { mapGetters } from "vuex"
 export default {
-    components:{PreviewComponent, ProfileComponent, FileIconComponent,ReplyForward},
+    components:{PreviewComponent, ProfileComponent, FileIconComponent,ReplyForward,ComposeComponent},
     name:'email-component',
     data(){
       return{
@@ -84,10 +94,16 @@ export default {
         show: false,
         initCall:true,
         selectedMessage:'',
+        newMessage:false,
       }
     },
     methods:{
+      composeEmail(){
+        this.newMessage = true;
+        this.selectedMessage = ''
+      },
       getThread(res){
+        this.newMessage = false;
         this.show = true;
         this.selectedMessage = res.threadId;
         this.$store.dispatch("GET_THREADSBYID",res);
@@ -201,6 +217,20 @@ export default {
       .thread-name{ font-weight: 800;}
       .thread-date{ color: $gray; font-size: 11px; font-weight: 600;}
     }
+    .new-message{
+      border: none;
+      padding-bottom: 0;
+      & div{
+        border-bottom: 1px solid #00000029;
+        padding: 20px;
+        }
+      p{ margin-bottom: 0 !important;}
+      img{
+          width: 40px;
+          height: 40px;
+      }
+    }
+    .selected{ background-color: transparent; }
 }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-calendar-component">
+  <div class="dashboard-calendar-component" id="dashboard-calendar">
   <v-row class="fill-height dashboard-calendar">
     <v-col>
       <v-sheet height="64">
@@ -79,9 +79,70 @@ export default {
         }
     },
     mounted(){
-      this.$refs.calendar.checkChange()
+      this.$refs.calendar.checkChange();
+      this.setPresentDate();
+      this.setToolbarListener();
+
     },
     methods: {
+      setToolbarListener(){
+        var toolbars = document.getElementsByClassName('v-toolbar')[0].getElementsByClassName('v-btn');
+        console.log("toolbar:::",toolbars)
+        for( var i=0; i<toolbars.length;i++){
+          toolbars[i].addEventListener('click',()=>{
+            console.log("toolbar clicked:::");
+            this.setPresentDate();
+          })
+        }
+      },
+      setPresentDate(){
+        var present = document.getElementsByClassName('v-calendar-daily_head-day v-present');
+        console.log("present::",present)
+        if(present.length > 0) {
+          present[0].classList.add("selected-date");
+          
+        this.setEventListenerForDate(present);
+          }
+
+        var pasts=document.getElementsByClassName('v-calendar-daily_head-day v-past');
+        this.setEventListenerForDate(pasts);
+        var future=document.getElementsByClassName('v-calendar-daily_head-day v-future');
+        this.setEventListenerForDate(future);
+
+      },
+      setEventListenerForDate(values){
+        var elements = values;
+          for( var i=0;i < elements.length; i++){
+                elements[i].addEventListener('click',(event)=>{
+                  if(event.target.parentElement.classList[0] != 'v-calendar-daily__head')
+                 { 
+                   var current = document.getElementsByClassName('selected-date');
+                  if(current) this.removeClassDate(current);
+                  console.log("parent;::",event.target.parentElement.classList);
+                  event.target.parentElement.classList.add('selected-date');
+                  }
+                });
+          }
+
+
+        /* for( var i=0;i < element.length; i++){
+              element[i].addEventListener('click',(el)=>{
+                var current = document.getElementsByClassName('selected-date');
+                if(current) this.removeClassDate(current);
+                el.path[1].classList.add("selected-date");
+              });
+              element[i].addEventListener('mouseenter',(el)=>{
+                var current = document.getElementsByClassName('selected-date');
+                if(current) this.removeClassDate(current);
+                el.path[1].classList.add("selected-date");
+              });
+        } */
+      },
+      removeClassDate(classes){
+        for(var i=0; i<classes.length;i++){
+          classes[i].classList.remove('selected-date');
+        }
+      },
       viewDay ({ date }) {
         this.focus = date
         this.type = 'week'
@@ -99,7 +160,7 @@ export default {
         this.$refs.calendar.prev()
         this.hide = true;
       },
-      next () {
+      next () {  
         this.$refs.calendar.next()
         this.hide = true;
       },
@@ -168,7 +229,7 @@ export default {
   }
   
   .v-btn:hover,.v-btn--round:hover{ color: #fff !important; }
-  .v-btn:before{ @extend .gradient-blue-bg; }
+  .v-btn:before{ background-color: transparent; }
   .v-btn--round{ border-radius:  5px !important;}
 
   
@@ -198,7 +259,7 @@ export default {
     .v-btn{max-height: 30px;}
     .v-calendar-daily_head-day-label{ margin: 0; }
     }
-  .v-past::before,.v-future::before,.v-present::before,.v-present:focus-within{ @extend .gradient-blue-bg; }
+  /* .v-past::before,.v-future::before,.v-present::before{ @extend .gradient-blue-bg; } */
   /* .v-present::before{ @extend .gradient-blue-bg; } */
   .v-present{ border-radius: 5px; }
   .v-past::before,.v-future::before,.v-present::before{
@@ -214,24 +275,26 @@ export default {
     top: 0;
     transition: opacity .2s cubic-bezier(.4,0,.6,1);
   }
-  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present:hover,.v-present,.v-present:focus-within{
+  .v-past:hover,.v-past:focus-within,.v-future:hover,.v-future:focus-within,.v-present:hover,.v-present:focus-within{
+    @extend .gradient-blue-bg;
+    border-radius: 5px;
     .v-calendar-daily_head-weekday,.v-btn > span{
       color: #fff !important;
     }
   }
   .v-calendar-daily_head-weekday{ color: $gray; }
-  .v-calendar-daily_head-day:hover:before,.v-calendar-daily_head-day:focus-within:before{
+  /* .v-calendar-daily_head-day:hover:before,.v-calendar-daily_head-day:focus-within:before{
     opacity: 1;
-  }
+  } */
   .v-calendar-daily_head-day{ font-weight: 600; span{ font-weight: 600 ;} }
   .black{
     background-color: transparent !important;
     color: $black !important;
   }
-  .v-present:before{
+ /*  .v-present:before{
     opacity: 1;
-  }
-  .v-ripple__animation--in{
+  } */
+    .v-ripple__animation--in{
     opacity: 0 !important;
   }
   .black--text{
@@ -248,6 +311,27 @@ export default {
       content: ".";
       vertical-align: middle;
     }
+  }
+  .selected-date{  
+    cursor: pointer;  
+      @extend .gradient-blue-bg;
+      border-radius: 5px;
+    ::before{
+      opacity: 1;
+    }
+    .v-calendar-daily_head-weekday,.v-btn > span{
+      color: #fff !important;
+    }
+  }
+  .v-btn:hover >span{
+    color: $black;
+  }
+  .theme--light.v-btn.v-btn--has-bg{
+    z-index: -5;;
+  }
+  .v-calendar-daily_head-day{
+    z-index: 2;
+    cursor: pointer;
   }
   /* .v-calendar-daily_head-day.v-present
   {
