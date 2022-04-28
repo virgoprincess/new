@@ -8,6 +8,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
         menu:'DASHBOARD',
+        isAddNew:false,
+        composedInfo:null,
         isLoading:false,
         isSignedIn:false,
         accessToken:'',
@@ -36,6 +38,8 @@ export default new Vuex.Store({
         GET_STORAGE:state => state.storage,
         GET_SETTINGS:state => state.settings,
         GET_LOADER:state => state.isLoading,
+        GET_ISADDNEW:state => state.isAddNew,
+        GET_COMPOSEDINFO:state => state.composedInfo,
         GET_CALENDAREVENTS:state => state.calendarEvents,
     },
     mutations:mutations,

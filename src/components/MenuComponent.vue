@@ -3,7 +3,7 @@
     <div class="top-menu">
       <b-row align-h="end">
         <b-col cols="2" class="add-new p-0">
-          <b-button-group>
+          <b-button-group @click="addNew">
             <b-button variant="outline-primary">
               <b-icon-plus /> Add New
             </b-button>
@@ -77,6 +77,9 @@ export default {
     this.initialLoad();
   },
   methods:{
+    addNew(){
+      this.$store.state.isAddNew = true;
+    },
     async logout(){
       try {
             localStorage.clear();

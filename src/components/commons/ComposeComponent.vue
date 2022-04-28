@@ -13,13 +13,13 @@
       <b-row class="align-items-baseline">
         <b-col class="d-flex flex-row align-items-baseline" cols="10">
           <label for="" class="fs-14 fw-700 pr-1">Subject:</label>
-          <b-form-input></b-form-input>
+          <b-form-input v-model="emailInfo.subject"></b-form-input>
         </b-col>
       </b-row>
     </div>
     <div class="compose-center">
       <b-form-textarea id="textarea"
-                         rows="20"> </b-form-textarea>
+                         rows="20" v-model="emailInfo.text" value="test"> </b-form-textarea>
     </div>
     <div class="compose-send">
       <b-row>
@@ -32,7 +32,7 @@
           <b-icon-pencil-fill/>
         </b-col>
         <b-col>
-          <b-icon-trash></b-icon-trash>
+          <b-icon-trash @click="deleteEmail"></b-icon-trash>
         </b-col>
       </b-row>
     </div>
@@ -40,7 +40,39 @@
 </template>
 <script>
 export default {
-  name:'ComposeComponent'
+  name:'ComposeComponent',
+  data(){
+    return{
+      sampleText:'',
+      emailInfo:{
+        to:[],
+        cc:[],
+        bcc:[],
+        subject:'',
+        text:''
+      }
+    }
+  },
+  methods:{
+    deleteEmail(){
+      this.$store.state.composedInfo = null;
+      this.$store.state.isAddNew = false;
+    }
+  },
+  watch:{
+    'emailInfo.subject'(){
+      if( this.emailInfo.subject || this.emailInfo.text )
+        this.$store.state.composedInfo = this.emailInfo;
+      else
+        this.$store.state.composedInfo = null;
+    },
+    'emailInfo.text'(){
+      if( this.emailInfo.subject || this.emailInfo.text )
+        this.$store.state.composedInfo = this.emailInfo;
+      else
+        this.$store.state.composedInfo = null;
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

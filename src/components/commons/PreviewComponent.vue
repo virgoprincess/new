@@ -25,12 +25,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name:'PreviewComponent',
     props:{
         data:[],
         selectedId:String,
 
+    },
+    computed:{
+        ...mapGetters({
+            newEmail:'GET_ISADDNEW',
+        })
     }
 }
 </script>
