@@ -47,6 +47,7 @@
           <thead>
             <tr>
               <th></th>
+              <th></th>
               <th>Name</th>
               <th>Owner</th>
               <th>Last Modified</th>
@@ -56,7 +57,19 @@
           </thead>
           <tbody>
             <tr v-for="(file, i) in files" :key="i">
-              <td>
+              <td class="option w-3">
+                <b-icon-three-dots-vertical class="elipsis" @click="showOption(i)"/>
+                <b-list-group :id="'option-menu'+i" class="file-options" @mouseleave="hideOption(i)">
+                  <b-list-group-item @click="hideOption(i)" v-b-modal.share-modal>Share</b-list-group-item>
+                  <b-list-group-item @click="hideOption(i)">Move to</b-list-group-item>
+                  <b-list-group-item @click="hideOption(i)">Rename</b-list-group-item>
+                  <b-list-group-item @click="hideOption(i)">View Details</b-list-group-item>
+                  <hr/>
+                  <b-list-group-item @click="hideOption(i)">Download</b-list-group-item>
+                  <b-list-group-item @click="hideOption(i)">Remove</b-list-group-item>
+                </b-list-group>
+              </td>
+              <td class="w-6">
                 <b-img
                   rounded
                   :src="file.thumbnailLink"
@@ -84,7 +97,76 @@
         </table>
       </div>
     </div>
+    <b-modal id="share-modal" class="share-modal" centered>
+      <div>
+        <h5>Share Project</h5>
+        <div>
+          <p>Document Link</p>
+          <b-input-group size="sm" class="mb-2">
+            <b-form-input type="input"></b-form-input>
+            <b-input-group-append is-text>
+            <b-icon-back></b-icon-back>
+            </b-input-group-append>
+          </b-input-group>
+        </div>
+        <div>
+          <p>Search Recipients</p>
+          <div class="d-flex gap-2">
+            <b-form-input type="input" placeholder="Search for names or emails..."></b-form-input>
+            <b-btn variant="primary">Share</b-btn>
+          </div>
+        </div>
+        <div>
+          <p>Recipients</p>
+          <b-list-group class="recipient-options">
+            <b-list-group-item class="d-flex justify-content-between">
+              <div class="d-flex gap-2">
+                <b-img class="img-size-30" rounded="circle" src="https://lh3.googleusercontent.com/a/AATXAJzMWOnYLEs5DFxS3pzirHMbjQv4Qhc5_S9C6fna=s96-c" alt="" /> 
+                <div>
+                  <p class="fs-14 fw-600">James Stewart</p>
+                  <p class="gray-small-text">James Stewart</p>
+                </div>
+              </div>
+              <b-dropdown text="Can Edit">
+                <b-dropdown-item href="#">Can Edit</b-dropdown-item>
+                <b-dropdown-item href="#">Can View</b-dropdown-item>
+                <b-dropdown-item href="#">Admin</b-dropdown-item>
+              </b-dropdown>
+            </b-list-group-item>
 
+            <b-list-group-item class="d-flex justify-content-between">
+              <div class="d-flex gap-2">
+                <b-img class="img-size-30" rounded="circle" src="https://lh3.googleusercontent.com/a/AATXAJzMWOnYLEs5DFxS3pzirHMbjQv4Qhc5_S9C6fna=s96-c" alt="" /> 
+                <div>
+                  <p class="fs-14 fw-600">Rachel Williams</p>
+                  <p class="gray-small-text">Rachel Williams</p>
+                </div>
+              </div>
+              <b-dropdown text="Can View">
+                <b-dropdown-item href="#">Can Edit</b-dropdown-item>
+                <b-dropdown-item href="#">Can View</b-dropdown-item>
+                <b-dropdown-item href="#">Admin</b-dropdown-item>
+              </b-dropdown>
+            </b-list-group-item>
+
+            <b-list-group-item class="d-flex justify-content-between">
+              <div class="d-flex gap-2">
+                <b-img class="img-size-30" rounded="circle" src="https://lh3.googleusercontent.com/a/AATXAJzMWOnYLEs5DFxS3pzirHMbjQv4Qhc5_S9C6fna=s96-c" alt="" /> 
+                <div>
+                  <p class="fs-14 fw-600">Tony Roberts</p>
+                  <p class="gray-small-text">Tony Robers</p>
+                </div>
+              </div>
+              <b-dropdown text="Admin">
+                <b-dropdown-item href="#">Can Edit</b-dropdown-item>
+                <b-dropdown-item href="#">Can View</b-dropdown-item>
+                <b-dropdown-item href="#">Admin</b-dropdown-item>
+              </b-dropdown>
+            </b-list-group-item>
+          </b-list-group>
+        </div>
+      </div>
+    </b-modal>
     <div class="right-section">
 
         <div class="file-storage-details">
@@ -147,6 +229,7 @@ export default {
       progressMaxVal:'30',
       progressWidth:'width: 0%',
       file:null,
+      showOptions:false,
       recentlyViewed:[
         {
           fileType: "file",
@@ -169,62 +252,22 @@ export default {
           fileSize: "20 MB",
         },
       ],
-      /* files: [
-        {
-          originalFilename: "Design file.ai",
-          ownedByMe: true,
-          modifiedTime: "Aug 20, 2021 me",
-          size: "63 MB",
-        },
-        {
-          originalFilename: "Logo mockups for Company",
-          ownedByMe: true,
-          modifiedTime: "Jul 12, 2021 me",
-          size: "12 MB",
-        },
-        {
-          originalFilename: "Sketches.png",
-          ownedByMe: true,
-          modifiedTime: "Mar 05, 2021 Heather",
-          size: "39 MB",
-        },
-        {
-          originalFilename: "IMG3902.jpg",
-          ownedByMe: true,
-          modifiedTime: "Aug 20, 2021 me",
-          size: "63 MB",
-        },
-        {
-          originalFilename: "Design file.ai",
-          ownedByMe: true,
-          modifiedTime: "Aug 20, 2021 me",
-          size: "63 MB",
-        },
-          {
-          originalFilename: "Sketches.png",
-          ownedByMe: true,
-          modifiedTime: "Mar 05, 2021 Heather",
-          size: "39 MB",
-        },
-        {
-          originalFilename: "IMG3902.jpg",
-          ownedByMe: true,
-          modifiedTime: "Aug 20, 2021 me",
-          size: "63 MB",
-        },
-        {
-          originalFilename: "Design file.ai",
-          ownedByMe: true,
-          modifiedTime: "Aug 20, 2021 me",
-          size: "63 MB",
-        },
-      ], */
     };
   },
   mounted(){
     this.computeProgressWidth()
   },
   methods:{
+    showOption(key){
+      var element = document.getElementById('option-menu'+key);
+      element.classList.add('display');
+      console.log("element selected:::",element)
+    },
+    hideOption(key){
+      var element = document.getElementById('option-menu'+key);
+      element.classList.remove('display');
+      console.log("element selected:::",element)
+    },
     computeProgressWidth(){
       this.progressWidth = 'width:' +(this.progressVal / this.progressMaxVal) * 100 + '%';
       console.log("ProgressWidth::", this.progressWidth);
@@ -241,7 +284,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .storage-component {
   width: 100%;
   position: relative;
@@ -323,7 +366,7 @@ p {margin: 0;}
   height: 100px;
 }
 .files-list {
-  max-height: 55vh;
+  max-height: 48vh;
 }
 table {
   border-collapse: separate;
@@ -396,5 +439,65 @@ th {
   .card-body > div{ 
     gap:10px;
     > span{ color: $gray; }
+  }
+  .elipsis{
+    color: $gray;
+    visibility: hidden;
+    cursor: pointer;
+  }
+  tr:hover{
+    .elipsis{
+      visibility: visible;
     }
+  }
+  .w-3{ width: 3%; }
+  .w-6{ width: 6%; }
+
+  .option{
+    position: relative;
+    .file-options{
+      box-shadow: 2px 2px 8px #00000029 !important;
+      z-index: 1;
+      display: none;
+      width: 105px;
+      position: absolute;
+      background-color: #fff;
+      border-radius: 5px;
+      .list-group-item{
+        border: none;
+        cursor: pointer;
+        margin: 1px  3px;
+        border-radius: 5px;
+        text-align: center;
+        padding: 6px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+  }
+    .list-group-item:hover{
+      background-color: $light-gray;
+    }
+    hr{ margin: 1px 0;color: $gray;  }
+  }
+  .display{
+    display:block !important;
+  }
+  .img-size-30{
+    width: 36px;
+    height: 36px;
+  }
+  .modal-body{
+    p{ margin: 0; padding: 0; }
+    & .recipient-options{
+      .btn{
+        color: $gray;
+        font-size: 13px;
+        font-weight: 600;
+        background-color: #fff !important;
+        border-color: $light-gray;
+      }
+      .list-group-item{ border: none; }
+    }
+  }
+  
 </style>
