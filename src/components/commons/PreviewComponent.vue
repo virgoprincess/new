@@ -9,12 +9,12 @@
                 <p class="date">{{data[0].date}}</p>
             </div>
             <p class="email-subj">{{ data[0].subject }}</p>  <!-- this is for email -->
-            <div class="msg" v-html="'<div><p>'+data[0].snippet+'</p></div>'">{{data[0].snippet}}</div>
+            <div class="msg" v-html="data[0].snippet"></div>
         </div>
 
         <div class="d-flex flex-column w-100" v-else>
             <div class="d-flex justify-content-between">
-                <p class="name fs-15">{{data[0].firstName + data[0].lastName}}</p>
+                <p class="name fs-13">{{data[0].firstName + data[0].lastName}}</p>
                 <p class="date">12:52 PM</p>
             </div>
             <p class="msg">{{data[1].length > 76 ? data[1].slice(0,73) + '...' : data[1]}}</p>
@@ -42,8 +42,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.w-100{  width: 100%;}
+
+
 p{ margin-bottom: 0 !important;}
+.w-100{  width: 100%;}
 img{
     width: 40px;
     height: 40px;
@@ -57,8 +59,12 @@ img{
         border-bottom: 1px solid $light-gray;
     }
 }
-.name,.email-subj{ font-size: 15px; font-weight: 700;}
-.date{font-size: 12px; color: $gray; font-weight: 500;}
-.msg{font-size: 13px; color: $gray; font-weight: 500;}
+.name,.email-subj{ font-size: 14px; font-weight: 700;}
+.date{font-size: 11px; color: $gray; font-weight: 500;}
+.msg{
 
+    font-size: 12px; color: $gray; font-weight: 500;
+    p{font-size: 20px;}
+    }
+    
 </style>

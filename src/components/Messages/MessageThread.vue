@@ -2,12 +2,12 @@
   <div class="message-thread d-flex gap-2 message-other" :class="userSID == data.account_sid ? 'message-you' : 'message-other'">
     <b-img class="profile" rounded="circle" :src="data.photoUrl ? data.photoUrl : require('@/assets/icons/man.jpg')" alt="" /> 
     <div class="message-content">
-      <div class="name d-flex gap-2 mb-4">
-        <p class="fs-14 fw-800">{{ userSID == data.account_sid ? 'You' : data.author }}</p>
+      <div class="name d-flex gap-2 mb-2">
+        <p class="fs-13 fw-800">{{ userSID == data.account_sid ? 'You' : data.author }}</p>
         <span class="fs-11 fw-600 gray-small-text">11:32 pm</span>
       </div>
       <div class="text-message ">
-        <p class="fs-13 fw-400">
+        <p class="fs-12 fw-400">
           {{ data.body }}
         </p>
       </div>
@@ -40,7 +40,7 @@ export default {
     max-width: 350px;
     position: relative;
     width: fit-content;
-    p{ padding: 10px 10px; width: fit-content; width: 100%;}
+    p{ padding: 5px 10px; width: fit-content; width: 100%;}
   }
   .media-message{
     img{

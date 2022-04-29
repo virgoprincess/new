@@ -24,7 +24,7 @@
                     <b-icon-envelope-fill></b-icon-envelope-fill>
                     <b-icon-tag-fill></b-icon-tag-fill>
                     <b-icon-exclamation-octagon-fill></b-icon-exclamation-octagon-fill>
-                    <b-icon-trash-fill></b-icon-trash-fill>
+                    <b-icon-trash-fill @click="showModal = !showModal"></b-icon-trash-fill>
                 </div>
 
                 <div class="menu-pagination d-flex gap-3">
@@ -80,6 +80,19 @@
         </div>
       </div>
       </div>
+      <b-modal id="delete-modal" centered v-model="showModal">
+        <div>
+          <b-icon icon="envelope-open-fill"></b-icon>
+          <h4>Delete email</h4>
+          <p class="fs-12">Are you sure you want to delete this email?<br>Doing so will move it to Trash for 90 days.</p><br>
+        </div>
+        <template #modal-footer>
+          <div class="footer">
+            <b-link class="cancel" @click="showModal=!showModal">Cancel</b-link>
+          <b-link @click="showModal=!showModal">Done</b-link>
+          </div>
+        </template>
+      </b-modal>
   </div>
 </template>
 
@@ -101,6 +114,7 @@ export default {
         initCall:true,
         selectedMessage:'',
         newMessage:false,
+        showModal:false,
       }
     },
     methods:{
@@ -206,7 +220,7 @@ export default {
       .email-center{
           position: relative;
           .email-menu{
-              width: 48%;
+              width: 50%;
               position:fixed;
               border-bottom: 1px solid $light-gray;
               background-color: $background-color;

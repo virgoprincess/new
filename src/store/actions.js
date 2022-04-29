@@ -880,6 +880,7 @@ export default{
         }
       })
       .then((response)=>{
+        console.log("events:::",response)
           response.data.items.forEach((event)=>{
               var calEvent = [];
               calEvent.name = event.summary;

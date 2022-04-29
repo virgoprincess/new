@@ -42,7 +42,7 @@
           v-model="focus"
           :event-color="getEventColor"
           color="black"
-          @click:date="viewDay"
+          @click:day="viewDay"
           :type="type"
           @change="updateRange"
         ></v-calendar>
@@ -123,20 +123,6 @@ export default {
                   }
                 });
           }
-
-
-        /* for( var i=0;i < element.length; i++){
-              element[i].addEventListener('click',(el)=>{
-                var current = document.getElementsByClassName('selected-date');
-                if(current) this.removeClassDate(current);
-                el.path[1].classList.add("selected-date");
-              });
-              element[i].addEventListener('mouseenter',(el)=>{
-                var current = document.getElementsByClassName('selected-date');
-                if(current) this.removeClassDate(current);
-                el.path[1].classList.add("selected-date");
-              });
-        } */
       },
       removeClassDate(classes){
         for(var i=0; i<classes.length;i++){

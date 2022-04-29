@@ -60,7 +60,7 @@
               <td class="option w-3">
                 <b-icon-three-dots-vertical class="elipsis" @click="showOption(i)"/>
                 <b-list-group :id="'option-menu'+i" class="file-options" @mouseleave="hideOption(i)">
-                  <b-list-group-item @click="hideOption(i)" v-b-modal.share-modal>Share</b-list-group-item>
+                  <b-list-group-item @click="hideOption(i);showModal = !showModal" >Share</b-list-group-item>
                   <b-list-group-item @click="hideOption(i)">Move to</b-list-group-item>
                   <b-list-group-item @click="hideOption(i)">Rename</b-list-group-item>
                   <b-list-group-item @click="hideOption(i)">View Details</b-list-group-item>
@@ -97,34 +97,34 @@
         </table>
       </div>
     </div>
-    <b-modal id="share-modal" class="share-modal" centered>
+    <b-modal id="share-modal" class="share-modal" v-model="showModal" centered>
       <div>
-        <h5>Share Project</h5>
-        <div>
-          <p>Document Link</p>
+        <h7 class="fw-600">Share Project</h7>
+        <div class="document-link">
+          <p class="fs-13 fw-600">Document Link</p>
           <b-input-group size="sm" class="mb-2">
             <b-form-input type="input"></b-form-input>
-            <b-input-group-append is-text>
+            <b-input-group-prepend is-text>
             <b-icon-back></b-icon-back>
-            </b-input-group-append>
+            </b-input-group-prepend>
           </b-input-group>
         </div>
-        <div>
-          <p>Search Recipients</p>
-          <div class="d-flex gap-2">
+        <div class="search-recipient">
+          <p class="fs-13 fw-600">Search Recipients</p>
+          <div class=" d-flex gap-2">
             <b-form-input type="input" placeholder="Search for names or emails..."></b-form-input>
             <b-btn variant="primary">Share</b-btn>
           </div>
         </div>
-        <div>
-          <p>Recipients</p>
-          <b-list-group class="recipient-options">
+        <div  class="recipient-options">
+          <p class="fs-13 fw-600">Recipients</p>
+          <b-list-group>
             <b-list-group-item class="d-flex justify-content-between">
               <div class="d-flex gap-2">
                 <b-img class="img-size-30" rounded="circle" src="https://lh3.googleusercontent.com/a/AATXAJzMWOnYLEs5DFxS3pzirHMbjQv4Qhc5_S9C6fna=s96-c" alt="" /> 
                 <div>
-                  <p class="fs-14 fw-600">James Stewart</p>
-                  <p class="gray-small-text">James Stewart</p>
+                  <p class="fs-12 fw-600">James Stewart</p>
+                  <p class=" fc-gray fs-11 fw-600">James Stewart</p>
                 </div>
               </div>
               <b-dropdown text="Can Edit">
@@ -138,8 +138,8 @@
               <div class="d-flex gap-2">
                 <b-img class="img-size-30" rounded="circle" src="https://lh3.googleusercontent.com/a/AATXAJzMWOnYLEs5DFxS3pzirHMbjQv4Qhc5_S9C6fna=s96-c" alt="" /> 
                 <div>
-                  <p class="fs-14 fw-600">Rachel Williams</p>
-                  <p class="gray-small-text">Rachel Williams</p>
+                  <p class="fs-12 fw-600">Rachel Williams</p>
+                  <p class=" fc-gray fs-11 fw-600">Rachel Williams</p>
                 </div>
               </div>
               <b-dropdown text="Can View">
@@ -153,8 +153,8 @@
               <div class="d-flex gap-2">
                 <b-img class="img-size-30" rounded="circle" src="https://lh3.googleusercontent.com/a/AATXAJzMWOnYLEs5DFxS3pzirHMbjQv4Qhc5_S9C6fna=s96-c" alt="" /> 
                 <div>
-                  <p class="fs-14 fw-600">Tony Roberts</p>
-                  <p class="gray-small-text">Tony Robers</p>
+                  <p class="fs-12 fw-600">Tony Roberts</p>
+                  <p class="fc-gray fs-11 fw-600">Tony Robers</p>
                 </div>
               </div>
               <b-dropdown text="Admin">
@@ -166,6 +166,12 @@
           </b-list-group>
         </div>
       </div>
+      <template #modal-footer>
+        <div class="footer">
+          <b-link class="cancel" @click="showModal=false">Cancel</b-link>
+          <b-link @click="showModal=false">Done</b-link>
+        </div>
+      </template>
     </b-modal>
     <div class="right-section">
 
@@ -229,6 +235,7 @@ export default {
       progressMaxVal:'30',
       progressWidth:'width: 0%',
       file:null,
+      showModal:false,
       showOptions:false,
       recentlyViewed:[
         {
@@ -284,7 +291,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .storage-component {
   width: 100%;
   position: relative;
@@ -485,19 +492,6 @@ th {
   .img-size-30{
     width: 36px;
     height: 36px;
-  }
-  .modal-body{
-    p{ margin: 0; padding: 0; }
-    & .recipient-options{
-      .btn{
-        color: $gray;
-        font-size: 13px;
-        font-weight: 600;
-        background-color: #fff !important;
-        border-color: $light-gray;
-      }
-      .list-group-item{ border: none; }
-    }
   }
   
 </style>

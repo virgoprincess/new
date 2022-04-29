@@ -57,11 +57,10 @@ export default {
   },
   methods:{
     initLoad(){
-      /* console.log("CUrrent Date::", this.selectedDate.date + " " + this.selectedDate.time); */
       const params = [];
-      params.min = new Date(new Date(this.selectedDate).toDateString() + " 01:00:00");
-      params.max = new Date(new Date(this.selectedDate).toDateString() + " 11:59:00");
-      console.log("Current Date:::",params)
+      params.min = new Date(new Date(this.selectedDate).toDateString() + " 00:00:00");
+      params.max = new Date(new Date(this.selectedDate).toDateString() + " 23:59:59");
+      console.log("Event Component Current Date:::",params)
       this.$store.dispatch("SET_EVENTS",params);
     },
     formatAMPM(date) {
