@@ -32,6 +32,7 @@ export default {
   max-height: 88vh;
   background-color: $background-color;
 
+  & .b-overlay.position-absolute{ border-left:1px solid $light-gray !important;inset: 0; }
   .content{
     width: 100%;
     height: 100%;

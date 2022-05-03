@@ -227,7 +227,7 @@ export default {
   .v-toolbar__title{ display: block !important; visibility: visible !important; font-size: 18px; font-weight: 700; }
   .v-calendar-daily__body,.v-calendar-daily__intervals-head{ display: none; }
   .v-calendar,.v-calendar-daily_head-day{ border: 0 !important;}
-  .v-calendar-daily__head{ height:65px; margin: 0px;}
+  .v-calendar-daily__head{ height:52px; margin: 0px;}
   .dashboard-calendar{
     position: relative;
     width: 100%;
@@ -243,11 +243,19 @@ export default {
     /* margin: 3px; */
     padding: 3px 0;
     .v-btn{max-height: 30px;}
-    .v-calendar-daily_head-day-label{ margin: 0; }
+    .v-calendar-daily_head-day-label{ margin: 0; line-height: 0;}
     }
   /* .v-past::before,.v-future::before,.v-present::before{ @extend .gradient-blue-bg; } */
   /* .v-present::before{ @extend .gradient-blue-bg; } */
-  .v-present{ border-radius: 5px; }
+  .v-present{ border-radius: 5px;
+    & .v-calendar-daily_head-day-label:before{
+      content: ".";
+      font-weight:700 ;
+    }
+   }
+   .v-present:hover{
+     color: #fff;
+   }
   .v-past::before,.v-future::before,.v-present::before{
     z-index: -1;
     border-radius: 5px;
@@ -287,18 +295,22 @@ export default {
     color: $gray !important;
   }
   button.v-btn.v-btn--fab.v-btn--has-bg.v-btn--round.theme--light.v-size--default.black{
-    padding-top: 20px;
+    padding-top: 0;
     .v-btn__content{
       display: flex;
       flex-direction: column;
       max-height: 53px;
     }
-    ::after{
+    /* ::after{
       content: ".";
+      font-weight: bolder !important;
       vertical-align: middle;
-    }
+      line-height: 0;
+    } */
   }
+  
   .selected-date{  
+    .v-calendar-daily_head-day-label:before{color:#fff;}
     cursor: pointer;  
       @extend .gradient-blue-bg;
       border-radius: 5px;
@@ -319,14 +331,6 @@ export default {
     z-index: 2;
     cursor: pointer;
   }
-  /* .v-calendar-daily_head-day.v-present
-  {
-    display: flex;
-    flex-direction: column;
-    max-height: 53px;
-    & ::after{
-      content:'.'
-    }
-  } */
+
 }
 </style>

@@ -482,7 +482,7 @@ th {
       }
   }
     .list-group-item:hover{
-      background-color: $light-gray;
+      background-color: $lighter-gray;
     }
     hr{ margin: 1px 0;color: $gray;  }
   }

@@ -20,6 +20,8 @@ export default {
         SearchComponent
     },
     beforeMount(){
+      if( this.$route.query.code)
+        this.$store.state.slackCode = this.$route.query.code;
       if( this.$store.state.isSignedIn ){
         if(this.$route.path != '/dashboard')
         this.$router.push({path:'/dashboard'}) 

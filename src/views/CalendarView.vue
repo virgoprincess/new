@@ -158,14 +158,23 @@ import { mapGetters } from 'vuex'
       selectedOpen: false,
       colors: [],
       names: [],
+      colorEvents:[
+        {name:'Category 1', color:'#FFFCEF'},
+        {name:'Category 2', color:'#FDF3F0'},
+        {name:'Category 3', color:'#EAF8F6'},
+        {name:'Category 4', color:'#F5F7FD'},
+      ],
       categories:[
-        {name:'Category 1', color:'#4771CB'},
-        {name:'Category 2', color:'#C83935'},
-        {name:'Category 3', color:'#F3BB4E'},
-        {name:'Category 4', color:'##37B188'},
+        {name:'Category 1', color:'#F3BB4E'},
+        {name:'Category 2', color:'#FDF3F0'},
+        {name:'Category 3', color:'#37B188'},
+        {name:'Category 4', color:'#4771CB'},
       ],
     }),
     mounted () {
+      /* this.events = []; */
+      this.$store.state.calendarEvents = [];
+      console.log("In Mounted::Calendar Events::",this.events);
       this.$refs.calendar.checkChange();
     },
     methods: {
@@ -211,63 +220,9 @@ import { mapGetters } from 'vuex'
         const max = new Date(`${end.date}T20:00:00`)
         const days = (max.getTime() - min.getTime()) / 86400000
         const eventCount = this.rnd(days, days + 20)
-        /* console.log("Min:::", min, "\nMax:::", max) */
         const params = { "min": min ,"max":max };
         this.$store.dispatch("SET_EVENTS",params);
-        /* console.log("Min Month :::",min.getMonth()+1, "\nMax Month::: ",max.getMonth()+1);
-        console.log("Min :::",min.getDate(), "\nMax::: ",max.getDate()); */
-
-        /* for (let i = 0; i < eventCount; i++) {
-          const allDay = this.rnd(0, 3) === 0
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-          const second = new Date(first.getTime() + secondTimestamp)
-  
-          events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            start: first,
-            end: second,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            timed: !allDay,
-          })
-        } */
-
-        /* var date1 = new Date("Sun Mar 20 2022 05:30:00 GMT+0800 (Philippine Standard Time)");
-        var date2 = new Date("Sun Mar 20 2022 07:30:00 GMT+0800 (Philippine Standard Time)");
-        var date3 = new Date("Wed Mar 23 2022 07:30:00 GMT+0800 (Philippine Standard Time)");
-        var date4 = new Date("Wed Mar 23 2022 09:15:00 GMT+0800 (Philippine Standard Time)");
-        var date5 = new Date("Sat Mar 24 2022 10:15:00 GMT+0800 (Philippine Standard Time)");
-        var date6 = new Date("Sat Mar 24 2022 11:15:00 GMT+0800 (Philippine Standard Time)");
-
-        var newEvents = [
-            {
-              name:"My Birthday",
-              details:"This is my fake birthday not really my real one",
-              start:date1,
-              end:date2,
-              color:'orange',
-              timed:true,
-            },
-            {
-              name:"This is my exam",
-              details:"Nothing here actually",
-              start:date3,
-              end:date4,
-              color:'pink',
-              timed:true,
-            },
-            {
-              name:"This is another event yow",
-              details:"Sample event",
-              start:date5,
-              end:date6,
-              color:'indigo',
-              timed:true,
-            },
-          ];
-        this.events = newEvents */
-        console.log("This events::", events)
+        console.log("This events::", this.events)
       },
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
@@ -280,11 +235,38 @@ import { mapGetters } from 'vuex'
     },
     watch:{
       events(){
-        this.events.map((event)=>{
-          event.color = this.categories[this.rnd(0, this.categories.length - 1)].color + '10';
-          return event;
-        });
+        if( this.events.length > 0 ){
+            this.events.map((event)=>{
+            event.color = this.colorEvents[this.rnd(0, this.colorEvents.length - 1)].color
+            return event;
+            });
+            console.log("colors changed:::")
+          /* var eventColors = document.getElementsByClassName('v-event-timed'); 
+          for( var i=0;i<eventColors.length;i++ ){
+            eventColors[i].classList.remove("white--text");
+            var color = eventColors[i].style.backgroundColor;
+            eventColors[i].classList.add("border-color-"+i)
+            var hex = '#'+ color.slice(4,-1).split(',').map(x=> (+x).toString(16).padStart(2,0)).join('')
+            eventColors[i].style.backgroundColor = "red !important"
+            console.log("Colors::",hex.toUpperCase())
+          }  */
+        }
       this.$store.commit("SET_LOADER",false);
+      }
+    },
+    updated(){
+      var eventTimed = document.getElementsByClassName('v-event-timed')
+      if(eventTimed.length > 0){
+        var eventColors = document.getElementsByClassName('v-event-timed'); 
+          for( var i=0;i<eventColors.length;i++ ){
+            eventColors[i].classList.remove("white--text");
+            eventColors[i].classList.add('event-border');
+            var color = eventColors[i].style.backgroundColor;
+            eventColors[i].classList.add("border-color-"+i)
+            var hex = '#'+ color.slice(4,-1).split(',').map(x=> (+x).toString(16).padStart(2,0)).join('')
+            /* eventColors[i].style.backgroundColor = "red !important" */
+            console.log("Colors::",hex.toUpperCase())
+          } 
       }
     }
   }
@@ -368,14 +350,25 @@ import { mapGetters } from 'vuex'
   .v-event-timed-container{
     width:90%;
     margin: auto;
-   }
+    .v-event-timed{
+      padding: 5px;
+      border: 0;
+      /* border-color: none; */
+    }
+  }
    .theme--light.v-calendar-events .v-event-timed{
-    border-left: 3px solid #80808026 !important;
     border-radius: 0;
    }
   .v-event-summary{
     color: $gray;
     strong{ color: black;}
+  }
+  .white--text{
+    color: transparent !important;
+  }
+  .v-event-timed.event-border{
+    border: 0 !important;
+    border-left: 4px solid $blue !important;
   }
   /* .row{
     flex: 0;

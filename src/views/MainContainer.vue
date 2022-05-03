@@ -36,7 +36,6 @@ export default {
   height: 86vh;
   max-height: 88vh;
   background-color: $background-color;
-
   .content{
     width: 100%;
     height: 100%;

@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
         menu:'DASHBOARD',
+        slackCode:'',
         isAddNew:false,
         composedInfo:null,
         isLoading:false,
