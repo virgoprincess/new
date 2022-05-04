@@ -165,6 +165,11 @@ export default {
     },
     results(){
       if(this.initCall) {
+        /* var tempEmails = this.results;
+        tempEmails = Array.from(new Set(tempEmails.map(email => email.threadId))).map(threadId => {
+								return tempEmails.find(email => email.threadId === threadId)
+							}); 
+        console.log("New TempEmails::",tempEmails); */
         this.$store.dispatch("GET_THREADSBYID",this.results[0]);
         this.selectedMessage = this.results[0].threadId;
         this.initCall = false;
@@ -181,6 +186,15 @@ export default {
         this.selectedMessage = ''
       }
     }
+  },
+  updated(){
+    var previewTags = document.getElementsByClassName("preview-list");
+    for( let i=0; i<previewTags.length;i++ ){
+      var p = previewTags[i].getElementsByTagName('p');
+      for(let x=0; x<p.length;x++){
+        p[x].style.cssText += 'margin: 0 !important';
+      }
+    }
   }
 }
 </script>
@@ -194,7 +208,9 @@ export default {
     display: flex;
     gap: 20px;
 
-    .email-left{ width: 25% }
+    .email-left{ 
+      width: 25%;
+    }
     .email-center{ width: 55%; }
     .email-right{ width: 20%; border-left: 1px solid $light-gray !important; }
     /* .email-center,.email-left,.email-right{ height: 100%; } */
@@ -243,7 +259,7 @@ export default {
     .email-content{
       cursor: pointer;
       padding: 120px 20px 0;
-      p{ font-size: 14px; margin: 0; }
+      p{ font-size: 14px; margin: 0 ; }
       .thread:not(:nth-last-child(-n+3)){ border-bottom: 1px solid $light-gray; }
       .thread{padding: 20px 0;}
       .thread-name{ font-weight: 800;}

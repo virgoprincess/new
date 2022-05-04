@@ -87,17 +87,14 @@ export default {
     methods: {
       setToolbarListener(){
         var toolbars = document.getElementsByClassName('v-toolbar')[0].getElementsByClassName('v-btn');
-        console.log("toolbar:::",toolbars)
         for( var i=0; i<toolbars.length;i++){
           toolbars[i].addEventListener('click',()=>{
-            console.log("toolbar clicked:::");
             this.setPresentDate();
           })
         }
       },
       setPresentDate(){
         var present = document.getElementsByClassName('v-calendar-daily_head-day v-present');
-        console.log("present::",present)
         if(present.length > 0) {
           present[0].classList.add("selected-date");
           
@@ -118,7 +115,6 @@ export default {
                  { 
                    var current = document.getElementsByClassName('selected-date');
                   if(current) this.removeClassDate(current);
-                  console.log("parent;::",event.target.parentElement.classList);
                   event.target.parentElement.classList.add('selected-date');
                   }
                 });

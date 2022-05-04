@@ -362,7 +362,6 @@ export default{
         /* state.commit("SET_LOADER",false); */
     },
     SET_MESSAGE_THREADSBYID(state,payload){
-      console.log("SET_MESSAGE_THREADSBYID is called:::")
       var results = {
         "meta": {
           "page": 0,
@@ -703,12 +702,11 @@ export default{
         },
         params:{
           labelIds:'INBOX',
-          includeSpamTrash:false,
-          maxResults:50
+          q:'[ in:inbox -category:{Social Promotions} ]',
+          maxResults:20
         }
       })
         .then((response)=>{
-         /* console.log("Emails:::",response); */
           context.dispatch("GET_MESSAGEBYID",response)
         });
       }
@@ -757,10 +755,23 @@ export default{
               }
          }); */
          messages.push(msgs);
+         messages.sort((a,b)=>{
+           return new Date(b.date) - new Date(a.date);
+         })
           context.commit("SET_EMAILS",messages);  
           context.commit("SET_LOADER",false);
          });
       });
+      /* messages = Array.from( new Set(messages.map(message => message.threadId))).map(threadId =>{ return messages.find(message => message.threadId === threadId) }); */
+      /* messages.filter((v,i,a)=>a.findIndex(v2=>(v2.threadId===v.threadId))===i) */
+    /* const threadIds = messages.map(o => o.threadId);
+     var filtered = messages.filter(({threadId},index) => !threadIds.includes(threadId,index + 1)) */
+     
+    /*  messages = Array.from(new Set(messages.map(message => message.threadId)))
+							.map(threadId => {
+                console.log("return value:::",messages.find(message => message.threadId === threadId) )
+								return messages.find(message => message.threadId === threadId)
+							}); */
     },
     async GET_THREADSBYID(context,payload){
       var threads = [];
@@ -770,6 +781,7 @@ export default{
             Authorization:  `Bearer ${context.state.accessToken}`
           }
         }).then((response)=>{
+          console.log("Thread result:::",response)
           response.data.messages.forEach((message)=>{
             var thread=[];
             message.payload.headers.forEach((content)=>{
@@ -880,7 +892,6 @@ export default{
         }
       })
       .then((response)=>{
-        console.log("events:::",response)
           response.data.items.forEach((event)=>{
               var calEvent = [];
               calEvent.name = event.summary;
@@ -907,7 +918,6 @@ export default{
           personFields:'emailAddresses,names,genders,urls,locations,occupations,events,phoneNumbers,addresses,coverPhotos,photos,organizations',
         }
       }).then((response)=>{
-        console.log("Internal Data::::",response.data.connections);
 
         var internalContacts =[];
         if(response.data.connections != undefined){
@@ -934,7 +944,6 @@ export default{
           readMask: 'emailAddresses,names,genders,urls,locations,occupations,events,phoneNumbers,addresses,coverPhotos,photos,organizations',
         }
       }).then((response)=>{
-        console.log("External Data::::",response.data.otherContacts);
         if( response.data.otherContacts != undefined){
           
         context.state.contacts.external = response.data.otherContacts;
@@ -957,7 +966,6 @@ export default{
         setContacts.all = setContacts.internal.concat(setContacts.external);
         /* context.state.contacts.all = all;
         setContacts.all = all; */
-        console.log("All contacts",setContacts)
         context.commit("SET_CONTACTS",setContacts);
         }
       });
@@ -1011,7 +1019,6 @@ export default{
 
         payload.nextPageToken = response.data.nextPageToken;
       });
-      console.log("storage:::::",payload);
       context.commit("SET_STORAGE",payload);
       /* context.commit("SET_LOADER",false); */
     },

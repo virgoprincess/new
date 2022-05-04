@@ -159,16 +159,16 @@ import { mapGetters } from 'vuex'
       colors: [],
       names: [],
       colorEvents:[
-        {name:'Category 1', color:'#FFFCEF'},
-        {name:'Category 2', color:'#FDF3F0'},
-        {name:'Category 3', color:'#EAF8F6'},
-        {name:'Category 4', color:'#F5F7FD'},
+        {name:'Category 1', color:'#FDF3F0',id:1},
+        {name:'Category 2', color:'#F5F7FD',id:2},
+        {name:'Category 3', color:'#FFFCEF',id:3},
+        {name:'Category 4', color:'#EAF8F6',id:4},
       ],
       categories:[
-        {name:'Category 1', color:'#F3BB4E'},
-        {name:'Category 2', color:'#FDF3F0'},
-        {name:'Category 3', color:'#37B188'},
-        {name:'Category 4', color:'#4771CB'},
+        {name:'Category 1', borderColor:'#C83935',bgColor:'#FDF3F0',id:1},
+        {name:'Category 2', borderColor:'#4771CB',bgColor:'#F5F7FD',id:2},
+        {name:'Category 3', borderColor:'#F3BB4E',bgColor:'#FFFCEF',id:3},
+        {name:'Category 4', borderColor:'#37B188',bgColor:'#EAF8F6',id:4},
       ],
     }),
     mounted () {
@@ -237,19 +237,10 @@ import { mapGetters } from 'vuex'
       events(){
         if( this.events.length > 0 ){
             this.events.map((event)=>{
-            event.color = this.colorEvents[this.rnd(0, this.colorEvents.length - 1)].color
+            event.color = this.categories[this.rnd(0, this.categories.length - 1)].bgColor
             return event;
             });
             console.log("colors changed:::")
-          /* var eventColors = document.getElementsByClassName('v-event-timed'); 
-          for( var i=0;i<eventColors.length;i++ ){
-            eventColors[i].classList.remove("white--text");
-            var color = eventColors[i].style.backgroundColor;
-            eventColors[i].classList.add("border-color-"+i)
-            var hex = '#'+ color.slice(4,-1).split(',').map(x=> (+x).toString(16).padStart(2,0)).join('')
-            eventColors[i].style.backgroundColor = "red !important"
-            console.log("Colors::",hex.toUpperCase())
-          }  */
         }
       this.$store.commit("SET_LOADER",false);
       }
@@ -257,15 +248,17 @@ import { mapGetters } from 'vuex'
     updated(){
       var eventTimed = document.getElementsByClassName('v-event-timed')
       if(eventTimed.length > 0){
-        var eventColors = document.getElementsByClassName('v-event-timed'); 
-          for( var i=0;i<eventColors.length;i++ ){
-            eventColors[i].classList.remove("white--text");
-            eventColors[i].classList.add('event-border');
-            var color = eventColors[i].style.backgroundColor;
-            eventColors[i].classList.add("border-color-"+i)
-            var hex = '#'+ color.slice(4,-1).split(',').map(x=> (+x).toString(16).padStart(2,0)).join('')
-            /* eventColors[i].style.backgroundColor = "red !important" */
-            console.log("Colors::",hex.toUpperCase())
+          for( let i=0;i<eventTimed.length;i++ ){
+            eventTimed[i].classList.remove("white--text");
+            eventTimed[i].classList.add('event-border');
+            var color = eventTimed[i].style.backgroundColor;
+            eventTimed[i].classList.add("border-color-"+i)
+            var hex = '#'+ color.slice(4,-1).split(',').map(x=> (+x).toString(16).padStart(2,0)).join('');
+            this.categories.forEach(category=>{
+              if( hex.toUpperCase() == category.bgColor ){
+                eventTimed[i].style.cssText += 'border-color:'+category.borderColor+' !important;';
+              }
+            })
           } 
       }
     }
@@ -367,8 +360,8 @@ import { mapGetters } from 'vuex'
     color: transparent !important;
   }
   .v-event-timed.event-border{
-    border: 0 !important;
-    border-left: 4px solid $blue !important;
+    border-style: solid;
+    border-width: 0px 0px 0px 4px !important;
   }
   /* .row{
     flex: 0;
