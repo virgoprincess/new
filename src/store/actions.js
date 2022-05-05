@@ -36,8 +36,8 @@ export default{
                         message:"Hi there, this is Liam from SparksServices, I saw you signed up for a free trial on our site"
                         },
                     attachments:[
-                        {fileType:"image",fileUrl:'/images/image-file.jpg',firstName:"Sample.jpg"},
-                        {fileType:"image",fileUrl:'/images/image-file-2.jpg',firstName:"Sample.jpg"},
+                        {fileType:"image",fileUrl:'/images/image-file.jpg',fileName:"Sample.jpg"},
+                        {fileType:"image",fileUrl:'/images/image-file-2.jpg',fileName:"Sample.jpg"},
                         {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:"Literature.pdf",fileSize:"100 MB"},
                     ]
                 }
@@ -781,8 +781,11 @@ export default{
             Authorization:  `Bearer ${context.state.accessToken}`
           }
         }).then((response)=>{
-          console.log("Thread result:::",response)
-          response.data.messages.forEach((message)=>{
+          threads.hasAttachments = false;
+          console.log("Thread result:::",response);
+          console.log("Total Number of Messages or Threads:::",response.data.messages.length);
+          var newThreads = [];
+          response.data.messages.forEach((message,i)=>{
             var thread=[];
             message.payload.headers.forEach((content)=>{
               if(content.name == "Date") {
@@ -801,19 +804,20 @@ export default{
 /* var content = message.payload.parts ? decodeURIComponent(escape(atob(message.payload.parts[0].body.data.split(".")[1]))) : message.snippet; */
                 var result = '';
                 var content = [];
+                var attachments = [];
                 var padding = '';
                 var base64Content = '';
                 var data = '';
               /* btoa(unescape(encodeURIComponent(s))) */
               /* decodeURIComponent(escape(atob(content))) */
 
+              var contentData = [];
+              console.log(`No of Parts for Message-${i}::: ${message.payload.parts? message.payload.parts.length:''}`);
               if(message.payload.parts){
                 /* message.payload.parts.forEach((part)=>{ */
                   console.log("First Condition:::");
-                  if(message.payload.parts){
-                    
-                    message.payload.parts.forEach(part=>{
-                      console.log("parts:::",part)
+                    message.payload.parts.forEach((part,index)=>{
+                      console.log("parts:::",part,"\nindex::",index)
                       if( part.mimeType != 'text/plain' ){
                         
                         /* part.body.attachmentId to get attachements */
@@ -821,17 +825,22 @@ export default{
                         if( data != undefined && data != '' ){
                           padding = '='.repeat((4 - data.length % 4) % 4);
                           base64Content = decodeURIComponent(escape((window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/')))));
-                          content.push({"data":base64Content,"mimeType":part.mimeType});
+                          contentData.push({"data":base64Content,"mimeType":part.mimeType});
                         }
                         /* skip getting attachments for now */
-                        /* else{
-                          data = window.atob(data);
-                          content.push({"data":data, "mimeType":part.mimeType});
-                        } */
+                        else if( part.body.attachmentId ){
+                          attachments.push({"attachmentId":part.body.attachmentId,"mimeType":part.mimeType,"filename":part.filename});
+                          threads.hasAttachments = true;
+                          /* var testId = "base64data here..";
+                          padding = '='.repeat((4 - testId.length % 4) % 4);
+                          base64Content = (testId + padding).replace(/-/g, '+').replace(/_/g, '/').replace(/ /g,'+');
+                          console.log("Test Decode::",base64Content); */
+                         
+                        }
                       }
                     });
-                    console.log("content:::",content)
-                  }
+                    content.contentData = contentData;
+                    /* console.log("content:::",content) */
                   /* data =  message.payload.parts.length > 1 ? message.payload.parts[1].body.data : message.payload.parts[0].body.data;
                   if( data != undefined ){
                   padding = '='.repeat((4 - data.length % 4) % 4);
@@ -846,23 +855,49 @@ export default{
                   if( data != undefined ){
                     padding = '='.repeat((4 - data.length % 4) % 4);
                     base64Content = decodeURIComponent(escape(window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/'))));
-                    console.log("data:::",message.payload.body)
-                    content.push({"data":base64Content,"mimeType":message.payload.body.mimeType});
+                    /* console.log("data:::",message.payload.body) */
+                    contentData.push({"data":base64Content,"mimeType":message.payload.body.mimeType});
+                    content.contentData = contentData;
                   }else{
                     //do something here
                   }
               }
+              content.attachments = attachments;
               thread.content = content;
-              /* thread.snippet = message.snippet; */
-              /* console.log("Decoded Thread Body::::", thread); */
-              /* console.log("Thread Content:::",thread); */
-              threads.push(thread);
+              newThreads.push(thread);
           });
+          threads.thread = newThreads;
+          threads.threadId = payload.threadId;
           threads.subject = payload.subject;
-          
-          context.commit("SET_THREADBYID",threads);
-         /*  context.commit("SET_LOADER",false); */
+          console.log("THreads in act ionjs::",threads)
+          !threads.hasAttachments ? context.commit("SET_THREADBYID",threads) : context.dispatch("GET_ATTACHMENTS_DATA",threads);
         });
+    },
+    async GET_ATTACHMENTS_DATA(context,payload){
+      let threads = payload;
+      threads.thread.map((thread,i)=>{
+        thread.content.attachments.map( async attachment =>{
+          await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/messages/${payload.threadId}/attachments/${attachment.attachmentId}`,{
+            headers:{
+              Authorization:  `Bearer ${context.state.accessToken}`
+            }
+          }).then(response =>{
+            
+            let base64Code = response.data.data;
+            let padding = '='.repeat((4 - base64Code.length % 4) % 4);
+            let base64Content = (base64Code + padding).replace(/-/g, '+').replace(/_/g, '/').replace(/ /g,'+');
+            attachment.data = base64Content;
+            attachment.size = response.data.size;
+            return attachment;
+          })
+        })
+        if(i == threads.thread.length-1){
+          console.log("Committed",threads)
+          context.commit("SET_THREADBYID",threads);
+        }
+        return thread;
+      })
+
     },
     async SET_CALENDAR(context,payload){
       /* await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{

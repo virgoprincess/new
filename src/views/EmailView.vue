@@ -35,7 +35,7 @@
             </div>
             <b-overlay :show="show" rounded="sm" opacity="1" class="thread-loader">
               <div class="email-content" v-if="threads">
-                <div class="thread" v-for="(thread,i) in threads" :key="i">
+                <div class="thread" v-for="(thread,i) in threads.thread" :key="i">
                   
                     <h3>{{thread.Subject}}</h3>
                   <div class="d-flex justify-content-between">
@@ -43,9 +43,23 @@
                     <p class="thread-date">{{thread.Date}}</p>
                   </div>
 
-                  <p :style="(threads.length -1 ) == i ? 'display:none' : 'display:block'" class="thread-snippet" :class="'thread-snippet'+i"  @click="toggleDisplay(i)" v-html="'<div>'+thread.snippet+'</div>'"></p>
-                  <div v-for="(part,k) in thread.content" :key="k">
-                    <div :style="(threads.length -1 ) == i ? 'display:block' : 'display:none'" class="thread-content" :class="'thread-content'+i" v-html="'<div><p>'+part.data+'</p></div>'"></div>
+                  <p :style="(threads.thread.length -1 ) == i ? 'display:none' : 'display:block'" class="thread-snippet" :class="'thread-snippet'+i"  @click="toggleDisplay(i)" v-html="'<div>'+thread.snippet+'</div>'"></p>
+                  <div v-for="(part,k) in thread.content.contentData" :key="k">
+                    <div :style="(threads.thread.length -1 ) == i ? 'display:block' : 'display:none'" class="thread-content" :class="'thread-content'+i" v-html="'<div><p>'+part.data+'</p></div>'">
+                      
+                    </div>
+                    <div :style="(threads.thread.length -1 ) == i && threads.hasAttachments ? 'display:block' : 'display:none'" class="attachment-container">
+                      <!-- <div v-for="(attachment,i) in thread.content.attachments" :key="i">
+                        <a :download="attachment.filename" :href="`data:${attachment.mimeType};base64,${attachment.data}`" v-if="attachment.data">
+                          <img :src="`data:${attachment.mimeType};base64,${attachment.data}`" :alt="attachment.filename" v-if="attachment.mimeType == 'image/jpeg' || attachment.mimeType == 'image/jpg' ||attachment.mimeType == 'image/png'">
+                          <div v-else>
+                            {{ attachment.filename }}
+                          </div>
+                        </a>
+                      </div> -->
+                     
+                      <attachments-components :data="emailAttachments"/>
+                    </div>
                   </div>
                 </div>
                 <reply-forward/>
@@ -99,13 +113,14 @@
 <script>
 import PreviewComponent from '@/components/commons/PreviewComponent.vue'
 import ProfileComponent from '@/components/commons/ProfileComponent.vue'
-import FileIconComponent from '@/components/commons/attachments/FileIconComponent.vue'
 /* import ReplyForward from '@/components/commons/ReplyForwarComponent.vue' */
+import FileIconComponent from '@/components/commons/attachments/FileIconComponent.vue'
 import ReplyForward from '@/components/dashboard/ReplyForwardComponent.vue'
 import ComposeComponent from '@/components/commons/ComposeComponent.vue'
+import AttachmentsComponents from '@/components/dashboard/AttachmentsComponents.vue'
 import { mapGetters } from "vuex"
 export default {
-    components:{PreviewComponent, ProfileComponent, FileIconComponent,ReplyForward,ComposeComponent},
+    components:{PreviewComponent, ProfileComponent,ReplyForward,ComposeComponent,AttachmentsComponents ,FileIconComponent},
     name:'email-component',
     data(){
       return{
@@ -113,8 +128,13 @@ export default {
         show: false,
         initCall:true,
         selectedMessage:'',
+        attachments:[],
         newMessage:false,
         showModal:false,
+        emailAttachments:[
+          {fileType:"image",fileUrl:'/images/image-file.jpg',fileName:"Sample.jpg"},
+          {fileType:"pdf",fileUrl:'/images/files/Design.pdf',fileName:"Guide.pdf",fileSize:"100 MB"},
+        ]
       }
     },
     methods:{
@@ -158,9 +178,11 @@ export default {
       }),
 
     },
-  watch:{
+   watch:{
     threads(){
-      console.log("threads changed:::")
+      console.log("Threads changing:::",this.threads);
+      this.attachments = this.threads;
+      console.log("new attachments;::",this.attachments);
         this.show = false;
     },
     results(){
@@ -188,6 +210,14 @@ export default {
     }
   },
   updated(){
+    /* if(this.threads.thread && this.threads.thread.length > 0 && this.threads.hasAttachments && this.attachments.length == 0){
+      console.log("Threads in Update Method:::",this.threads.thread);
+      this.threads.thread.map(v =>{
+        console.log("Per thread::",v)
+        console.log("Content:::",v.content.attachments)
+        if(this.attachments.length > 0) return;
+      })
+    } */
     var previewTags = document.getElementsByClassName("preview-list");
     for( let i=0; i<previewTags.length;i++ ){
       var p = previewTags[i].getElementsByTagName('p');
@@ -236,7 +266,7 @@ export default {
       .email-center{
           position: relative;
           .email-menu{
-              width: 50%;
+              width: 51%;
               position:fixed;
               border-bottom: 1px solid $light-gray;
               background-color: $background-color;
@@ -264,6 +294,24 @@ export default {
       .thread{padding: 20px 0;}
       .thread-name{ font-weight: 800;}
       .thread-date{ color: $gray; font-size: 11px; font-weight: 600;}
+      .attachment-container::v-deep{ 
+        border-top: 1px solid $lighter-gray; padding: 20px; 
+       
+          img,.file-type{
+            border-radius: 2px !important;
+            }
+            
+        .file-type{ 
+          border: 1px solid $light-gray; border-radius: 2px !important;
+          background-color: #fff;
+          width: 95px;
+          height: 54px;
+          padding: 15px;
+          .file-name{font-weight: 500; color: $black; margin: 0 !important;}
+          .file-size{margin:10px 0 !important}
+          p{ font-size: 13px;font-weight: 400 !important;}
+         }
+        }
     }
     .new-message{
       p{margin: 0;}

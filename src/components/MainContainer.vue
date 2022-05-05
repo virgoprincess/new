@@ -32,11 +32,11 @@ export default {
   max-height: 88vh;
   background-color: $background-color;
 
-  & .b-overlay.position-absolute{ border-left:1px solid $light-gray !important;inset: 0; }
+  & .b-overlay-wrap.loader{ border-left:1px solid $light-gray !important;inset: 0; }
   .content{
     width: 100%;
     height: 100%;
-    border-left: 1px solid $light-gray;
+    /* border-left: 1px solid $light-gray; */
     >div{
           max-height: 86vh;
     }

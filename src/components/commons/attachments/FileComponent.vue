@@ -1,7 +1,9 @@
 <template>
   <div class="file-type">
-      <p class="file-name">{{ data.fileName }}</p>
-      <p class="file-size">{{ data.fileSize }}</p>
+     <a :href="data.fileName" download>
+        <p class="file-name">{{ data.fileName }}</p>
+        <p class="file-size">{{ data.fileSize }}</p>
+     </a>
   </div>
 </template>
 
@@ -31,5 +33,6 @@ export default {
         font-weight: 800;
     }
     .file-size{ font-size: 0.8rem; color: $gray; align-self: normal; }
+    a{ text-decoration: none; color: $black; }
     }
 </style>

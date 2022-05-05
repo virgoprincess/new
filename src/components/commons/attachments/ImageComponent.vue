@@ -1,6 +1,8 @@
 <template>
   <div class="image-type">
-    <b-img rounded :src="data.fileUrl" :alt="data.fileName" />
+    <a :href="data.fileUrl" download="">
+      <b-img rounded :src="data.fileUrl" :alt="data.fileName"/>
+    </a>
   </div>
 </template>
 
