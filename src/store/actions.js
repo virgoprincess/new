@@ -713,13 +713,15 @@ export default{
     },
     async GET_MESSAGEBYID(context, payload){
       var messages = [];
-      payload.data.messages.forEach(async(email)=>{
+      let ctr = payload.data.messages.length;
+      payload.data.messages.forEach(async(email,i)=>{
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/messages/${email.id}`,
        {
          headers:{
            Authorization:`Bearer ${context.state.accessToken}`
          }
        }).then((response)=>{
+         ctr--;
           var data = response.data.payload.headers
           var msgs = {};
            data.map((res)=>{
@@ -737,7 +739,6 @@ export default{
            if(res.name == 'To')
             msgs.to = res.value; 
 
-            /* console.log("contacts:::",context.state.contacts.all) */
             var result = [];
             if( context.state.contacts.all != undefined ){
               result = context.state.contacts.all.find(contact => msgs.email === contact.email);
@@ -745,36 +746,37 @@ export default{
             /* var result = context.state.contacts.all != undefined ? context.state.contacts.all.find(contact => msgs.email === contact.email) : ''; */
             msgs.photoUrl = result != undefined ? result.photoUrl : '';
             });    
-         msgs.snippet = response.data.snippet.length > 30 ? response.data.snippet.slice(0,30) + "..." : response.data.snippet ;
-         msgs.threadId = response.data.threadId;
-         /* var contacts = context.state.contacts;
-         contacts.all.forEach(contact => {
-              if(contact.photos)
-              {
+            msgs.snippet = response.data.snippet.length > 30 ? response.data.snippet.slice(0,30) + "..." : response.data.snippet ;
+            msgs.threadId = response.data.threadId;
+            /* var contacts = context.state.contacts;
+            contacts.all.forEach(contact => {
+                  if(contact.photos)
+                  {
 
-              }
-         }); */
-         messages.push(msgs);
-         messages.sort((a,b)=>{
-           return new Date(b.date) - new Date(a.date);
-         })
-          context.commit("SET_EMAILS",messages);  
-          context.commit("SET_LOADER",false);
+                  }
+            }); */
+            messages.push(msgs);
+            if( ctr == 0 ){
+              //sort
+              messages.sort((a,b)=>{
+                return new Date(b.date) - new Date(a.date);
+              })
+
+              //remove duplicates
+              messages = Array.from(new Set(messages.map(message => message.threadId))).map(threadId => {
+                      return messages.find(message => message.threadId === threadId)
+                    }); 
+
+              console.log("sorted and no duplicates::",messages)
+              context.commit("SET_EMAILS",messages);  
+              context.commit("SET_LOADER",false);
+            }
+         
          });
       });
-      /* messages = Array.from( new Set(messages.map(message => message.threadId))).map(threadId =>{ return messages.find(message => message.threadId === threadId) }); */
-      /* messages.filter((v,i,a)=>a.findIndex(v2=>(v2.threadId===v.threadId))===i) */
-    /* const threadIds = messages.map(o => o.threadId);
-     var filtered = messages.filter(({threadId},index) => !threadIds.includes(threadId,index + 1)) */
-     
-    /*  messages = Array.from(new Set(messages.map(message => message.threadId)))
-							.map(threadId => {
-                console.log("return value:::",messages.find(message => message.threadId === threadId) )
-								return messages.find(message => message.threadId === threadId)
-							}); */
     },
     async GET_THREADSBYID(context,payload){
-      var threads = [];
+      let threads = {};
         /* context.commit("SET_LOADER",true); */
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/threads/${payload.threadId}`,{
           headers:{
@@ -782,14 +784,12 @@ export default{
           }
         }).then((response)=>{
           threads.hasAttachments = false;
-          console.log("Thread result:::",response);
-          console.log("Total Number of Messages or Threads:::",response.data.messages.length);
-          var newThreads = [];
+          let newThreads = [];
           response.data.messages.forEach((message,i)=>{
-            var thread=[];
+            let thread={};
             message.payload.headers.forEach((content)=>{
               if(content.name == "Date") {
-                var d =new Date(content.value);
+                let d =new Date(content.value);
                 thread[content.name] = d.toLocaleDateString() + " " +d.toLocaleTimeString();
               }
               if(content.name == "From"){
@@ -802,53 +802,35 @@ export default{
             });
              thread.snippet = message.snippet.length > 0 ? message.snippet.slice(0,70)+'...' : '';
 /* var content = message.payload.parts ? decodeURIComponent(escape(atob(message.payload.parts[0].body.data.split(".")[1]))) : message.snippet; */
-                var result = '';
-                var content = [];
-                var attachments = [];
-                var padding = '';
-                var base64Content = '';
-                var data = '';
+                let content = {};
+                let attachments = [];
+                let padding = '';
+                let base64Content = '';
+                let data = '';
               /* btoa(unescape(encodeURIComponent(s))) */
               /* decodeURIComponent(escape(atob(content))) */
 
-              var contentData = [];
-              console.log(`No of Parts for Message-${i}::: ${message.payload.parts? message.payload.parts.length:''}`);
+              let contentData = [];
               if(message.payload.parts){
-                /* message.payload.parts.forEach((part)=>{ */
                   console.log("First Condition:::");
-                    message.payload.parts.forEach((part,index)=>{
-                      console.log("parts:::",part,"\nindex::",index)
+                    message.payload.parts.forEach((part)=>{
                       if( part.mimeType != 'text/plain' ){
                         
-                        /* part.body.attachmentId to get attachements */
                         data = part.body.data ? part.body.data : part.parts ? part.parts[0].body.data : '';
                         if( data != undefined && data != '' ){
                           padding = '='.repeat((4 - data.length % 4) % 4);
                           base64Content = decodeURIComponent(escape((window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/')))));
                           contentData.push({"data":base64Content,"mimeType":part.mimeType});
                         }
-                        /* skip getting attachments for now */
                         else if( part.body.attachmentId ){
                           attachments.push({"attachmentId":part.body.attachmentId,"mimeType":part.mimeType,"filename":part.filename});
                           threads.hasAttachments = true;
-                          /* var testId = "base64data here..";
-                          padding = '='.repeat((4 - testId.length % 4) % 4);
-                          base64Content = (testId + padding).replace(/-/g, '+').replace(/_/g, '/').replace(/ /g,'+');
-                          console.log("Test Decode::",base64Content); */
-                         
+                          threads.attachmentsAdded = false;
+                     
                         }
                       }
                     });
                     content.contentData = contentData;
-                    /* console.log("content:::",content) */
-                  /* data =  message.payload.parts.length > 1 ? message.payload.parts[1].body.data : message.payload.parts[0].body.data;
-                  if( data != undefined ){
-                  padding = '='.repeat((4 - data.length % 4) % 4);
-                  base64Content = decodeURIComponent(escape((window.atob((data + padding).replace(/-/g, '+').replace(/_/g, '/')))));
-                  content.push({"data":base64Content,"mimeType":message.payload.parts.length > 1 ? message.payload.parts[1].mimeType : message.payload.parts[0].mimeType});
-                  } */
-
-                /* }); */
               } else {
                 console.log("Second Condition:::");
                   data  = message.payload.body.data;
@@ -869,34 +851,45 @@ export default{
           threads.thread = newThreads;
           threads.threadId = payload.threadId;
           threads.subject = payload.subject;
-          console.log("THreads in act ionjs::",threads)
           !threads.hasAttachments ? context.commit("SET_THREADBYID",threads) : context.dispatch("GET_ATTACHMENTS_DATA",threads);
         });
     },
     async GET_ATTACHMENTS_DATA(context,payload){
-      let threads = payload;
+      let threads = JSON.parse(JSON.stringify(payload));
+      let thCtr = threads.thread.length;
+
       threads.thread.map((thread,i)=>{
-        thread.content.attachments.map( async attachment =>{
+        let attachCtr = thread.content.attachments.length;
+        thread.content.attachments.map( async (attachment,x) =>{
           await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/messages/${payload.threadId}/attachments/${attachment.attachmentId}`,{
             headers:{
               Authorization:  `Bearer ${context.state.accessToken}`
             }
           }).then(response =>{
-            
+            attachCtr--;
             let base64Code = response.data.data;
             let padding = '='.repeat((4 - base64Code.length % 4) % 4);
             let base64Content = (base64Code + padding).replace(/-/g, '+').replace(/_/g, '/').replace(/ /g,'+');
-            attachment.data = base64Content;
-            attachment.size = response.data.size;
+                attachment.data = base64Content;
+                attachment.size = response.data.size;
+
+            if( attachCtr == 0 ){
+              if( thCtr > 0 ) thCtr--;
+              if( thCtr == 0 ){
+                threads.attachmentsAdded = true;
+                setTimeout(function(){
+                  context.commit("SET_THREADBYID",JSON.parse(JSON.stringify(threads)));
+                },2000)
+                
+              }
+            }
             return attachment;
           })
         })
-        if(i == threads.thread.length-1){
-          console.log("Committed",threads)
-          context.commit("SET_THREADBYID",threads);
-        }
+        
         return thread;
       })
+      /* console.log("after all the processes::",threads) */
 
     },
     async SET_CALENDAR(context,payload){

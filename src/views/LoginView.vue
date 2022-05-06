@@ -198,7 +198,6 @@ export default {
                     googleUser.newUser = false;
                     this.$store.dispatch("SETUSER_ACCOUNT",googleUser);
                     localStorage.userProfile = JSON.stringify(this.$store.state.userProfile);
-                    console.log("UserProfile from store:::",localStorage.getItem('userProfile'))
                     this.$router.push({name:'home'}); 
                 }else{
                     this.$store.commit("SET_LOADER",false);

@@ -45,21 +45,24 @@
 
                   <p :style="(threads.thread.length -1 ) == i ? 'display:none' : 'display:block'" class="thread-snippet" :class="'thread-snippet'+i"  @click="toggleDisplay(i)" v-html="'<div>'+thread.snippet+'</div>'"></p>
                   <div v-for="(part,k) in thread.content.contentData" :key="k">
-                    <div :style="(threads.thread.length -1 ) == i ? 'display:block' : 'display:none'" class="thread-content" :class="'thread-content'+i" v-html="'<div><p>'+part.data+'</p></div>'">
-                      
-                    </div>
-                    <div :style="(threads.thread.length -1 ) == i && threads.hasAttachments ? 'display:block' : 'display:none'" class="attachment-container">
-                      <!-- <div v-for="(attachment,i) in thread.content.attachments" :key="i">
-                        <a :download="attachment.filename" :href="`data:${attachment.mimeType};base64,${attachment.data}`" v-if="attachment.data">
-                          <img :src="`data:${attachment.mimeType};base64,${attachment.data}`" :alt="attachment.filename" v-if="attachment.mimeType == 'image/jpeg' || attachment.mimeType == 'image/jpg' ||attachment.mimeType == 'image/png'">
-                          <div v-else>
-                            {{ attachment.filename }}
+                    
+                    <div :style="(threads.thread.length -1 ) == i ? 'display:block' : 'display:none'" :class="'thread-content'+i">
+
+                      <div class="thread-content"  v-html="'<div><p>'+part.data+'</p></div>'"> </div>
+
+                      <div :style="threads.hasAttachments ? 'display:block' : 'display:none'" class="attachment-container">
+                        <h6>Attachments</h6>
+                        <div class="attachments" >
+                          <div v-for="(attachment,i) in thread.content.attachments" :key="i" >
+                            <image-component :data="attachment.attachInfo" v-if="attachment.mimeType == 'image/jpeg' || attachment.mimeType == 'image/jpg' ||attachment.mimeType == 'image/png'"/>
+                            <a class="black-small-text" :href="attachment.attachInfo.fileUrl" :download="attachment.attachInfo.fileName" v-else>{{ attachment.attachInfo.fileName.slice(0,9)+'...' }}</a>
                           </div>
-                        </a>
-                      </div> -->
-                     
-                      <attachments-components :data="emailAttachments"/>
+                        </div>
+                      </div>
+
                     </div>
+                    
+
                   </div>
                 </div>
                 <reply-forward/>
@@ -117,10 +120,11 @@ import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 import FileIconComponent from '@/components/commons/attachments/FileIconComponent.vue'
 import ReplyForward from '@/components/dashboard/ReplyForwardComponent.vue'
 import ComposeComponent from '@/components/commons/ComposeComponent.vue'
-import AttachmentsComponents from '@/components/dashboard/AttachmentsComponents.vue'
+import ImageComponent from '@/components/commons/attachments/ImageComponent.vue'
+/* import FileComponent from '@/components/commons/attachments/FileComponent.vue' */
 import { mapGetters } from "vuex"
 export default {
-    components:{PreviewComponent, ProfileComponent,ReplyForward,ComposeComponent,AttachmentsComponents ,FileIconComponent},
+    components:{PreviewComponent, ProfileComponent,ReplyForward,ComposeComponent,FileIconComponent,ImageComponent},
     name:'email-component',
     data(){
       return{
@@ -128,7 +132,6 @@ export default {
         show: false,
         initCall:true,
         selectedMessage:'',
-        attachments:[],
         newMessage:false,
         showModal:false,
         emailAttachments:[
@@ -180,9 +183,17 @@ export default {
     },
    watch:{
     threads(){
-      console.log("Threads changing:::",this.threads);
-      this.attachments = this.threads;
-      console.log("new attachments;::",this.attachments);
+      if( this.threads.hasAttachments && this.threads.attachmentsAdded ){
+        this.threads.thread.map(th =>{
+          th.content.attachments.map(attachment =>{
+            let attachInfo = {};
+            attachInfo.fileUrl =`data:${attachment.mimeType};base64,${attachment.data}`;
+            attachInfo.fileName = attachment.filename;
+            attachInfo.size = attachment.size;
+            attachment.attachInfo = attachInfo
+          })
+        })
+      }
         this.show = false;
     },
     results(){
@@ -210,14 +221,6 @@ export default {
     }
   },
   updated(){
-    /* if(this.threads.thread && this.threads.thread.length > 0 && this.threads.hasAttachments && this.attachments.length == 0){
-      console.log("Threads in Update Method:::",this.threads.thread);
-      this.threads.thread.map(v =>{
-        console.log("Per thread::",v)
-        console.log("Content:::",v.content.attachments)
-        if(this.attachments.length > 0) return;
-      })
-    } */
     var previewTags = document.getElementsByClassName("preview-list");
     for( let i=0; i<previewTags.length;i++ ){
       var p = previewTags[i].getElementsByTagName('p');
@@ -294,13 +297,19 @@ export default {
       .thread{padding: 20px 0;}
       .thread-name{ font-weight: 800;}
       .thread-date{ color: $gray; font-size: 11px; font-weight: 600;}
-      .attachment-container::v-deep{ 
-        border-top: 1px solid $lighter-gray; padding: 20px; 
-       
+      .attachment-container::v-deep{
+        
+        border-top: 1px solid $lighter-gray;
+        padding: 10px;
+        .attachments{
+          display: flex;
+          gap: 10px; 
+          align-items: flex-end;
+        }
           img,.file-type{
             border-radius: 2px !important;
             }
-            
+          img{ height: auto;}
         .file-type{ 
           border: 1px solid $light-gray; border-radius: 2px !important;
           background-color: #fff;

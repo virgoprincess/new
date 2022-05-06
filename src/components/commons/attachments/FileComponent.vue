@@ -1,6 +1,6 @@
 <template>
   <div class="file-type">
-     <a :href="data.fileName" download>
+     <a :href="data.fileUrl" :download="data.fileName">
         <p class="file-name">{{ data.fileName }}</p>
         <p class="file-size">{{ data.fileSize }}</p>
      </a>
