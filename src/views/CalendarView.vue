@@ -129,7 +129,7 @@
         <div class="d-flex justify-content-between align-items-center"><h6 class="fw-700">Categories</h6> <b-icon-plus-circle></b-icon-plus-circle></div>
         <b-list-group class="category-lists">
           <b-list-group-item class="fs-12 fw-600 d-flex align-items-center" v-for="(category,i) in categories" :key="i">
-            <b-icon-dash :style="{color:category.color}"></b-icon-dash>
+            <b-icon-dash :style="{color:category.borderColor}"></b-icon-dash>
               <p>{{category.name}}</p>
           </b-list-group-item>
         </b-list-group>

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import actions from "./actions";
 import mutations from "./mutations";
+import actions from "./actions";
 Vue.use(Vuex);
 
 
@@ -27,6 +27,7 @@ export default new Vuex.Store({
         settings:[],
     },
     getters:{
+        GET_ACCESS_TOKEN:state =>state.accessToken,
         GET_CURRENTMENU:state =>state.menu,
         GET_USERINFO:state =>state.userProfile,
         GET_DASHBOARD:state =>state.dashboard,

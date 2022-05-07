@@ -1,6 +1,7 @@
 import axios from 'axios';
+import * as config from './config'
 export default{
-    SET_CURRENTMENU(state,payload){
+      SET_CURRENTMENU(state,payload){
         state.commit("SET_CURRENTMENU",payload);
     },
     SETUSER_ACCOUNT(state,payload){
@@ -697,9 +698,7 @@ export default{
       if( !context.state.userProfile.newUser )
       {
         await axios.get(`https://www.googleapis.com/gmail/v1/users/${context.state.userId}/messages`,{
-        headers:{
-          Authorization:`Bearer ${context.state.accessToken}`
-        },
+        headers:config.getHeaders(context),
         params:{
           labelIds:'INBOX',
           q:'[ in:inbox -category:{Social Promotions} ]',
@@ -717,9 +716,7 @@ export default{
       payload.data.messages.forEach(async(email,i)=>{
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/messages/${email.id}`,
        {
-         headers:{
-           Authorization:`Bearer ${context.state.accessToken}`
-         }
+         headers:config.getHeaders(context)
        }).then((response)=>{
          ctr--;
           var data = response.data.payload.headers
@@ -767,7 +764,6 @@ export default{
                       return messages.find(message => message.threadId === threadId)
                     }); 
 
-              console.log("sorted and no duplicates::",messages)
               context.commit("SET_EMAILS",messages);  
               context.commit("SET_LOADER",false);
             }
@@ -779,9 +775,7 @@ export default{
       let threads = {};
         /* context.commit("SET_LOADER",true); */
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/threads/${payload.threadId}`,{
-          headers:{
-            Authorization:  `Bearer ${context.state.accessToken}`
-          }
+          headers:config.getHeaders(context)
         }).then((response)=>{
           threads.hasAttachments = false;
           let newThreads = [];
@@ -862,9 +856,7 @@ export default{
         let attachCtr = thread.content.attachments.length;
         thread.content.attachments.map( async (attachment,x) =>{
           await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/messages/${payload.threadId}/attachments/${attachment.attachmentId}`,{
-            headers:{
-              Authorization:  `Bearer ${context.state.accessToken}`
-            }
+            headers:config.getHeaders(context)
           }).then(response =>{
             attachCtr--;
             let base64Code = response.data.data;
@@ -911,9 +903,7 @@ export default{
     async SET_EVENTS(context,payload){
       var calendarEvents = []
       await axios.get(`https://www.googleapis.com/calendar/v3/calendars/${context.state.userProfile.email}/events`,{
-        headers:{
-          Authorization:  `Bearer ${context.state.accessToken}`
-        },
+        headers:config.getHeaders(context),
         params:{
           timeMin: payload.min,
           timeMax: payload.max,
@@ -940,9 +930,8 @@ export default{
       /* https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos */
       var setContacts = [];
       await axios.get(`https://people.googleapis.com/v1/people/me/connections`,{
-        headers:{
-          Authorization: `Bearer ${context.state.accessToken}`
-        },params:{
+        headers:config.getHeaders(context),
+        params:{
           personFields:'emailAddresses,names,genders,urls,locations,occupations,events,phoneNumbers,addresses,coverPhotos,photos,organizations',
         }
       }).then((response)=>{
@@ -967,7 +956,7 @@ export default{
       });
 
       await axios.get(`https://people.googleapis.com/v1/otherContacts?sources=READ_SOURCE_TYPE_PROFILE&sources=READ_SOURCE_TYPE_CONTACT`,{
-        headers:{ Authorization: `Bearer ${context.state.accessToken}` },
+        headers:config.getHeaders(context),
         params:{
           readMask: 'emailAddresses,names,genders,urls,locations,occupations,events,phoneNumbers,addresses,coverPhotos,photos,organizations',
         }
@@ -1003,9 +992,7 @@ export default{
     },
     async SET_STORAGE(context,payload){
       await axios.get(`https://www.googleapis.com/drive/v3/files`,{
-        headers:{
-          Authorization: `Bearer ${context.state.accessToken}`
-        },
+        headers:config.getHeaders(context),
         params:{
           pageSize: 20,
           trashed:false,

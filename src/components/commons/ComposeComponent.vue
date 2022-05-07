@@ -4,7 +4,38 @@
       <b-row class="align-items-baseline">
         <b-col class="d-flex flex-row align-items-baseline" cols="10">
           <label for="" class="fs-14 fw-700 pr-1">To:</label>
-          <b-form-input></b-form-input>
+          <b-form-input v-model="emailText" placeholder="Search"></b-form-input>
+          <div id="email-search-container" class="email-search-container">
+            <b-input-group >
+              <div class="d-flex justify-content-center align-items-center">
+                 <label for="" class="fs-14 fw-700 pr-1">To:</label>
+              <b-form-input  v-model="emailText"  placeholder="Search" autocomplete="off" ></b-form-input>
+              </div>
+              <b-icon-x/>
+            </b-input-group>
+            <b-list-group id="email-lists" class="email-lists scrollable">
+              <b-list-group-item button v-for="(email,i) in filteredData" :key="i">
+                <b-img :src="email.photoUrl" alt=" " rounded="circle"/>
+                <div>
+                  <span class="fw-700">{{ email.name }}</span><br/>
+                  <span>{{ email.email }}</span>
+                </div>
+              </b-list-group-item>
+              <!-- <b-list-group-item button>email 2</b-list-group-item>
+              <b-list-group-item button>email 3</b-list-group-item>
+              <b-list-group-item button>email 4</b-list-group-item>
+              <b-list-group-item button>email 5</b-list-group-item>
+              <b-list-group-item button>email 6</b-list-group-item>
+              <b-list-group-item button>email 1</b-list-group-item>
+              <b-list-group-item button>email 2</b-list-group-item>
+              <b-list-group-item button>email 3</b-list-group-item>
+              <b-list-group-item button>email 4</b-list-group-item>
+              <b-list-group-item button>email 5</b-list-group-item>
+              <b-list-group-item button>email 6</b-list-group-item> -->
+              
+          </b-list-group>
+          </div>
+          
         </b-col>
         <b-col class="gray-small-text">
           <span>Cc </span><span>Bcc</span>
@@ -39,18 +70,20 @@
   </b-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name:'ComposeComponent',
   data(){
     return{
-      sampleText:'',
+      emailText:'',
       emailInfo:{
         to:[],
         cc:[],
         bcc:[],
         subject:'',
         text:''
-      }
+      },
+      filteredData:[],
     }
   },
   methods:{
@@ -60,6 +93,17 @@ export default {
     }
   },
   watch:{
+    emailText(){
+     if(this.emailText.toString() != ''){
+       this.filteredData = this.contacts.external.filter(emailInfo =>{
+       console.log("email::",emailInfo);
+        return  emailInfo.name.toLowerCase().match(this.emailText.toString().toLowerCase()) || emailInfo.email.toLowerCase().match( this.emailText.toString().toLowerCase());
+      })
+     }else{
+       this.filteredData = [];
+     }
+      console.log("lowerCase::",this.filteredData)
+    },
     'emailInfo.subject'(){
       if( this.emailInfo.subject || this.emailInfo.text )
         this.$store.state.composedInfo = this.emailInfo;
@@ -72,6 +116,9 @@ export default {
       else
         this.$store.state.composedInfo = null;
     }
+  },
+  computed:{
+     ...mapGetters({contacts:'GET_CONTACTS'}),
   }
 }
 </script>
@@ -84,8 +131,10 @@ export default {
   .row{
     margin:0;
     border-bottom: 1px solid $lighter-gray;
+    padding-left: 20px;
   }
   input{
+    font-size: 14px;
     border: none;
     background-color: transparent;
   }
@@ -102,6 +151,41 @@ export default {
     border: none
   }
   .sr-only{ display: none;}
+  .email-search-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: #fff;
+    position: absolute ;
+    font-size: 12px;
+    width: 300px;
+    border-radius: 10px;
+    padding: 10px;
+    margin: -10px 0 0 -30px;
+    box-shadow: 2px 2px 8px #00000029 !important;
+    max-height: 300px;
+    & .input-group{
+      border-radius: 90px;
+      box-shadow: none;
+      padding: 0 20px;
+      background-color: #fff;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: inset 0 1px 5px 0 rgb(185 185 185 / 34%) !important;
+    }
+    & .list-group-item{ 
+      border: 0;
+      display: flex;
+      gap: 10px; }
+    & .email-lists{
+      img{
+        width: 30px; 
+        height: 30px;
+      }
+    }
+  }
+
+
   .compose-send{
     .btn-group{
       border: none;
