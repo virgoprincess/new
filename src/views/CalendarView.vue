@@ -290,7 +290,7 @@ import { mapGetters } from 'vuex'
 }
 .calendar-component::v-deep{
   .v-calendar-daily_head-day{
-    padding: 10px 0;
+    padding: 13px 0;
     z-index: 1;
     width: 8%;
     .v-btn{ width:fit-content; height:fit-content}
@@ -303,9 +303,9 @@ import { mapGetters } from 'vuex'
   .v-present::before{ @extend .gradient-blue-bg;  }
   .v-past::before,.v-future::before,.v-present::before{
     width: 65px;
-    margin: auto;
+    margin: 5px auto;
     z-index: -1;
-    border-radius: 5px;
+    border-radius: 50%;
     bottom: 0;
     content: "";
     left: 0;

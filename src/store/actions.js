@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as config from './config'
+import * as helpers from './helpers'
 export default{
       SET_CURRENTMENU(state,payload){
         state.commit("SET_CURRENTMENU",payload);
@@ -756,6 +757,7 @@ export default{
             if( ctr == 0 ){
               //sort
               messages.sort((a,b)=>{
+                /* console.log("dates compared:::",new Date(b.date),"\nA date::",new Date(a.date)); */
                 return new Date(b.date) - new Date(a.date);
               })
 
@@ -777,6 +779,7 @@ export default{
         await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${context.state.userId}/threads/${payload.threadId}`,{
           headers:config.getHeaders(context)
         }).then((response)=>{
+          console.log("Thread Info::",response.data)
           threads.hasAttachments = false;
           let newThreads = [];
           response.data.messages.forEach((message,i)=>{
@@ -864,12 +867,17 @@ export default{
             let base64Content = (base64Code + padding).replace(/-/g, '+').replace(/_/g, '/').replace(/ /g,'+');
                 attachment.data = base64Content;
                 attachment.size = response.data.size;
+                attachment.fileUrl =`data:${attachment.mimeType};base64,${base64Content}`
 
             if( attachCtr == 0 ){
               if( thCtr > 0 ) thCtr--;
               if( thCtr == 0 ){
                 threads.attachmentsAdded = true;
                 setTimeout(function(){
+                  
+                 console.log("Before sorting::",threads);
+                 threads.attachmentLists = helpers.mergeAttachments(threads); 
+                 console.log("After sorting::",threads);
                   context.commit("SET_THREADBYID",JSON.parse(JSON.stringify(threads)));
                 },2000)
                 
@@ -1011,23 +1019,10 @@ export default{
           newFile.owners = file.owners;
           newFile.originalFilename = file.originalFilename ? file.originalFilename.length > 15 ? file.originalFilename.slice(0,15) + '...' : file.originalFilename : file.originalFilename;
           newFile.permissions = file.permissions;
-          
-          var computedSize = file.size/1024/1024;
-          var ext = 'MB';
 
-          if(computedSize > 1000)
-            {
-              computedSize = computedSize / 1000;
-              if(computedSize < 1000)
-                ext = 'GB';
-              else
-              {
-                computedSize = computedSize /1000;
-                ext = 'TB';
-              }
-            }
-          newFile.size = computedSize.toFixed(2).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-          newFile.sizeExt = ext;
+          let computedSize = helpers.computeFileSize(file.size);
+          newFile.size = computedSize.size;
+          newFile.sizeExt = computedSize.ext;
           newFile.fileType = file.mimeType.split('/')[0];
           return newFile;
         });

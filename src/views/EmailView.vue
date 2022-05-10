@@ -55,14 +55,11 @@
                         <div class="attachments" >
                           <div v-for="(attachment,i) in thread.content.attachments" :key="i" >
                             <image-component :data="attachment.attachInfo" v-if="attachment.mimeType == 'image/jpeg' || attachment.mimeType == 'image/jpg' ||attachment.mimeType == 'image/png'"/>
-                            <a class="black-small-text" :href="attachment.attachInfo.fileUrl" :download="attachment.attachInfo.fileName" v-else>{{ attachment.attachInfo.fileName.slice(0,9)+'...' }}</a>
+                            <a class="black-small-text" :href="attachment.attachInfo.fileUrl" :download="attachment.attachInfo.fileName" v-else>{{ attachment.attachInfo.fileName.slice(0,7)+'...' + attachment.mimeType.split('/')[1] }}</a>
                           </div>
                         </div>
                       </div>
-
                     </div>
-                    
-
                   </div>
                 </div>
                 <reply-forward/>
@@ -83,17 +80,8 @@
             <p class="fs-26 fw-bold">Shared Media</p>
           <b-link class="blue-small-text">View All</b-link>
         </div>
-        <div class="d-flex flex-column gap-3">
-          <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
+        <div class="d-flex flex-column gap-3" >
+          <file-icon-component :data="attachment" v-for="(attachment,i) in threads.attachmentLists" :key="i"/>
         </div>
       </div>
       </div>
@@ -198,11 +186,6 @@ export default {
     },
     results(){
       if(this.initCall) {
-        /* var tempEmails = this.results;
-        tempEmails = Array.from(new Set(tempEmails.map(email => email.threadId))).map(threadId => {
-								return tempEmails.find(email => email.threadId === threadId)
-							}); 
-        console.log("New TempEmails::",tempEmails); */
         this.$store.dispatch("GET_THREADSBYID",this.results[0]);
         this.selectedMessage = this.results[0].threadId;
         this.initCall = false;

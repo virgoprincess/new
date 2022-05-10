@@ -2,15 +2,20 @@
   <div class="file d-flex gap-3">
       <div><b-icon-calendar></b-icon-calendar></div>
       <div>
-        <p class="file-name">Designs.pdf</p>
-      <p class="file-size">12 MB</p>
+        <a :href="data.fileUrl" :download="data.filename">
+          <p class="file-name black-small-text">{{data.filename.slice(0,10)+'...' + data.mimeType.split('/')[1]}}</p>
+        </a>
+      <p class="file-size">{{data.size}}</p>
       </div>
   </div>
 </template>
 
 <script>
 export default {
-    name:'FileIconComponent'
+    name:'FileIconComponent',
+    props:{
+      data:[],
+    }
 }
 </script>
 
@@ -25,6 +30,7 @@ export default {
     justify-content: center;
     border-radius: 5px;
   }
+  a{text-decoration: none;}
   p{
     margin: 0;
   }
