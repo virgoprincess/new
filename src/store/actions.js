@@ -25,6 +25,17 @@ export default{
       if(payload != null) state.dispatch("SET_CONTACTS");
       state.commit("SET_LOADER",false);
     },
+    async LOGIN_SLACK(context,payload){
+      await axios.post(`https://slack.com/api/oauth.v2.access?code=${context.state.slackCode}&redirect_uri=https://localhost:8080&client_id=3208850616742.3469803502515&client_secret=a0d2c07019e101885efb3701b354211c`).then(async res =>{
+        /* console.log("result:::",res) */
+        let token = res.data.authed_user.access_token;
+        await axios.get(`https://slack.com/api/users.info?token=${token}&user=${res.data.authed_user.id}`).then( r =>{
+          
+        alert("Logged in successfully::;")
+          /* console.log("Profile Info:::",r) */
+        })
+      })
+    },
     SET_DASHBOARD(state,payload){
         payload = [
                 {

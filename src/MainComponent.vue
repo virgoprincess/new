@@ -21,7 +21,13 @@ export default {
     },
     beforeMount(){
       if( this.$route.query.code)
-        this.$store.state.slackCode = this.$route.query.code;
+        {
+          
+          this.$store.state.slackCode = this.$route.query.code;
+          /* console.log("code:::",this.$store.state.slackCode) */
+          
+        this.$store.dispatch("LOGIN_SLACK");
+        }
       if( this.$store.state.isSignedIn ){
         if(this.$route.path != '/dashboard')
         this.$router.push({path:'/dashboard'}) 
