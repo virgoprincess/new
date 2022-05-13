@@ -36,7 +36,7 @@ export default{
     async LOGIN_SLACK(context){
       const bodyFormData = new FormData();
       /* return await axios.post(`https://slack.com/api/oauth.v2.access?code=${context.state.slackCode}&redirect_uri=https://localhost:8080&client_id=3208850616742.3469803502515&client_secret=a0d2c07019e101885efb3701b354211c`).then( async res =>{ */
-      return await axios.post(`https://slack.com/api/oauth.v2.access?code=${context.state.slackCode}&redirect_uri=https://virgoprincess.github.io/&client_id=3208850616742.3469803502515&client_secret=a0d2c07019e101885efb3701b354211c`).then( async res =>{
+      return await axios.post(`https://slack.com/api/oauth.v2.access?code=${context.state.slackCode}&redirect_uri=https://virgoprincess.github.io&client_id=3208850616742.3469803502515&client_secret=a0d2c07019e101885efb3701b354211c`).then( async res =>{
         let token = res.data.authed_user.access_token;
         bodyFormData.append("token",token);
         bodyFormData.append("user",res.data.authed_user.id);
