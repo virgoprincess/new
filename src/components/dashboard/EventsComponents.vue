@@ -46,6 +46,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { accountType } from '../../utils/enum'
 export default {
   name:'EventsComponents',
   emits:["processed"],
@@ -53,15 +54,14 @@ export default {
     selectedDate:Date,
   },
   created(){
-    this.initLoad();
+    if( this.userProfile )this.initLoad();
   },
   methods:{
     initLoad(){
       const params = [];
       params.min = new Date(new Date(this.selectedDate).toDateString() + " 00:00:00");
       params.max = new Date(new Date(this.selectedDate).toDateString() + " 23:59:59");
-      console.log("Event Component Current Date:::",params)
-      this.$store.dispatch("SET_EVENTS",params);
+      if ( this.userProfile.accountType === accountType.GOOGLE) this.$store.dispatch("SET_EVENTS",params);
     },
     formatAMPM(date) {
       var hours = date.getHours();
@@ -76,11 +76,15 @@ export default {
   },
   computed:{
     ...mapGetters({
-      events:'GET_CALENDAREVENTS'
+      events:'GET_CALENDAREVENTS',
+      userProfile:'GET_USERINFO',
     })
   },
   watch:{
     selectedDate(){
+        if( this.userProfile )this.initLoad();
+    },
+    userProfile(){
       this.initLoad();
     },
     events(){

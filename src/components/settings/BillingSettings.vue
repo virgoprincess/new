@@ -6,7 +6,10 @@
             <h5>Billings History</h5>
           </b-col>
           <b-col class="align-right">
-            <b-btn class="d-inline-flex align-items-center justify-content-center gap-3 btn-fit btn-outline"> <b-icon-cloud-download/>Download All</b-btn>
+            <b-btn class="d-inline-flex align-items-center justify-content-center gap-3 btn-fit btn-outline"> 
+              <b-img class="download-icon" :src="require('@/assets/icons/v1/Sphyr_download.svg')" alt=""/>
+              Download All
+            </b-btn>
           </b-col>
         </b-row>
         
@@ -18,7 +21,8 @@
             </div> 
           </template>
           <template #cell(download)>
-            <b-icon-cloud-download/>
+            <b-img  class="download-icon" :src="require('@/assets/icons/v1/Sphyr_download.svg')" alt=""/>
+            <!-- <b-icon-cloud-download/> -->
           </template>
         </b-table>
         <!-- <table class="tabletable-bordered">
@@ -265,6 +269,11 @@ export default {
   .bi-cloud-download{
     color:$gray;
     font-size: 18px;
+  }
+  .download-icon{
+    width: 22px !important;
+    height: auto !important;
+    @extend .gray-svg;
   }
   .payment{background-color: #fff; padding: 15px 20px !important; height: 90px;}
   .pay-thumbnail{ width: 40px;height: 25px;  margin-right: 10px; border: 1px solid $light-gray; padding: 7px;}

@@ -27,6 +27,17 @@ $bright-green:#39C9AE;
 $bright-red:#C83935;
 $bright-yellow:#F3BB4E;
 
+.blue-svg{
+  /* filter: invert(12%) sepia(78%) saturate(5740%) hue-rotate(173deg) brightness(111%) contrast(126%);
+  filter: invert(12%) sepia(78%) saturate(5105%) hue-rotate(171deg) brightness(133%) contrast(93%); */
+  filter: invert(12%) sepia(69%) saturate(5209%) hue-rotate(171deg) brightness(129%) contrast(81%);
+}
+.dark-blue-svg{
+  filter: invert(12%) sepia(69%) saturate(5157%) hue-rotate(195deg) brightness(117%) contrast(68%);
+}
+.gray-svg{
+  filter: invert(0) sepia(69%) saturate(0%) hue-rotate(0) brightness(139%) contrast(68%);
+}
 //Calendar Events
 
 

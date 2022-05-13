@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-component" >
+  <div class="dashboard-component">
       <div class="dashboard-left scrollable" >
           <newsfeed-component v-for="(result,i) in results" :key="i" :data="result" @hideFeed="hideFeed(result)"/>          
       </div>

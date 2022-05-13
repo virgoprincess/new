@@ -1,5 +1,5 @@
 <template>
-  <div class="contacts-component">
+  <div class="contacts-component" v-if="contacts.all ? contacts.all.length > 0 ? true : false : false">
       <p class="fs-28 fw-500">Contacts</p>
       <div class="contacts-navbar d-flex justify-content-between">
           <b-nav class="align-items-center">

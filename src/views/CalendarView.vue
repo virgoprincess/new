@@ -140,7 +140,8 @@
 
 <script>
 import SmallCalendar from '@/components/calendar/SmallCalendar.vue';
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
+import { accountType } from '../utils/enum'
   export default {
   components: { SmallCalendar },
     data: () => ({
@@ -221,8 +222,7 @@ import { mapGetters } from 'vuex'
         const days = (max.getTime() - min.getTime()) / 86400000
         const eventCount = this.rnd(days, days + 20)
         const params = { "min": min ,"max":max };
-        this.$store.dispatch("SET_EVENTS",params);
-        console.log("This events::", this.events)
+        if( this.$store.state.userProfile.accountType ==  accountType.GOOGLE) this.$store.dispatch("SET_EVENTS",params);
       },
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a

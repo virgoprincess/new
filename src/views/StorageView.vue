@@ -1,5 +1,5 @@
 <template>
-  <div class="storage-component d-flex justify-content-between">
+  <div class="storage-component d-flex justify-content-between" v-if="files.length > 0">
     <div class="left-section">
       <h5>Recently Viewed</h5>
       <div class="d-flex gap-3">

@@ -1,6 +1,6 @@
 {
   "name": "online-communication-app",
-  "version": "0.1.48",
+  "version": "0.1.49",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -16,7 +16,7 @@
     "bootstrap": "^5.1.3",
     "bootstrap-vue": "^2.21.2",
     "chart.js": "^3.7.1",
-    "core-js": "^3.8.3",
+    "core-js": "^3.22.5",
     "urlsafe-base64": "^1.0.0",
     "vue": "^2.6.14",
     "vue-axios": "^3.4.1",

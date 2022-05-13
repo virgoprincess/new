@@ -11,7 +11,7 @@
 import SearchComponent from './components/commons/SearchComponent.vue';
 import MainContainer from './components/MainContainer.vue';
 import MenuComponent from './components/MenuComponent.vue';
-import { timeoutInMS } from "@/module/sessiontimeout" 
+import { timeoutInMS } from "@/utils/sessiontimeout" 
 export default {
     name: 'MainComponent',
     components:{
@@ -26,35 +26,52 @@ export default {
           this.$store.state.slackCode = this.$route.query.code;
           /* console.log("code:::",this.$store.state.slackCode) */
           
-        this.$store.dispatch("LOGIN_SLACK");
+          this.$store.dispatch("LOGIN_SLACK").then((res)=> {
+            this.$store.dispatch("SETUSER_ACCOUNT",res).then( () =>{
+              if(this.$route.path != '/dashboard')
+                this.$router.push({path:'/dashboard'}) 
+
+              this.setupTimers();
+              this.setupBeforeUnload();
+            } )
+            
+          });        
         }
-      if( this.$store.state.isSignedIn ){
-        if(this.$route.path != '/dashboard')
-        this.$router.push({path:'/dashboard'}) 
-         this.setupTimers();
-        this.setupBeforeUnload();
-      }else if( localStorage.getItem('isSignIn') ){
-        this.setUserCredentials();
-        this.changeRoute();
-          /* this.$router.push({name:localStorage.getItem('currentPath')}); */
-        /* if(this.$route.path != '/dashboard')
+      else{
+        if( this.$store.state.isSignedIn ){
+            console.log("store sign in data is true")
+          if(this.$route.path != '/dashboard')
+            this.$router.push({path:'/dashboard'}) 
+
+          this.setupTimers();
+          this.setupBeforeUnload();
+
+        }else if( localStorage.getItem('isSignIn') ){
+          console.log("from locale storage condition");
+          this.setUserCredentials();
+          this.changeRoute();
+            /* this.$router.push({name:localStorage.getItem('currentPath')}); */
+          /* if(this.$route.path != '/dashboard')
+          {
+            localStorage.setItem('currentPath','dashboard')
+            this.$router.push({path:'/dashboard'});
+          } */
+          this.setupTimers();
+          this.setupBeforeUnload();
+        } else
         {
-          localStorage.setItem('currentPath','dashboard')
-          this.$router.push({path:'/dashboard'});
-        } */
-        this.setupTimers();
-        this.setupBeforeUnload();
-      } else
-        {
-        console.log("isSignedIn?:::",this.$store.state.isSignedIn);
-        this.$router.push({path:'/login'}) 
+          console.log("isSignedIn?:::",this.$store.state.isSignedIn);
+          this.$router.push({path:'/login'}) 
         }
+      }
+      
     },
     beforeDestroy(){
       this.removeSessionTracker();
     },
     methods:{
         changeRoute(){
+          console.log("changed Route:::");
           var reroute = false;
           var path = localStorage.getItem('currentPath');
           (this.$route.path != '/'+path) ? reroute = true : reroute = false;

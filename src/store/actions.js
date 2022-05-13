@@ -1,6 +1,8 @@
 import axios from 'axios';
 import * as config from './config'
 import * as helpers from './helpers'
+import {accountType} from '../utils/enum'
+
 export default{
       SET_CURRENTMENU(state,payload){
         state.commit("SET_CURRENTMENU",payload);
@@ -8,35 +10,61 @@ export default{
     SETUSER_ACCOUNT(state,payload){
       var profileInfo;
       if( payload !=  null ){
-        if(!payload.newUser)
+        if(payload.accountType === accountType.GOOGLE)
         {
           profileInfo = {
             name: payload.getBasicProfile().getName(),
             imageUrl: payload.getBasicProfile().getImageUrl(),
             email: payload.getBasicProfile().getEmail(),
             newUser:payload.newUser,
+            accountType : payload.accountType,
           };
-        }else
+        }else if( payload.accountType === accountType.SLACK ){
           profileInfo = payload;
+        }
+        else{
+          payload.accountType = accountType.NEWUSER;
+          profileInfo = payload;
+        }
       }else{
         state.commit("SET_RESET");
       }
       state.commit("SETUSER_ACCOUNT",profileInfo);
-      if(payload != null) state.dispatch("SET_CONTACTS");
+      if(payload != null && payload.accountType === accountType.GOOGLE) state.dispatch("SET_CONTACTS");
       state.commit("SET_LOADER",false);
     },
-    async LOGIN_SLACK(context,payload){
-      await axios.post(`https://slack.com/api/oauth.v2.access?code=${context.state.slackCode}&redirect_uri=https://localhost:8080&client_id=3208850616742.3469803502515&client_secret=a0d2c07019e101885efb3701b354211c`).then(async res =>{
-        /* console.log("result:::",res) */
+    async LOGIN_SLACK(context){
+      const bodyFormData = new FormData();
+      return await axios.post(`https://slack.com/api/oauth.v2.access?code=${context.state.slackCode}&redirect_uri=https://localhost:8080&client_id=3208850616742.3469803502515&client_secret=a0d2c07019e101885efb3701b354211c`).then( async res =>{
+
         let token = res.data.authed_user.access_token;
-        await axios.get(`https://slack.com/api/users.info?token=${token}&user=${res.data.authed_user.id}`).then( r =>{
-          
-        alert("Logged in successfully::;")
-          /* console.log("Profile Info:::",r) */
+        bodyFormData.append("token",token);
+        bodyFormData.append("user",res.data.authed_user.id);
+
+        return await axios.post(`https://slack.com/api/users.info`,
+        bodyFormData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }).then( r =>{
+          let profile = r.data.user.profile;
+          let payload = {
+            accountType : accountType.SLACK,
+            name : profile.display_name,
+            imageUrl : profile.image_original,
+            email : profile.email,
+            newUser : false,
+          }
+          localStorage.userId = profile.email;
+          localStorage.accessToken = token;
+          localStorage.isSignIn = true;
+
+          return payload;
+          /* context.dispatch("SETUSER_ACCOUNT",payload) */
         })
       })
     },
     SET_DASHBOARD(state,payload){
+      console.log("Dashboard is called::::")
         payload = [
                 {
                 messages:{

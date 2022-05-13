@@ -20,6 +20,7 @@ export default{
    SETUSER_ACCOUNT(state,payload){
       state.userProfile = payload;
       payload ? state.isSignedIn = true : state.isSignedIn = false;
+      console.log("Sign In??::", state.isSignedIn);
    },
    SET_LOADER(state,payload){
       state.isLoading = payload;

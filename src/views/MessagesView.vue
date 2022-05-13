@@ -1,5 +1,5 @@
 <template>
-  <div class="messages-component">
+  <div class="messages-component" v-if="results.length > 0">
     <div class="messages-left scrollable">
 
       <b-list-group class="pinned">
@@ -69,10 +69,10 @@
           <b-link class="blue-small-text">View All</b-link>
         </div>
         <div class="d-flex flex-column gap-3">
+          <!-- <file-icon-component/>
           <file-icon-component/>
           <file-icon-component/>
-          <file-icon-component/>
-          <file-icon-component/>
+          <file-icon-component/> -->
         </div>
       </div>
     </div>
@@ -83,14 +83,14 @@
 
 import PreviewComponent from '../components/commons/PreviewComponent.vue'
 import ContactName from '../components/commons/ContactName.vue'
-import FileIconComponent from '../components/commons/attachments/FileIconComponent.vue'
+/* import FileIconComponent from '../components/commons/attachments/FileIconComponent.vue' */
 import ProfileComponent from '@/components/commons/ProfileComponent.vue'
 
 import { mapGetters } from "vuex"
 import MessageThreads from '@/components/Messages/MessageThreads.vue'
 
 export default {
-  components:{PreviewComponent,ContactName,FileIconComponent, ProfileComponent, MessageThreads},
+  components:{PreviewComponent,ContactName, ProfileComponent, MessageThreads},
     name:'MessagesComponent',
     data(){
       return{

@@ -5,7 +5,8 @@
         <b-col cols="2" class="add-new p-0">
           <b-button-group @click="addNew">
             <b-button variant="outline-primary">
-              <b-icon-plus /> Add New
+              <!-- <b-icon-plus /> -->
+              <b-img :src="require('@/assets/icons/v1/Sphyr_add.svg')" alt=""/> Add New
             </b-button>
           </b-button-group>
         </b-col>
@@ -50,13 +51,32 @@
             :src="require('@/assets/images/sphyr-logo2.png')"
             alt="Left image"
           ></b-img>
-          <li @click="menuClicked('DASHBOARD')" :class="menu == 'DASHBOARD'? 'menu-active': 'menu-inactive'"><b-icon-app></b-icon-app></li>
-          <li @click="menuClicked('MESSAGES')" :class="menu == 'MESSAGES'? 'menu-active': 'menu-inactive'"><b-icon-chat-dots></b-icon-chat-dots></li>
-          <li @click="menuClicked('EMAILS')" :class="menu == 'EMAILS'? 'menu-active': 'menu-inactive'"><b-icon-envelope></b-icon-envelope></li>
-          <li @click="menuClicked('CALENDAR')" :class="menu == 'CALENDAR'? 'menu-active': 'menu-inactive'"><b-icon-calendar4></b-icon-calendar4></li>
-          <li @click="menuClicked('CONTACTS')" :class="menu == 'CONTACTS'? 'menu-active': 'menu-inactive'"><b-icon-people></b-icon-people></li>
-          <li @click="menuClicked('STORAGE')" :class="menu == 'STORAGE'? 'menu-active': 'menu-inactive'"><b-icon-folder2></b-icon-folder2></li>
-          <li @click="menuClicked('SETTINGS')" :class="menu == 'SETTINGS'? 'menu-active': 'menu-inactive'"><b-icon-gear></b-icon-gear></li>
+          <li @click="menuClicked('DASHBOARD')" :class="menu == 'DASHBOARD'? 'menu-active': 'menu-inactive'">
+            <b-img :src="require('@/assets/icons/v1/Sphyr_dashboard.svg')" alt=""/>
+          </li>
+          <li @click="menuClicked('MESSAGES')" :class="menu == 'MESSAGES'? 'menu-active': 'menu-inactive'">
+            <!-- <b-icon-chat-dots></b-icon-chat-dots> -->
+            <b-img :src="require('@/assets/icons/v1/Sphyr_chat.svg')" alt=""/>
+          </li>
+          <li @click="menuClicked('EMAILS')" :class="menu == 'EMAILS'? 'menu-active': 'menu-inactive'">
+            <!-- <b-icon-envelope></b-icon-envelope> -->
+            <b-img :src="require('@/assets/icons/v1/Sphyr_messages.svg')" alt=""/>
+          </li>
+          <li @click="menuClicked('CALENDAR')" :class="menu == 'CALENDAR'? 'menu-active': 'menu-inactive'">
+            <!-- <b-icon-calendar4></b-icon-calendar4> -->
+            <img :src="require('@/assets/icons/v1/Sphyr_calendar-04.svg')" alt=""/>
+          </li>
+          <li @click="menuClicked('CONTACTS')" :class="menu == 'CONTACTS'? 'menu-active': 'menu-inactive'">
+            <!-- <b-icon-people></b-icon-people> -->
+            <b-img :src="require('@/assets/icons/v1/Sphyr_users.svg')" alt=""/>
+          </li>
+          <li @click="menuClicked('STORAGE')" :class="menu == 'STORAGE'? 'menu-active': 'menu-inactive'">
+            <b-icon-folder2></b-icon-folder2>
+            <!-- <img :src="require('@/assets/icons/v1/Sphyr_storage.svg')" alt=""> -->
+          </li>
+          <li @click="menuClicked('SETTINGS')" :class="menu == 'SETTINGS'? 'menu-active': 'menu-inactive'">
+            <b-icon-gear></b-icon-gear>
+          </li>
         </ul>
       </div>
     </div>
@@ -65,6 +85,7 @@
 
 <script>
 import { mapGetters} from 'vuex';
+import { accountType } from './../utils/enum';
 export default {
   name: "MenuComponent",
   data(){
@@ -96,11 +117,12 @@ export default {
       if(this.$store.state.isSignedIn ) this.$store.dispatch("SET_"+this.$store.state.menu);
     },
     menuClicked(menu){
-
+        
         this.$store.commit("SET_LOADER",true);
         (this.menu != menu && this.$route.path != '/'+menu.toLowerCase()) ? this.reroute = true : this.reroute = false;
-        this.$store.dispatch("SET_CURRENTMENU",menu);        
-        this.$store.dispatch("SET_"+menu);
+        this.$store.dispatch("SET_CURRENTMENU",menu);    
+        console.log("User Profile::", this.userProfile.accountType === accountType.GOOGLE)    
+        if( this.userProfile.accountType === accountType.GOOGLE || menu == 'DASHBOARD') this.$store.dispatch("SET_"+menu);
         if( this.reroute ) this.$router.push({path: '/'+menu.toLowerCase()});
         
         localStorage.setItem("currentPath",menu.toLowerCase());
@@ -113,6 +135,11 @@ export default {
     }),
 
   },
+  watch:{
+    userProfile(){
+      if(this.$store.state.isSignedIn ) this.$store.dispatch("SET_"+this.$store.state.menu);
+    }
+  }
 };
 </script>
 
@@ -180,8 +207,9 @@ export default {
       padding: 10px;
     }
   }
-  svg {
+  img,svg {
     width: 23px;
+    min-height: 23px;
     height: auto;
     color: $dark-gray;
   }
@@ -195,10 +223,17 @@ export default {
 
   border: 1px solid $light-blue;
   border-radius: 50%;
+  width: 45px;
+  height: 45px;
   svg {
     color: $light-blue;
     transition: color 0.15s ease-in;
     /* transition-duration: 0.10s; */
+  }
+  img{
+         /* filter: invert(12%) sepia(108%) saturate(5841%) hue-rotate(173deg) brightness(108%) contrast(153%); */
+    @extend .blue-svg;
+    transition: filter 0.15s ease-in;
   }
 }
 .menu-inactive{
@@ -208,7 +243,7 @@ export default {
     color: $dark-gray;
   }
 }
-.logo{ width: 45px; }
+.logo{ width: 45px !important; }
 .profile img {
   width: 33px;
   margin-right:10px;
@@ -221,6 +256,7 @@ b-icon-search {
   text-align: right;
   .btn-group {
     align-items: center;
+    width: 108.61px;
     button, button:hover{
       font-size: 0.8rem;
       display: flex;
@@ -233,9 +269,11 @@ b-icon-search {
       border-radius: 5px;
     }
   }
-  .bi-plus {
+  img {
     font-size: 25px !important;
-    color: $blue;
+    width: 12px;
+    height: 12px;
+    @extend .dark-blue-svg;
   }
 }
 ::placeholder {
@@ -271,7 +309,7 @@ b-icon-search {
   box-shadow: 2px 2px 8px #00000029 !important;
   right: 0;
   border: 1px solid $lighter-gray;
-  z-index: 10;
+  z-index: 11;
   border-radius: 5px;
   position: absolute;
 

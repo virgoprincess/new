@@ -121,6 +121,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { alpha,alphaNum, required, minLength,email, sameAs } from "vuelidate/lib/validators";
+import { accountType } from '../utils/enum'
 export default {
     name:'LoginComponent',
     data(){
@@ -192,14 +193,16 @@ export default {
                 const googleUser = await this.$gAuth.signIn();
                 this.isSignIn = this.$gAuth.isAuthorized;   
                 localStorage.setItem('isSignIn',this.signIn)
-                /* const access_token = googleUser.getAuthResponse(true).access_token;
-                const basicProfile = googleUser.getBasicProfile(); */
+                
                 this.$store.commit("SET_USER_ID",googleUser.getBasicProfile().getEmail());
                 this.$store.commit("SET_ACCESS_TOKEN",googleUser.getAuthResponse(true).access_token);
+
                 localStorage.userId = googleUser.getBasicProfile().getEmail();
                 localStorage.accessToken = googleUser.getAuthResponse(true).access_token;
+
                 if(this.isSignIn && googleUser.getAuthResponse(true).access_token) {
                     googleUser.newUser = false;
+                    googleUser.accountType = accountType.GOOGLE;
                     this.$store.dispatch("SETUSER_ACCOUNT",googleUser);
                     localStorage.userProfile = JSON.stringify(this.$store.state.userProfile);
                     this.$router.push({name:'home'}); 
