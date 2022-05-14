@@ -86,7 +86,7 @@ html, body{
        padding: 0.5rem 1rem;
        border: 0;
      }
-    }
+  }
     #share-modal{
       .modal-content{
         .search-recipient,.recipient-options,.document-link{ >p{ padding: 6px 0 5px 0;} }
@@ -132,6 +132,38 @@ html, body{
                 border-radius: 5px;
               }
             }
+      }
+    }
+    #signup-modal{
+      .modal-content{
+        > div{
+          button,.btn-group{
+          font-weight: 500;
+          width: 100%;
+          font-size: 14px;
+          margin: 5px 0;
+          } 
+        }
+        .btn-sign-up-google{
+          line-height: 20px;
+          padding: 0;
+          border: 2px solid $lighter-gray;
+          color: $dark-gray;
+          background-color: transparent;
+            img{ width: 45px; }
+        }
+        a{
+          font-size: 12px;
+          font-weight: 600;
+          text-decoration: none;
+        }
+        .slack-btn{ width: 100% !important; }
+        select{
+          padding: 0.375rem 0.75rem;
+          width: 100%;
+          border: 1px solid #ced4da;
+          border-radius: 0.25rem;
+        }
       }
     }
     #delete-modal{

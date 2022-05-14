@@ -101,10 +101,10 @@
                  
                 <b-button class="btn-create-account" @click.stop.prevent="onSubmit">Create Account</b-button>
                 <b-button-group>
-                    <b-button class="btn-sign-up-google" @click="login"><b-img :src="require('@/assets/images/google-logo.svg')"></b-img> Sign up with Google</b-button>
+                    <b-button class="btn-sign-up-google" @click="login"><b-img :src="require('@/assets/images/google-logo.svg')"></b-img> Login with Google</b-button>
                 </b-button-group>
                 <a class="slack-btn" href="https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fvirgoprincess.github.io&amp;client_id=3208850616742.3469803502515" style="align-items:center;color:#000;background-color:#fff;border:1px solid #ddd;border-radius:4px;display:inline-flex;font-family:Lato, sans-serif;font-size:18px;font-weight:600;height:56px;justify-content:center;text-decoration:none;width:296px"><svg xmlns="http://www.w3.org/2000/svg" style="height:24px;width:24px;margin-right:12px" viewBox="0 0 122.8 122.8"><path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#e01e5a"></path><path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36c5f0"></path><path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2eb67d"></path><path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ecb22e"></path></svg>Sign in with Slack</a>
-                <!-- <a class="slack-btn" href="https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Flocalhost%3A8080&amp;client_id=3208850616742.3469803502515" style="align-items:center;color:#000;background-color:#fff;border:1px solid #ddd;border-radius:4px;display:inline-flex;font-family:Lato, sans-serif;font-size:18px;font-weight:600;height:56px;justify-content:center;text-decoration:none;width:296px"><svg xmlns="http://www.w3.org/2000/svg" style="height:24px;width:24px;margin-right:12px" viewBox="0 0 122.8 122.8"><path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#e01e5a"></path><path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36c5f0"></path><path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2eb67d"></path><path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ecb22e"></path></svg>Sign in with Slack</a> -->
+                <!-- <a class="slack-btn" href="https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Flocalhost%3A8080&amp;client_id=3208850616742.3469803502515" style="align-items:center;color:#000;background-color:#fff;border:1px solid #ddd;border-radius:4px;display:inline-flex;font-family:Lato, sans-serif;font-size:18px;font-weight:600;height:56px;justify-content:center;text-decoration:none;width:296px"><svg xmlns="http://www.w3.org/2000/svg" style="height:24px;width:24px;margin-right:12px" viewBox="0 0 122.8 122.8"><path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#e01e5a"></path><path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36c5f0"></path><path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2eb67d"></path><path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ecb22e"></path></svg>Login with Slack</a> -->
                 <div class="fs-12 fw-700">Already have an account? <span><b-link @click="login">Log In</b-link></span></div>
             </b-form>
          </div>
@@ -115,6 +115,78 @@
      </div>
      <div class="image-section">
      </div>
+     <b-modal id="signup-modal" class="signup-modal" v-model="showModal">
+         <div class="signup-options" v-if="!isSkip && !syncEmail">
+             <h4>Continue using:</h4>
+             <b-button-group>
+                    <b-button class="btn-sign-up-google" @click="login"><b-img :src="require('@/assets/images/google-logo.svg')"></b-img> Continue with Google</b-button>
+             </b-button-group>
+             <a class="slack-btn" href="https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fvirgoprincess.github.io&amp;client_id=3208850616742.3469803502515" style="align-items:center;color:#000;background-color:#fff;border:1px solid #ddd;border-radius:4px;display:inline-flex;font-family:Lato, sans-serif;font-size:18px;font-weight:600;height:56px;justify-content:center;text-decoration:none;width:296px"><svg xmlns="http://www.w3.org/2000/svg" style="height:24px;width:24px;margin-right:12px" viewBox="0 0 122.8 122.8"><path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#e01e5a"></path><path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36c5f0"></path><path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2eb67d"></path><path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ecb22e"></path></svg>Sign in with Slack</a>
+             <!-- <a class="slack-btn" href="https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Flocalhost%3A8080&amp;client_id=3208850616742.3469803502515" style="align-items:center;color:#000;background-color:#fff;border:1px solid #ddd;border-radius:4px;display:inline-flex;font-family:Lato, sans-serif;font-size:18px;font-weight:600;height:56px;justify-content:center;text-decoration:none;width:296px"><svg xmlns="http://www.w3.org/2000/svg" style="height:24px;width:24px;margin-right:12px" viewBox="0 0 122.8 122.8"><path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#e01e5a"></path><path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36c5f0"></path><path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2eb67d"></path><path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ecb22e"></path></svg>Continue with Slack</a> -->
+            <div class="d-flex justify-content-between">
+                <b-link @click="syncEmail = true;isSkip = false">Sync Email?</b-link>
+                <b-link @click="isSkip = true;syncEmail = false">Skip</b-link>
+            </div>
+         </div>
+         <div v-if="isSkip">
+             <h6>We have sent a verification link to your email. Please confirm to verify your account.</h6>
+         </div>
+         <div class="register-email-form" v-if="syncEmail">
+             <h5>Sync Email</h5>
+             <b-container fluid>
+                 <b-row>
+                     <b-col>
+                         <label for="">Email:</label>
+                     </b-col>
+                     <b-col cols="9">
+                         <b-form-input type="email" placeholder="john_doe123@gmail.com" :value="user.email"></b-form-input>
+                     </b-col>
+                 </b-row>
+
+                 <b-row>
+                     <b-col cols="3">
+                         <label for="">Password:</label>
+                     </b-col>
+                     <b-col cols="9">
+                         <b-form-input type="password"></b-form-input>
+                     </b-col>
+                 </b-row>
+
+                 <b-row>
+                     <b-col>
+                         <label for="">Host:</label>
+                     </b-col>
+                     <b-col cols="9">
+                         <b-form-input type="text" placeholder="imap.gmail.com"></b-form-input>
+                     </b-col>
+                 </b-row>
+
+                 <b-row>
+                     <b-col>
+                         <label for="">Port:</label>
+                     </b-col>
+                     <b-col cols="9">
+                         <b-form-input type="number" placeholder="993"></b-form-input>
+                     </b-col>
+                 </b-row>
+
+                 <b-row>
+                     <b-col>
+                         <label for="">TLS:</label>
+                     </b-col>
+                     <b-col cols="9">
+                         <b-form-select v-model="selectedTLS" :options="[{value:true,text:'true'},{value:false,text:'false'}]"></b-form-select>
+                     </b-col>
+                 </b-row>
+             </b-container>
+         </div>
+         <template #modal-footer>
+             <div class="footer">
+                <b-link class="cancel" @click="showModal=false">Cancel</b-link>
+                <b-link @click="verify">Done</b-link>
+             </div>
+         </template>
+     </b-modal>
   </div>
 </template>
 
@@ -133,6 +205,10 @@ export default {
                 password:null,
                 repassword:null,
             },
+            showModal:false,
+            isSkip:false,
+            selectedTLS:true,
+            syncEmail:false,
         }
     },
     mixins:[validationMixin],
@@ -172,19 +248,29 @@ export default {
             });
         },
         onSubmit(e){
+            
             this.$v.user.$touch();
             if (this.$v.user.$anyError){
                 return;
             }
-            const profileInfo = {
+            
+            /* newUserInfo = {
                 name:this.user.name,
                 email:this.user.email,
                 imageUrl:'/img/man.4057928f.jpg',
                 password:this.user.password,
                 repassword:this.user.repassword,
                 newUser:true,
-            };
-            this.$store.commit("SETUSER_ACCOUNT",profileInfo);
+            }; */
+            this.showModal = true;
+            this.isSkip = false;
+            this.syncEmail = false;
+        },
+        verify(){
+            this.showModal=false;
+            console.log("verified")
+            this.user.imageUrl = '/img/man.4057928f.jpg';
+            this.$store.commit("SETUSER_ACCOUNT",this.user);
             this.$router.push({name:'home'}); 
         },
         async login(){

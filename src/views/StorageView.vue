@@ -99,11 +99,11 @@
     </div>
     <b-modal id="share-modal" class="share-modal" v-model="showModal" centered>
       <div>
-        <h7 class="fw-600">Share Project</h7>
+        <h6 class="fw-600">Share Project</h6>
         <div class="document-link">
           <p class="fs-13 fw-600">Document Link</p>
           <b-input-group size="sm" class="mb-2">
-            <b-form-input type="input"></b-form-input>
+            <b-form-input></b-form-input>
             <b-input-group-prepend is-text>
             <b-icon-back></b-icon-back>
             </b-input-group-prepend>
@@ -112,7 +112,7 @@
         <div class="search-recipient">
           <p class="fs-13 fw-600">Search Recipients</p>
           <div class=" d-flex gap-2">
-            <b-form-input type="input" placeholder="Search for names or emails..."></b-form-input>
+            <b-form-input placeholder="Search for names or emails..."></b-form-input>
             <b-btn variant="primary">Share</b-btn>
           </div>
         </div>
