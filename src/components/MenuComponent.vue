@@ -3,12 +3,16 @@
     <div class="top-menu">
       <b-row align-h="end">
         <b-col cols="2" class="add-new p-0">
-          <b-button-group @click="addNew">
-            <b-button variant="outline-primary">
+          <b-button-group>
+            <b-list-group id="add-new-lists" class="add-new-lists" v-show="showAddNewOptions" tabindex="-1" @mouseleave="showAddNewOptions = false">
+              <b-list-group-item v-for="(list,i) in addNewLists" :key="i" @click="listSelected">{{ list }}</b-list-group-item>
+            </b-list-group>
+            <b-button variant="outline-primary" :style="!showAddNewOptions ? 'visibility:visible':'visibility:hidden'" @click="addNew"> 
               <!-- <b-icon-plus /> -->
               <b-img :src="require('@/assets/icons/v1/Sphyr_add.svg')" alt=""/> Add New
             </b-button>
           </b-button-group>
+
         </b-col>
         <b-col cols="1" class="profile d-flex justify-content-center align-items-center p-0" @click="showProfileOptions = !showProfileOptions">
           <b-icon-dot></b-icon-dot>
@@ -92,6 +96,8 @@ export default {
     return{
       reroute:false,
       showProfileOptions:false,
+      addNewLists:[],
+      showAddNewOptions:false,
     }
   },
   created(){
@@ -100,6 +106,22 @@ export default {
   methods:{
     addNew(){
       this.$store.state.isAddNew = true;
+      switch(this.menu){
+        case 'CALENDAR':
+          this.addNewLists = ['Meeting','Event'];
+          break;
+        case 'STORAGE':
+          this.addNewLists = ['File','Folder'];
+          break;
+        default:
+          this.addNewLists = [];
+      }
+      this.addNewLists.length > 0 ? this.showAddNewOptions = true : this.showAddNewOptions = false;
+    },
+    listSelected(){
+      this.addNewLists = [];
+      this.showAddNewOptions = false;
+      console.log("Menu Clicked:::", this.showAddNewOptions)
     },
     async logout(){
       try {
@@ -136,6 +158,9 @@ export default {
 
   },
   watch:{
+    menu(){
+      this.addNewLists = []
+    },
     userProfile(){
       if(this.$store.state.isSignedIn ) this.$store.dispatch("SET_"+this.$store.state.menu);
     }
@@ -268,6 +293,22 @@ b-icon-search {
       font-weight: 600;
       border-radius: 5px;
     }
+  }
+  .add-new-lists{
+    z-index: 1;
+    background-color: #fff;
+    > div {
+      text-align: center;
+      padding: 0.5rem;
+      }
+      > div:hover{
+        background-color: $light-gray;
+      }
+    width: 102%;
+    left: -1px;
+    @extend .black-small-text;
+    position: absolute;
+    top: 0;
   }
   img {
     font-size: 25px !important;

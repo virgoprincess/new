@@ -1,7 +1,7 @@
 <template>
   <div id="login-page">
 
-     <div class="login-section">
+     <div class="login-section scrollable">
          <b-img class="login-logo" :src="require('@/assets/images/sphyr-01.svg')"></b-img>
          
          <div class="login-form">
@@ -317,6 +317,7 @@ export default {
     .login-section,.image-section{
         width: 50%;
         padding: 20px;
+        height: 101vh;
     }
     .image-section{
         background-repeat: no-repeat;
@@ -374,7 +375,7 @@ export default {
         border-radius: 5px;
     }
     .email{
-        margin: 60px 50px 0;
+        margin: 0 50px 0;
         text-align: right;
     }
     span a{ color: $bright-green; }

@@ -2,42 +2,47 @@
   <b-container fluid class="compose">
     <div class="compose-top">
       <b-row class="align-items-baseline">
-        <b-col class="d-flex flex-row align-items-baseline" cols="10">
-          <label for="" class="fs-14 fw-700 pr-1">To:</label>
-          <b-form-input v-model="emailText" placeholder="Search"></b-form-input>
-          <div id="email-search-container" class="email-search-container">
+        <b-col class="compose-to">
+          <label for="" class="label-to ">To:</label>
+          
+
+          <div id="email-search-container" class="email-search-container" v-show="filteredData.length > 0">
+
             <b-input-group >
               <div class="d-flex justify-content-center align-items-center">
                  <label for="" class="fs-14 fw-700 pr-1">To:</label>
-              <b-form-input  v-model="emailText"  placeholder="Search" autocomplete="off" ></b-form-input>
+              <b-form-input id="email-list-input"  v-model="emailText"  placeholder="Search" autocomplete="off" ></b-form-input>
               </div>
-              <b-icon-x/>
+              <b-icon-x @click="emailText=''"/>
             </b-input-group>
+
             <b-list-group id="email-lists" class="email-lists scrollable">
-              <b-list-group-item button v-for="(email,i) in filteredData" :key="i">
+              <b-list-group-item button v-for="(email,i) in filteredData" :key="i" @click="addEmail(email)">
                 <b-img :src="email.photoUrl" alt=" " rounded="circle"/>
                 <div>
                   <span class="fw-700">{{ email.name }}</span><br/>
                   <span>{{ email.email }}</span>
                 </div>
               </b-list-group-item>
-              <!-- <b-list-group-item button>email 2</b-list-group-item>
-              <b-list-group-item button>email 3</b-list-group-item>
-              <b-list-group-item button>email 4</b-list-group-item>
-              <b-list-group-item button>email 5</b-list-group-item>
-              <b-list-group-item button>email 6</b-list-group-item>
-              <b-list-group-item button>email 1</b-list-group-item>
-              <b-list-group-item button>email 2</b-list-group-item>
-              <b-list-group-item button>email 3</b-list-group-item>
-              <b-list-group-item button>email 4</b-list-group-item>
-              <b-list-group-item button>email 5</b-list-group-item>
-              <b-list-group-item button>email 6</b-list-group-item> -->
-              
-          </b-list-group>
+            </b-list-group>
+
           </div>
+          <!-- End of DIV search container -->
           
         </b-col>
-        <b-col class="gray-small-text">
+        <b-col class="email-send" cols="10">
+
+          <div class="email-ad" v-for="(email,i) in emailInfo.to" :key="i">
+            <b-img :src="email.photoUrl" class="rounded-circle"/>
+              <span v-if="email.name != ''">{{ email.name }}</span>
+              <span v-else>{{ email.email }}</span>
+              <b-icon-x class="fw-700" @click="deleteEmailList(email)"/>
+          </div>     
+                    
+          <b-form-input id="email-input" v-model="emailText" placeholder="Search" class="fs-12"></b-form-input>
+        </b-col>
+        
+        <b-col class="gray-small-text" cols="">
           <span>Cc </span><span>Bcc</span>
         </b-col>
       </b-row>
@@ -69,6 +74,7 @@
     </div>
   </b-container>
 </template>
+
 <script>
 import { mapGetters } from 'vuex';
 export default {
@@ -90,20 +96,31 @@ export default {
     deleteEmail(){
       this.$store.state.composedInfo = null;
       this.$store.state.isAddNew = false;
+    },
+    addEmail(email){
+      this.emailInfo.to.push(email);
+      this.emailText = '';
+    },
+    deleteEmailList(email){
+      this.emailInfo.to = this.emailInfo.to.filter( item => item != email );
     }
   },
   watch:{
     emailText(){
      if(this.emailText.toString() != ''){
+       document.getElementById('email-list-input').focus();
+       document.getElementById('email-list-input').addEventListener('focus',()=> {
+         document.getElementById('email-input').focus();
+       })
        this.filteredData = this.contacts.external.filter(emailInfo =>{
-       console.log("email::",emailInfo);
         return  emailInfo.name.toLowerCase().match(this.emailText.toString().toLowerCase()) || emailInfo.email.toLowerCase().match( this.emailText.toString().toLowerCase());
       })
      }else{
        this.filteredData = [];
+       document.getElementById('email-input').focus();
      }
-      console.log("lowerCase::",this.filteredData)
     },
+    
     'emailInfo.subject'(){
       if( this.emailInfo.subject || this.emailInfo.text )
         this.$store.state.composedInfo = this.emailInfo;
@@ -125,13 +142,43 @@ export default {
 <style lang="scss" scoped>
 .compose::v-deep{
   padding:20px 0 0 0;
+  .compose-top{
+    & .email-send{
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      flex-wrap: wrap;
+      > input{width: fit-content;}
+    }
+    & .compose-to{ max-width: 15px; }
+    & .label-to{
+      font-size: 14px;
+      font-weight: 700;
+      padding-right: 1px;
+    }
+  }
+  .email-ad{
+    margin: 2px;
+    margin-bottom: 0;
+    @extend .gray-small-text;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    border-radius: 90px;
+    background-color: white;
+    align-items: center;
+    padding: 5px;
+    > span { font-size: 11px; }
+    > img{ width: 20px; height: 20px; }
+    > svg{ font-size: 15px; }
+  }
   .col,.row{
     padding: 0;
   }
   .row{
     margin:0;
     border-bottom: 1px solid $lighter-gray;
-    padding-left: 20px;
+    padding-left: 35px;
   }
   input{
     font-size: 14px;
@@ -161,7 +208,7 @@ export default {
     width: 300px;
     border-radius: 10px;
     padding: 10px;
-    margin: -10px 0 0 -30px;
+    margin: -38px 0 0 -30px;
     box-shadow: 2px 2px 8px #00000029 !important;
     max-height: 300px;
     & .input-group{
@@ -184,8 +231,6 @@ export default {
       }
     }
   }
-
-
   .compose-send{
     .btn-group{
       border: none;
