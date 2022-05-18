@@ -1,7 +1,10 @@
 
 <template>
   <div class="canvass">
-    <b-overlay :show="show" rounded="sm" opacity="1" class="loader">
+    <b-overlay :show="show" rounded="sm" opacity="1" class="loader d-flex">
+      <!-- <div class="sub-menus">
+        submenu
+      </div> -->
       <div class="content">
         <router-view/>
       </div>

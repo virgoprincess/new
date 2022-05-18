@@ -1,12 +1,22 @@
 <template>
   <div @mouseleave="clearInput()" class="search-component " :class="isSearching ? 'on-search' : 'remove-caret'">
-    <b-input-group >
-      <div class="d-flex justify-content-center align-items-center" @click="!isSearching ? isSearching = true: ''">
-        <b-icon-search />
-      <b-form-input  v-model="searchedText"  :placeholder="menu != 'DASHBOARD' ? 'Search '+ menu.charAt(0).toUpperCase()+menu.slice(1).toLowerCase() : 'Search'" autocomplete="off" ></b-form-input>
+    <div class="d-flex">
+      <b-input-group >
+        <div class="d-flex justify-content-center align-items-center" @click="!isSearching ? isSearching = true: ''">
+          <b-icon-search />
+        <b-form-input  v-model="searchedText"  :placeholder="menu != 'DASHBOARD' ? 'Search '+ menu.charAt(0).toUpperCase()+menu.slice(1).toLowerCase() : 'Search'" autocomplete="off" ></b-form-input>
+        </div>
+        <b-icon-x @click="isSearching = false"/>
+      </b-input-group>
+      <div v-show="menu === 'STORAGE' && isSearching" class="storage-buttons">
+          <b-icon-file-earmark-medical-fill></b-icon-file-earmark-medical-fill>
+          <b-icon-camera-video-fill></b-icon-camera-video-fill>
+          <b-icon-image-fill></b-icon-image-fill>
+          <div class="icon-folder">
+            <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_folder.png')"></b-img>
+          </div>
       </div>
-      <b-icon-x @click="isSearching = false"/>
-    </b-input-group>
+    </div>
     <div class="search-options">
       <p class="search-label">I'M LOOKING FOR...</p>
       <b-button-group class="d-flex justify-content-center search-categories">
@@ -112,7 +122,7 @@ export default {
     box-shadow: none;
     padding: 0 20px;
     background-color: #fff;
-
+    align-items: center;
     > div{ width: 94%; }
   }
     input {
@@ -193,14 +203,51 @@ export default {
     padding: 20px 0 5px 0;
 
   }
+  .storage-buttons{
+    width: 150px;
+    display: flex;
+    gap: 5px;
+    .bi-file-earmark-medical-fill {
+      color: $dark-blue;
+    }
+    .bi-camera-video-fill {
+      color: $yellow;
+    }
+    .bi-image-fill {
+      color: $green;
+    }
+    svg{
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+      background-color: #fff;
+      border-radius: 5px;
+      border: 1px solid $lighter-gray;
+    }
+    .icon-folder{
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 5px;
+      border: 1px solid $lighter-gray;
+      >img {
+        filter: invert(12%) sepia(69%) saturate(79) hue-rotate(348deg) brightness(86%) contrast(81%);
+        width: 16px;
+        }
+    }
+  }
 }
 .on-search{
   /* padding: 10px; */
-  width: 537px !important;
+  min-width: 537px !important;
   height: 356px !important;
   box-shadow: 2px 2px 8px #00000029 !important;
   .bi-x, .search-options{ display: block !important; }
   .input-group{
+    width: 517px;
     box-shadow: inset 0 1px 5px 0 rgb(185 185 185 / 34%) !important;
   }
 }

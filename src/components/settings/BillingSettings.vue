@@ -7,7 +7,7 @@
           </b-col>
           <b-col class="align-right">
             <b-btn class="d-inline-flex align-items-center justify-content-center gap-3 btn-fit btn-outline"> 
-              <b-img class="download-icon" :src="require('@/assets/icons/v1/Sphyr_download.svg')" alt=""/>
+              <b-img class="download-icon" :src="require('@/assets/icons/v1/Sphyr-Icons_download.png')" alt=""/>
               Download All
             </b-btn>
           </b-col>
@@ -21,7 +21,7 @@
             </div> 
           </template>
           <template #cell(download)>
-            <b-img  class="download-icon" :src="require('@/assets/icons/v1/Sphyr_download.svg')" alt=""/>
+            <b-img  class="download-icon" :src="require('@/assets/icons/v1/Sphyr-Icons_download.png')" alt=""/>
             <!-- <b-icon-cloud-download/> -->
           </template>
         </b-table>

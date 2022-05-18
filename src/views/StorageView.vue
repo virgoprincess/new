@@ -205,7 +205,10 @@
               </div>
             </div>
             <div>
-              <b-icon-folder-fill></b-icon-folder-fill>
+              <!-- <b-icon-folder-fill></b-icon-folder-fill> -->
+              <div class="icon-folder">
+                <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_folder.png')"></b-img>
+              </div>
               <div>
                 Others <div>12 MB</div>
               </div>
@@ -334,6 +337,18 @@ export default {
       height: 40px;
       padding: 12px;
       background-color: #fff;
+    }
+    .icon-folder{
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      >img {
+        filter: invert(12%) sepia(69%) saturate(79) hue-rotate(348deg) brightness(86%) contrast(81%);
+        width: 16px;
+        }
     }
     >div{
       display: flex;

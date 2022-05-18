@@ -9,7 +9,7 @@
             </b-list-group>
             <b-button variant="outline-primary" :style="!showAddNewOptions ? 'visibility:visible':'visibility:hidden'" @click="addNew"> 
               <!-- <b-icon-plus /> -->
-              <b-img :src="require('@/assets/icons/v1/Sphyr_add.svg')" alt=""/> Add New
+              <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_add.png')" alt=""/> Add New
             </b-button>
           </b-button-group>
 
@@ -56,23 +56,23 @@
             alt="Left image"
           ></b-img>
           <li @click="menuClicked('DASHBOARD')" :class="menu == 'DASHBOARD'? 'menu-active': 'menu-inactive'">
-            <b-img :src="require('@/assets/icons/v1/Sphyr_dashboard.svg')" alt=""/>
+            <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_dashboard.png')" alt=""/>
           </li>
           <li @click="menuClicked('MESSAGES')" :class="menu == 'MESSAGES'? 'menu-active': 'menu-inactive'">
             <!-- <b-icon-chat-dots></b-icon-chat-dots> -->
-            <b-img :src="require('@/assets/icons/v1/Sphyr_chat.svg')" alt=""/>
+            <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_chat.png')" alt=""/>
           </li>
           <li @click="menuClicked('EMAILS')" :class="menu == 'EMAILS'? 'menu-active': 'menu-inactive'">
             <!-- <b-icon-envelope></b-icon-envelope> -->
-            <b-img :src="require('@/assets/icons/v1/Sphyr_messages.svg')" alt=""/>
+            <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_messages.png')" alt=""/>
           </li>
           <li @click="menuClicked('CALENDAR')" :class="menu == 'CALENDAR'? 'menu-active': 'menu-inactive'">
             <!-- <b-icon-calendar4></b-icon-calendar4> -->
-            <img :src="require('@/assets/icons/v1/Sphyr_calendar-04.svg')" alt=""/>
+            <img :src="require('@/assets/icons/v1/Sphyr-Icons_calendar.png')" alt=""/>
           </li>
           <li @click="menuClicked('CONTACTS')" :class="menu == 'CONTACTS'? 'menu-active': 'menu-inactive'">
             <!-- <b-icon-people></b-icon-people> -->
-            <b-img :src="require('@/assets/icons/v1/Sphyr_users.svg')" alt=""/>
+            <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_users.png')" alt=""/>
           </li>
           <li @click="menuClicked('STORAGE')" :class="menu == 'STORAGE'? 'menu-active': 'menu-inactive'">
             <b-icon-folder2></b-icon-folder2>

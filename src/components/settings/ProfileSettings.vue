@@ -1,19 +1,51 @@
 <template>
   <div class="profile-settings scrollable">
     <b-container fluid class="profile-form" >
-        <b-row>
-          <b-col cols="3">
+        <b-row class="pa-0">
+          <b-col cols="3" class="pa-0">
             <h5>Profile</h5>
           </b-col>
         </b-row>
         <b-row class="profile-row">
-          <b-col cols="3">
-            <b-img
-            class="logo"
-            rounded="circle"
-            :src="require('@/assets/images/image-file-3.jpg')"
-            alt="Left image"
-          ></b-img>
+          <b-col class="thumbnail" cols="2">
+              <div>
+                <input type="file" id="file-upload" class="file-upload" multiple accept="image/*">
+                  <b-img
+                    class="logo"
+                    rounded="circle"
+                    :src="require('@/assets/images/image-file-3.jpg')"
+                    alt="Left image"
+                    v-show="false"
+                    >
+                  </b-img>
+                  <div class="empty-thumbnail">
+                      <div>
+                        <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_image.png')"></b-img>
+                        <p class="gray-small-text">Upload Photo</p>
+                      </div>
+                  </div>
+
+              </div>
+          </b-col>
+          <b-col class="profiles-container">
+            <p class="black-small-text pb-2">Default Profiles</p>
+            <div class="d-flex gap-2">
+              <div class="default-profile gradient-dark-blue-bg">
+                <span>N</span>
+              </div>
+              <div class="default-profile gradient-orange-bg">
+                <span>N</span>
+              </div>
+              <div class="default-profile gradient-light-green-bg">
+                <span>N</span>
+              </div>
+              <div class="default-profile gradient-purple-bg">
+                <span>N</span>
+              </div>
+              <div class="default-profile gradient-red-bg">
+                <span>N</span>
+              </div>
+            </div>
           </b-col>
           <b-col class="align-right">
             <b-btn class="btn-save">Save</b-btn>
@@ -145,6 +177,52 @@ export default {
     display: flex;
     justify-content: end !important;
     align-items: end !important;
+    padding-top: 0;
+    gap: 35px;
+
+    & .thumbnail{ padding-left: 0;}
+    & .empty-thumbnail{
+      width: 161px;
+      height: 161px;
+      border-radius: 50%;
+      border: 1px solid $light-gray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > div{ text-align: center; }
+      img{
+        width: 35px;
+        height: auto;
+        opacity: 0.2;
+        margin-bottom: 5px;
+      }
+    }
+  }
+  .file-upload{
+    opacity: 0;
+    height: 161px;
+    width: 161px;
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .profiles-container{
+    margin: auto;
+    .default-profile{
+      cursor: pointer;
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      > span{ font-size: 26px; color: #ffffff80;}
+    }
+    .default-profile:first-child{
+      box-shadow: inset 0px 2px 5px #00000080,1px 1px 4px #00000059;
+      border: 1px solid #ffffff;
+    }
   }
 }
 .logo{ width: 161px; height: 161px; }
