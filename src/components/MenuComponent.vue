@@ -1,7 +1,15 @@
 <template>
   <div id="menu">
     <div class="top-menu">
+      <b-row :class="!showSubMenu ? 'divider':''"></b-row>
       <b-row align-h="end">
+        <b-col>
+          <b-img
+            class="logo"
+            :src="require('@/assets/images/sphyr-logo2.png')"
+            alt="Left image"
+          ></b-img>
+        </b-col>
         <b-col cols="2" class="add-new p-0">
           <b-button-group>
             <b-list-group id="add-new-lists" class="add-new-lists" v-show="showAddNewOptions" tabindex="-1" @mouseleave="showAddNewOptions = false">
@@ -50,11 +58,14 @@
     <div class="left-menu">
       <div class="menu-container">
         <ul>
-          <b-img
+          <!-- <b-img
             class="logo"
             :src="require('@/assets/images/sphyr-logo2.png')"
             alt="Left image"
-          ></b-img>
+          ></b-img> -->
+          <li>
+            <b-icon-list @click="toggleSubMenu"></b-icon-list>
+          </li>
           <li @click="menuClicked('DASHBOARD')" :class="menu == 'DASHBOARD'? 'menu-active': 'menu-inactive'">
             <b-img :src="require('@/assets/icons/v1/Sphyr-Icons_dashboard.png')" alt=""/>
           </li>
@@ -98,12 +109,19 @@ export default {
       showProfileOptions:false,
       addNewLists:[],
       showAddNewOptions:false,
+      showSubMenu:this.$store.state.showSubMenu,
     }
   },
   created(){
     this.initialLoad();
   },
   methods:{
+    toggleSubMenu(){
+      console.log("path indexof dashboard",this.$route.path.indexOf('/dashboard'));
+      console.log("path indexof settings",this.$route.path.indexOf('/settings'));
+      if( this.$route.path.indexOf('/dashboard') !== 0 && this.$route.path.indexOf('/settings') !== 0)
+        this.showSubMenu = !this.showSubMenu;
+    },
     addNew(){
       this.$store.state.isAddNew = true;
       switch(this.menu){
@@ -142,8 +160,9 @@ export default {
         
         this.$store.commit("SET_LOADER",true);
         (this.menu != menu && this.$route.path != '/'+menu.toLowerCase()) ? this.reroute = true : this.reroute = false;
+        menu.toLowerCase() != 'dashboard' || menu.toLowerCase() != 'settings' ? this.showSubMenu = false : this.showSubMenu = true;
+
         this.$store.dispatch("SET_CURRENTMENU",menu);    
-        console.log("User Profile::", this.userProfile.accountType === accountType.GOOGLE)    
         if( this.userProfile.accountType === accountType.GOOGLE || menu == 'DASHBOARD') this.$store.dispatch("SET_"+menu);
         if( this.reroute ) this.$router.push({path: '/'+menu.toLowerCase()});
         
@@ -160,6 +179,9 @@ export default {
   watch:{
     menu(){
       this.addNewLists = []
+    },
+    showSubMenu(){
+      this.$store.state.showSubMenu = this.showSubMenu;
     },
     userProfile(){
       if(this.$store.state.isSignedIn ) this.$store.dispatch("SET_"+this.$store.state.menu);
@@ -185,12 +207,17 @@ export default {
   /* gap: 20px; */
   align-items: center;
   padding-right: 25px;
-  z-index: 1;
+  z-index: 11;
   margin: 0 5px;
   top: 0;
   background-color: #fff;
   width: 100%;
   height: 75px;
+  /* border-bottom: 1px solid $light-gray; */
+}
+.divider{
+  margin-left: 75px !important;
+  height: 76px !important;
   border-bottom: 1px solid $light-gray;
 }
 .profile{
@@ -203,9 +230,9 @@ export default {
   height: 100%;
   width: 75px;
   top: 0;
-  /* left: 0; */
-  /* margin-left:-15px; */
-  z-index: 51;
+  margin-top: 76px;
+  z-index: 10;
+  border-right: 1px solid $light-gray;
 
   .logo {
     padding: 20px 0;

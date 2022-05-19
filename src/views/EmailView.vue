@@ -9,7 +9,7 @@
                   <p class="name fs-12">{{ composedEmail ? '[Draft]' :'New Email'}}</p>
                   <p class="date">10:10 am</p>
               </div>
-              <p class="email-subj">{{ composedEmail ? composedEmail.subject ? composedEmail.subject : '[No Subject]':'' }}</p>  <!-- this is for email -->
+              <p class="email-subj">{{ composedEmail ? composedEmail.subject ? composedEmail.subject : '[No Subject]':'' }}</p>
               <div class="msg">{{ composedEmail ? composedEmail.text ? composedEmail.text.slice(0,20)+'...' :'':''  }}</div>
             </div>
           </div>
@@ -19,7 +19,7 @@
       <div class="email-center scrollable">
         <compose-component v-if="newEmail && newMessage"/>
         <div class="emails" v-else>
-            <div class="email-menu d-flex justify-content-between">
+            <div class="email-menu d-flex justify-content-between" :style="showSubMenu ? 'width:42%' : 'width:51%'">
                 <div class="menu-icons d-flex gap-4">
                     <b-icon-envelope-fill></b-icon-envelope-fill>
                     <b-icon-tag-fill></b-icon-tag-fill>
@@ -165,7 +165,8 @@ export default {
         messages:'GET_MESSAGES',
         threads:'GET_THREADS',
         newEmail:'GET_ISADDNEW',
-        composedEmail:'GET_COMPOSEDINFO'
+        composedEmail:'GET_COMPOSEDINFO',
+        showSubMenu:'GET_TOGGLE_SUBMENU'
       }),
 
     },
@@ -252,7 +253,7 @@ export default {
       .email-center{
           position: relative;
           .email-menu{
-              width: 51%;
+              /* width: 51%; */
               position:fixed;
               border-bottom: 1px solid $light-gray;
               background-color: $background-color;

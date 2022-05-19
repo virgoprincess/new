@@ -11,6 +11,7 @@ export default new Vuex.Store({
         slackCode:'',
         isAddNew:false,
         composedInfo:null,
+        showSubMenu:false,
         isLoading:false,
         isSignedIn:false,
         accessToken:'',
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     getters:{
         GET_ACCESS_TOKEN:state =>state.accessToken,
         GET_CURRENTMENU:state =>state.menu,
+        GET_TOGGLE_SUBMENU:state =>state.showSubMenu,
         GET_USERINFO:state =>state.userProfile,
         GET_DASHBOARD:state =>state.dashboard,
         GET_MESSAGES:state =>state.messages,
